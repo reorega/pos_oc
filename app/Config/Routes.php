@@ -17,6 +17,9 @@ $routes->get('/isi', 'Auth::isi');
 $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->get('/', 'Admin');
     $routes->get('users', 'User');
+    $routes->get('page', 'User::page');
+
+
 });
 
 $routes->group('kasir', ['filter' => 'kasir'], function ($routes) {
