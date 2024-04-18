@@ -19,5 +19,8 @@ class User extends Controller
         $data['users'] = $this->userModel->viewUser();
         return view('/admin/user',$data);
     }
+    public function page(){
+        return view('/admin/kategori');
+    }
 
 }
