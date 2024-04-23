@@ -9,7 +9,7 @@ class UserModel extends Model
     protected $table = 'users'; // Sesuaikan dengan nama tabel di database Anda
     protected $primaryKey = 'id'; // Sesuaikan dengan nama primary key di tabel pengguna
 
-    protected $allowedFields = ['email','username', 'password', 'level_users']; // Kolom yang diizinkan untuk dimasukkan atau diperbarui
+    protected $allowedFields = ['email','username', 'password','foto_user', 'level_users']; // Kolom yang diizinkan untuk dimasukkan atau diperbarui
 
     protected $useTimestamps = true; // Mengaktifkan penggunaan kolom created_at dan updated_at
 
