@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?= base_url(); ?>/public/assets/css/login_css.css">
+    <link rel="stylesheet" href="<?= base_url(); ?>/assets/css/login_css.css">
     <title>Document</title>
 </head>
-<body style="background-image: url('<?= base_url(); ?>/public/assets/image/bg.jpg');">
+<body style="background-image: url('<?= base_url(); ?>/assets/image/bg.jpg');">
 <div class="container">
     <div class="form_area">
         <p class="title">Login</p>

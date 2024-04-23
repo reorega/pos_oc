@@ -40,37 +40,6 @@ class Auth extends Controller
             }
         }
     }
-    public function showUsers()
-    {
-        
-        
-        // Misalnya, Anda ingin menampilkan hanya username dan level pengguna
-        $data['users'] = $this->userModel->findAll();
-
-        return view('form', $data); // Tampilkan data pengguna ke dalam view
-    }
-    public function jajal()
-    {
-        $email = $this->request->getPost('email');
-        $password = $this->request->getPost('password');
-        $user = $this->userModel->where('email', $email)->first();
-        if($user){
-            if (password_verify($password, $user['password'])) {
-                // Jika login berhasil, periksa level pengguna
-                if ($user['level_users'] == 1) {
-                    $data['users'] = $this->userModel->findAll();// Jika level pengguna adalah 1 (admin), redirect ke halaman admin
-                    return view('form', $data); 
-                } else {
-                    // Jika level pengguna bukan 1, misalnya level 2 (kasir), redirect ke halaman kasir
-                    $data['user'] = ["username" => "error",
-                                     "level_users" => 2];
-                    return view('form', $data); 
-                }
-            }
-        
-        }
-        // Tampilkan data pengguna ke dalam view
-    }
     private function redirectBasedOnLevel($level)
     {
         switch ($level) {

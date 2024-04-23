@@ -11,13 +11,15 @@ use App\Filters\Kasir;
 $routes->get('/', 'Home::index');
 $routes->post('/auth', 'Auth::process');
 $routes->get('/logout', 'Auth::logout');
-$routes->get('/form', 'Auth::showUsers');
-$routes->post('/jajal', 'Auth::jajal');
-$routes->get('/isi', 'Auth::isi');
 $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->get('/', 'Admin');
     $routes->get('users', 'User');
-    $routes->get('page', 'User::page');
+    $routes->post('tambahData', 'User::tambahData');
+    $routes->post('editData', 'User::editData');
+    $routes->get('hapusDataUser/(:num)', 'User::hapusData/$1');
+    
+
+
 
 
 });
