@@ -37,3 +37,5 @@ class CreateKategoriTable extends Migration
         $this->forge->dropTable('kategori');
     }
 }
+
+

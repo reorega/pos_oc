@@ -38,3 +38,5 @@ class KategoriModel extends Model
         return $this->delete($id_kategori);
     }
 }
+
+

@@ -56,7 +56,6 @@ class Kategori extends Controller
     return redirect()->to('/admin/kategori');
     }
 
-
     public function editDataKategori()
 {
     // Ambil ID kategori dari formulir yang dikirim
@@ -104,7 +103,6 @@ class Kategori extends Controller
 }
 
 
-
 public function hapusDataKategori()
 {
     // Ambil ID kategori dari data yang dikirimkan
@@ -125,5 +123,5 @@ public function hapusDataKategori()
     return redirect()->to('/admin/kategori')->with('success', 'Kategori berhasil dihapus.');
 }
 
-
 }
+
