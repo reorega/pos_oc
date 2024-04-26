@@ -32,17 +32,17 @@
             </li>
             <li class="header">MASTER</li>
             <li>
-                <a href="<?= base_url('admin/page'); ?>">
+                <a href="<?= base_url('admin/kategori'); ?>">
                     <i class="fa fa-cubes"></i> <span>Kategori</span>
                 </a>
             </li>
             <li>
-                <a href="#">
+            <a href="<?= base_url('admin/produk'); ?>">
                     <i class="fa fa-cube"></i> <span>Produk</span>
                 </a>
             </li>
             <li>
-                <a href="#">
+            <a href="<?= base_url('admin/supplier'); ?>">
                     <i class="fa fa-truck"></i> <span>Suplier</span>
                 </a>
             </li>

@@ -1,134 +1,115 @@
-<?= $this->extend('layout/master'); ?>
-<?= $this->section('content'); ?>
+<?= $this->extend('layout/master')?>
+
+<?= $this->section('content')?>
 <div class="content-wrapper">
-    <!-- Header Konten (Header halaman) -->
-    <section class="content-header">
-        <h1>
-            Kategori
-            <!-- <small>Control panel</small> -->
-        </h1>
-        <!-- <ol class="breadcrumb">
-          <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-          <li class="active">Dashboard</li>
-        </ol> -->
-    </section>
-
-    <!-- Isi utama dashboard -->
     <section class="content">
-        <!-- Small boxes (Stat box) -->
-        <div class="row">
-            <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
-                <div class="small-box bg-aqua">
-                    <div class="inner">
-                        <h3>150</h3>
-                        <p><b>TOTAL KATEGORI</b></p>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tambahData">
+            <i class="fa fa-plus-square"></i> Tambah Kategori
+        </button>
+        <br>
+        <div class="modal fade" id="tambahData" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="exampleModalLabel">Tambah Kategori</h4>
                     </div>
-                    <div class="icon">
-                        <i class="fa fa-cubes"></i>
+                    <div class="modal-body">
+                        <form action="<?= base_url('/admin/tambahDataKategori');?>" method="post"
+                            enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="inputNamaKategori" class="form-label">Nama Kategori : </label>
+                                <input type="text" class="form-control" id="inputNamaKategori" name="nama_kategori">
+                            </div>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-success">Simpan Data</button>
+                        </form>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
-                <div class="small-box bg-green">
-                    <div class="inner">
-                        <h3>505</h3>
-                        <p><b>TOTAL PRODUK</b></p>
-                    </div>
-                    <div class="icon">
-                        <i class="fa fa-cube"></i>
-                    </div>
-                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
-                <div class="small-box bg-yellow">
-                    <div class="inner">
-                        <h3>4</h3>
-                        <p><b>TOTAL SUPLIER</b></p>
-                    </div>
-                    <div class="icon">
-                        <i class="fa fa-truck"></i>
-                    </div>
-                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
-                <div class="small-box bg-red">
-                    <div class="inner">
-                        <h3>2</h3>
-                        <p><b>TOTAL USERS</b></p>
-                    </div>
-                    <div class="icon">
-                        <i class="fa fa-users"></i>
-                    </div>
-                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-            <!-- ./col -->
         </div>
-        <!-- /.row -->
-        <!-- Main row -->
-        <div class="row">
-            <!-- Left col -->
-            <section class="col-lg-6 connectedSortable">
-                <!-- Custom tabs (Charts with tabs)-->
-                <div class="nav-tabs-custom">
-                    <!-- Tabs within a box -->
-                    <ul class="nav nav-tabs pull-right">
-                        <div class="pull-right box-tools">
-                            <button type="button" class="btn btn-primary btn-sm daterange pull-right"
-                                data-toggle="tooltip" title="Date range">
-                                <i class="fa fa-calendar"></i></button>
-                            <button type="button" class="btn btn-primary btn-sm pull-right" data-widget="collapse"
-                                data-toggle="tooltip" title="Collapse" style="margin-right: 5px;">
-                                <i class="fa fa-minus"></i></button>
+        <table class="table table-hover mt-2 table-bordered">
+            <thead class="table">
+                <tr>
+                    <td>No</td>
+                    <td>Nama Kategori</td>
+                    <td>Aksi</td>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($kategori as $key => $kat) : ?>
+                <tr>
+                    <td><?= $key + 1 ?></td>
+                    <td><?= $kat['nama_kategori'] ?></td>
+                    <td>
+                        <button type="button" class="btn btn-warning" data-toggle="modal"
+                            data-target="#editData<?= $kat['id_kategori'] ?>">
+                            <i class="fa fa-pencil"></i> Edit
+                        </button>
+                        <div class="modal fade" id="editData<?= $kat['id_kategori'] ?>" tabindex="-1"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <h4 class="modal-title" id="exampleModalLabel">Edit Kategori</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="<?= base_url('/admin/editDataKategori');?>" method="post"
+                                            enctype="multipart/form-data">
+                                            <input type="hidden" name="id_kategori" value="<?= $kat['id_kategori'] ?>">
+                                            <div class="form-group">
+                                                <label for="editNamaKategori" class="form-label">Nama Kategori :
+                                                </label>
+                                                <input type="text" class="form-control" id="editNamaKategori"
+                                                    name="edit_nama_kategori" value="<?= $kat['nama_kategori'] ?>">
+                                            </div>
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Batal</button>
+                                            <button type="submit" class="btn btn-success">Simpan Perubahan</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <li class="pull-left header"><i class="fa fa-bar-chart"></i> Sales Graph</li>
-                    </ul>
-                    <div class="tab-content no-padding">
-                        <!-- Morris chart - Sales -->
-                        <div class="chart tab-pane active" id="revenue-chart"
-                            style="position: relative; height: 300px;"></div>
-                    </div>
-                </div>
-                <!-- /.nav-tabs-custom -->
-
-            </section>
-            <!-- /.Left col -->
-            <!-- right col (We are only adding the ID to make the widgets sortable)-->
-            <section class="col-lg-6 connectedSortable">
-                <!-- Custom tabs (Charts with tabs)-->
-                <div class="nav-tabs-custom">
-                    <!-- Tabs within a box -->
-                    <ul class="nav nav-tabs pull-right">
-                        <div class="pull-right box-tools">
-                            <button type="button" class="btn btn-primary btn-sm daterange pull-right"
-                                data-toggle="tooltip" title="Date range">
-                                <i class="fa fa-calendar"></i></button>
-                            <button type="button" class="btn btn-primary btn-sm pull-right" data-widget="collapse"
-                                data-toggle="tooltip" title="Collapse" style="margin-right: 5px;">
-                                <i class="fa fa-minus"></i></button>
+                        <button type="button" class="btn btn-danger" data-toggle="modal"
+                            data-target="#hapusData<?= $kat['id_kategori'] ?>">
+                            <i class="fa fa-trash"></i> Hapus
+                        </button>
+                        <div class="modal fade" id="hapusData<?= $kat['id_kategori'] ?>" tabindex="-1"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Hapus</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Apakah Anda yakin ingin menghapus kategori ini?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <form id="formHapus<?= $kat['id_kategori'] ?>"
+                                            action="<?= base_url('/admin/hapusDataKategori');?>" method="post">
+                                            <input type="hidden" name="id_kategori" value="<?= $kat['id_kategori'] ?>">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Batal</button>
+                                            <button type="submit" class="btn btn-danger">Hapus</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <li class="pull-left header"><i class="fa fa-bar-chart"></i> Sales Graph</li>
-                    </ul>
-                    <div class="tab-content no-padding">
-                        <!-- Morris chart - Sales -->
-                        <div class="chart tab-pane active" id="revenue-chart"
-                            style="position: relative; height: 300px;"></div>
-                    </div>
-                </div>
-                <!-- /.nav-tabs-custom -->
-
-            </section>
-        </div>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
     </section>
 </div>
-<?= $this->endSection(); ?>
+<?= $this->endSection()?>
