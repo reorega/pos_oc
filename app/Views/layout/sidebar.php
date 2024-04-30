@@ -3,7 +3,8 @@
         <!-- Panel pengguna bilah sisi -->
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="<?php echo base_url('public/AdminLTE-2/dist/img/logo.png'); ?>" class="img-circle" alt="User Image">
+                <img src="<?php echo base_url('public/AdminLTE-2/dist/img/logo.png'); ?>" class="img-circle"
+                    alt="User Image">
             </div>
             <div class="pull-left info">
                 <p>Administrator</p>
@@ -26,13 +27,13 @@
         <!-- Program Sidebar -->
         <ul class="sidebar-menu" data-widget="tree">
             <li class="active treeview">
-                <a href="<?=site_url('home')?>">
+                <a href="<?=site_url('admin/dashboard')?>">
                     <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                 </a>
             </li>
             <li class="header">MASTER</li>
             <li>
-                <a href="<?= base_url('admin/page'); ?>">
+                <a href="#">
                     <i class="fa fa-cubes"></i> <span>Kategori</span>
                 </a>
             </li>
@@ -42,8 +43,8 @@
                 </a>
             </li>
             <li>
-                <a href="#">
-                    <i class="fa fa-truck"></i> <span>Suplier</span>
+                <a href="<?= base_url('admin/supplier'); ?>">
+                    <i class="fa fa-truck"></i> <span>Supplier</span>
                 </a>
             </li>
             <li class="header">TRANSAKSI</li>

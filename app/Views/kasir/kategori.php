@@ -4,7 +4,7 @@
     <!-- Header Konten (Header halaman) -->
     <section class="content-header">
         <h1>
-            Dashboard
+            Kategori
             <!-- <small>Control panel</small> -->
         </h1>
         <!-- <ol class="breadcrumb">
