@@ -18,18 +18,17 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->post('editData', 'User::editData');
     $routes->get('hapusDataUser/(:num)', 'User::hapusData/$1');
 
+    // crud Kategori
     $routes->get('kategori', 'Kategori');
     $routes->post('tambahDataKategori', 'Kategori::tambahDataKategori');
     $routes->post('editDataKategori', 'Kategori::editDataKategori');
     $routes->post('hapusDataKategori', 'Kategori::hapusDataKategori');
 
-
-
-
-
-
-
-
+    // crud Supplier
+    $routes->get('supplier', 'Supplier');
+    $routes->post('tambahDataSupplier', 'Supplier::tambahDataSupplier');
+    $routes->post('editDataSupplier', 'Supplier::editDataSupplier');
+    $routes->post('hapusDataSupplier', 'Supplier::hapusDataSupplier');
 });
 
 $routes->group('kasir', ['filter' => 'kasir'], function ($routes) {
