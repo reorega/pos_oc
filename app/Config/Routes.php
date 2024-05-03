@@ -17,7 +17,15 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->post('tambahData', 'User::tambahData');
     $routes->post('editData', 'User::editData');
     $routes->get('hapusDataUser/(:num)', 'User::hapusData/$1');
-    
+
+    $routes->get('kategori', 'Kategori');
+    $routes->post('tambahDataKategori', 'Kategori::tambahDataKategori');
+    $routes->post('editDataKategori', 'Kategori::editDataKategori');
+    $routes->post('hapusDataKategori', 'Kategori::hapusDataKategori');
+
+
+
+
 
 
 
