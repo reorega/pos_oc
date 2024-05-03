@@ -18,13 +18,13 @@
         <!-- User Account: style can be found in dropdown.less -->
         <li class="dropdown user user-menu">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <img src="<?php echo base_url('public/AdminLTE-2/dist/img/logo.png'); ?>" class="user-image" alt="User Image">
+            <img src="<?php echo base_url('AdminLTE-2/dist/img/logo.png'); ?>" class="user-image" alt="User Image">
             <span class="hidden-xs">Administrator</span>
           </a>
           <ul class="dropdown-menu">
             <!-- User image -->
             <li class="user-header">
-              <img src="<?php echo base_url('public/AdminLTE-2/dist/img/logo.png'); ?>" class="img-circle" alt="User Image">
+              <img src="<?php echo base_url('AdminLTE-2/dist/img/logo.png'); ?>" class="img-circle" alt="User Image">
 
               <p>Administrator - Web Developer</p>
             </li>
