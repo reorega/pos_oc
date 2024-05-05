@@ -29,6 +29,12 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->post('tambahDataSupplier', 'Supplier::tambahDataSupplier');
     $routes->post('editDataSupplier', 'Supplier::editDataSupplier');
     $routes->post('hapusDataSupplier', 'Supplier::hapusDataSupplier');
+
+    //crud produk 
+    $routes->get('produk', 'Produk');
+    $routes->post('tambahDataProduk', 'Produk::tambahData');
+    $routes->post('editDataProduk', 'Produk::editData');
+    $routes->get('hapusDataProduk/(:num)', 'Produk::hapusData/$1');
 });
 
 $routes->group('kasir', ['filter' => 'kasir'], function ($routes) {

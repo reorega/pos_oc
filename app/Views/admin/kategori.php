@@ -6,7 +6,7 @@
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tambahData">
             <i class="fa fa-plus-square"></i> Tambah Kategori
         </button>
-        <br>
+    <br><br>
         <div class="modal fade" id="tambahData" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
