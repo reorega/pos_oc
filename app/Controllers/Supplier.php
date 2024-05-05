@@ -9,6 +9,7 @@ class Supplier extends Controller
 {
     public function index()
     {
+        $data['page_title']="Suplier";
         $supplierModel = new SupplierModel();
         $data['supplier'] = $supplierModel->findAll();
         return view('admin/supplier', $data);
