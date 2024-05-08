@@ -17,6 +17,7 @@ class Kategori extends Controller
 
     public function index()
     {
+        $data['page_title']="Kategori";
         $data['judul'] = "Halaman Kategori";
         $data['kategori'] = $this->kategoriModel->findAll();
         return view('/admin/kategori', $data);

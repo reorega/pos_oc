@@ -38,7 +38,7 @@
             </div>
         </div>
         <table class="table table-hover mt-2 table-bordered">
-            <thead>
+            <thead class="table">
                 <tr>
                     <th>No</th>
                     <th>Kode Supplier</th>
