@@ -45,9 +45,16 @@
     <!-- Program Header -->
     <?= view('layout/header'); ?>
     <!-- Program Header -->
+    <?php
+    $session = session();
+    if($session->level==1){
+       echo view('admin/sidebar'); 
+    }else{
+        echo view('kasir/sidebar'); 
 
+    }
+    ?>
     <!-- Program Sidebar -->
-    <?= view('layout/sidebar'); ?>
     <!-- Program Sidebar -->
 
     <!-- Program isi utama pada dashboard -->

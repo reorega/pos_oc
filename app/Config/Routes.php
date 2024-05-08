@@ -39,5 +39,16 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
 
 $routes->group('kasir', ['filter' => 'kasir'], function ($routes) {
     $routes->get('/', 'Kasir');
+    $routes->get('pos', 'Pos');
+    $routes->post('buatFaktur', 'Pos::buatFaktur');
+    $routes->post('ambilData', 'Pos::ambilData');
+    $routes->post('ambilDataTotalHarga', 'Pos::ambilDataTotalHarga');
+    $routes->post('cekKode', 'Pos::viewProduk');
+    $routes->post('cekKodeIsi', 'Pos::cekKode');
+    $routes->post('simpanTransaksiDetail', 'Pos::simpanTransaksiDetail');
+    $routes->post('hapusTransaksiDetail', 'Pos::hapusTransaksiDetail');
+    $routes->post('hitungKembalian', 'Pos::hitungKembalian');
+    $routes->post('simpanTransaksi', 'Pos::simpanTransaksi');
+    $routes->get('cetakNota/(:any)', 'Pos::cetakNota/$1');
     // Tambahkan rute-rute user di sini
 });
