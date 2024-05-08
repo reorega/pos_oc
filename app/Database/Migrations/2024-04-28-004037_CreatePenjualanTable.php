@@ -4,48 +4,43 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class CreateProdukTable extends Migration
+class CreatePenjualanTable extends Migration
 {
     public function up()
     {
         $this->forge->addField([
-            'id_produk'            => [
+            'id_penjualan'            => [
                 'type'              => 'INT',
                 'constraint'        => 5,
                 'unsigned'          => true,
                 'auto_increment'    => true,
             ],
-            'kategori_id'            => [
+            'no_faktur'      => [
+                'type'              => 'VARCHAR',
+                'constraint'        => 100,
+            ],
+            'total_item'            => [
                 'type'              => 'INT',
                 'constraint'        => 5,
                 'null'              => true,
             ],
-            'suplier_id'            => [
+            'total_harga'            => [
                 'type'              => 'INT',
-                'constraint'        => 5,
+                'constraint'        => 50,
                 'null'              => true,
             ],
-            'kode_produk'      => [
-                'type'              => 'VARCHAR',
-                'constraint'        => 100,
-            ],
-            'nama_produk'      => [
-                'type'              => 'VARCHAR',
-                'constraint'        => 100,
-            ],
-            'diskon'            => [
-                'type'              => 'TiNYINT',
-                'constraint'        => 3,
+            'diterima'            => [
+                'type'              => 'INT',
+                'constraint'        => 50,
                 'default'           => 0,
             ],
-            'harga_jual'            => [
+            'kembalian'            => [
                 'type'              => 'INT',
-                'constraint'        => 5,
+                'constraint'        => 50,
             ],
-            'stok'            => [
+            'user_id'            => [
                 'type'              => 'INT',
                 'constraint'        => 10,
-                'default'           => 0,
             ],
             'created_at'    => [
                 'type'              => 'TIMESTAMP',
@@ -56,12 +51,12 @@ class CreateProdukTable extends Migration
                 'null'              => true,
             ],
         ]);
-        $this->forge->addKey('id_produk',true);
-        $this->forge->createTable('produk');
+        $this->forge->addPrimaryKey('id_penjualan',true);
+        $this->forge->createTable('penjualan');
     }
 
     public function down()
     {
-        $this->forge->dropTable('produk');
+        $this->forge->dropTable('penjualan');
     }
 }
