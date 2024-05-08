@@ -15,6 +15,11 @@ class CreateSupplierTable extends Migration
                 'unsigned' => true,
                 'auto_increment' => true,
             ],
+            'kode_supplier' => [
+                'type' => 'VARCHAR',
+                'constraint' => 10,
+                'unique' => true,
+            ],
             'nama' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255,
@@ -39,10 +44,5 @@ class CreateSupplierTable extends Migration
         ]);
         $this->forge->addKey('id_supplier', true);
         $this->forge->createTable('supplier');
-    }
-
-    public function down()
-    {
-        $this->forge->dropTable('supplier');
-    }
+    }    
 }
