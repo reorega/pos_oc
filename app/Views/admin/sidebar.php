@@ -25,8 +25,9 @@
 
         <!-- Program Sidebar -->
         <ul class="sidebar-menu" data-widget="tree">
-            <li class="treeview">
-                <a href="<?=site_url('home')?>">
+
+            <li>
+                <a href="<?=site_url('/admin')?>">
                     <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                 </a>
             </li>

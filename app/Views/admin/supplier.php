@@ -41,6 +41,7 @@
             <thead class="table">
                 <tr>
                     <th>No</th>
+                    <th>Kode Supplier</th>
                     <th>Nama Supplier</th>
                     <th>Alamat</th>
                     <th>Telepon</th>
@@ -51,6 +52,7 @@
                 <?php foreach ($supplier as $key => $sup) { ?>
                 <tr>
                     <td><?= $key +1 ?></td>
+                    <td><?= $sup['kode_supplier'] ?></td>
                     <td><?= $sup['nama'] ?></td>
                     <td><?= $sup['alamat'] ?></td>
                     <td><?= $sup['telepon'] ?></td>
@@ -75,17 +77,17 @@
                                             enctype="multipart/form-data">
                                             <input type="hidden" name="id_supplier" value="<?= $sup['id_supplier'] ?>">
                                             <div class="form-group">
-                                                <label for="editNamaSupplier" class="form-label">Nama Supplier :</label>
+                                                <label for="editNamaSupplier" class="form-label">Nama Supplier</label>
                                                 <input type="text" class="form-control" id="editNamaSupplier"
                                                     name="edit_nama" value="<?= $sup['nama'] ?>">
                                             </div>
                                             <div class="form-group">
-                                                <label for="editAlamat" class="form-label">Alamat :</label>
+                                                <label for="editAlamat" class="form-label">Alamat</label>
                                                 <input type="text" class="form-control" id="editAlamat"
                                                     name="edit_alamat" value="<?= $sup['alamat'] ?>">
                                             </div>
                                             <div class="form-group">
-                                                <label for="editTelepon" class="form-label">Telepon :</label>
+                                                <label for="editTelepon" class="form-label">Telepon</label>
                                                 <input type="text" class="form-control" id="editTelepon"
                                                     name="edit_telepon" value="<?= $sup['telepon'] ?>">
                                             </div>

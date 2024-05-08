@@ -8,7 +8,7 @@ class SupplierModel extends Model
 {
     protected $table = 'supplier';
     protected $primaryKey = 'id_supplier';
-    protected $allowedFields = ['nama', 'alamat', 'telepon', 'created_at', 'updated_at'];
+    protected $allowedFields = ['kode_supplier','nama', 'alamat', 'telepon', 'created_at', 'updated_at'];
     protected $useTimestamps = true;
 
     protected $createdField = 'created_at';
