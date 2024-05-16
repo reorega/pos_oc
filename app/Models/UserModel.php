@@ -24,4 +24,8 @@ class UserModel extends Model
     public function viewUser(){
         return $this->where('level_users', 2)->findAll();
     }
+    public function totalUser()
+    {
+        return $this->countAll();
+    }
 }

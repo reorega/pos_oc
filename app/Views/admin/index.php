@@ -21,13 +21,13 @@
                 <!-- small box -->
                 <div class="small-box bg-aqua">
                     <div class="inner">
-                        <h3>150</h3>
+                        <h3><?= $totalKategori ?></h3>
                         <p><b>TOTAL KATEGORI</b></p>
                     </div>
                     <div class="icon">
                         <i class="fa fa-cubes"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="admin/kategori" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -35,13 +35,13 @@
                 <!-- small box -->
                 <div class="small-box bg-green">
                     <div class="inner">
-                        <h3>505</h3>
+                        <h3><?= $totalProduk ?></h3>
                         <p><b>TOTAL PRODUK</b></p>
                     </div>
                     <div class="icon">
                         <i class="fa fa-cube"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="admin/produk" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -49,13 +49,13 @@
                 <!-- small box -->
                 <div class="small-box bg-yellow">
                     <div class="inner">
-                        <h3>4</h3>
-                        <p><b>TOTAL SUPLIER</b></p>
+                        <h3><?= $totalSupplier ?></h3>
+                        <p><b>TOTAL SUPPLIER</b></p>
                     </div>
                     <div class="icon">
                         <i class="fa fa-truck"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="admin/supplier" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -63,13 +63,13 @@
                 <!-- small box -->
                 <div class="small-box bg-red">
                     <div class="inner">
-                        <h3>2</h3>
+                        <h3><?= $totalUser ?></h3>
                         <p><b>TOTAL USERS</b></p>
                     </div>
                     <div class="icon">
                         <i class="fa fa-users"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="admin/users" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
