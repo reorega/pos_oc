@@ -53,9 +53,9 @@
                     <i class="fa fa-money"></i> <span>Pengeluaran</span>
                 </a>
             </li>
-            <li>
-                <a href="#">
-                    <i class="fa fa-download"></i> <span>Pembelian</span>
+            <li class="<?= isset($page_title) && $page_title == 'BarangMasuk' ? 'active' : '' ?>">
+            <a href="<?= base_url('admin/barangmasuk'); ?>">
+                    <i class="fa fa-download"></i> <span>Barang Masuk</span>
                 </a>
             </li>
             <li>

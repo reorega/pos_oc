@@ -35,6 +35,12 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->post('tambahDataProduk', 'Produk::tambahData');
     $routes->post('editDataProduk', 'Produk::editData');
     $routes->get('hapusDataProduk/(:num)', 'Produk::hapusData/$1');
+
+    //BarangMasuk
+    $routes->get('barangmasuk', 'BarangMasuk');
+    $routes->post('tambahDataBarangMasuk', 'BarangMasuk::tambahDataBarangMasuk');
+    $routes->post('editDataBarangMasuk', 'BarangMasuk::editDataBarangMasuk');
+    $routes->post('hapusDataBarangMasuk/(:num)', 'BarangMasuk::hapusDataBarangMasuk/$1');
 });
 
 $routes->group('kasir', ['filter' => 'kasir'], function ($routes) {
