@@ -44,5 +44,8 @@ class ProdukModel extends Model
     public function cariProdukKode($keyword){
         
     }   
-
+    public function totalProduk()
+    {
+        return $this->countAll();
+    }
 }

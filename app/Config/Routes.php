@@ -30,11 +30,13 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->post('editDataSupplier', 'Supplier::editDataSupplier');
     $routes->post('hapusDataSupplier', 'Supplier::hapusDataSupplier');
 
-    //crud produk 
+    // crud produk 
     $routes->get('produk', 'Produk');
     $routes->post('tambahDataProduk', 'Produk::tambahData');
     $routes->post('editDataProduk', 'Produk::editData');
     $routes->get('hapusDataProduk/(:num)', 'Produk::hapusData/$1');
+    $routes->get('barcode/(:num)', 'Produk::barcode/$1'); // Rute untuk Barcode
+    $routes->get('download/(:num)', 'Produk::download/$1'); // Rute untuk Download
 });
 
 $routes->group('kasir', ['filter' => 'kasir'], function ($routes) {

@@ -1,5 +1,4 @@
 <?= $this->extend('layout/master')?>
-
 <?= $this->section('content')?>
 <div class="content-wrapper">
     <section class="content">

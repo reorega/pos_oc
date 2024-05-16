@@ -6,6 +6,7 @@ use CodeIgniter\Controller;
 use App\Models\ProdukModel;
 use App\Models\KategoriModel;
 use App\Models\SupplierModel;
+use Dompdf\Dompdf;
 
 class Produk extends Controller
 {
@@ -83,5 +84,34 @@ class Produk extends Controller
         $no_urutproduk = sprintf('%04d',$no_urutproduk);
         $kodeProduk=$hurufdepanbesar.$no_urutproduk;    
         return $kodeProduk;
+    }
+    public function barcode($id_produk)
+    {
+        $data['kode'] = $this->produkModel->find($id_produk);
+        return view('admin/barcode', $data);
+    }
+    public function download($id_produk)
+    {
+        $data['kode'] = $this->produkModel->find($id_produk);
+
+        if (isset($data['kode']['kode_produk'])) {
+            $html = view('admin/download', $data);
+            // Panggil fungsi PdfGenerator
+            $this->PdfGenerator($html, 'code_produk-' . $data['kode']['kode_produk'], 'A4', 'portrait');
+        } else {
+            // Handle jika data tidak ditemukan
+            return "Produk tidak ditemukan";
+        }
+    }
+    function PdfGenerator($html, $filename, $paper, $orientasi)
+    {
+        $dompdf = new Dompdf();
+         $dompdf->loadHtml($html);
+        // (Optional) Setup the paper size and orientation
+         $dompdf->setPaper($paper, $orientasi);
+        // Render the HTML as PDF
+        $dompdf->render();
+        // Output the generated PDF to Browser
+        $dompdf->stream($filename, array('Attachment' => 0));
     }
 }

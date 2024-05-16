@@ -15,4 +15,9 @@ class SupplierModel extends Model
     protected $updatedField = 'updated_at';
 
     protected $useSoftDeletes = false;
+
+    public function totalSupplier()
+    {
+        return $this->countAll();
+    }
 }
