@@ -83,7 +83,10 @@ class Pos extends Controller
         $jumlahbayar=$this->request->getPost('jumlahbayar');
         $totalbayar = intval($totalbayar);
         $jumlahbayar = intval($jumlahbayar);
-        $kembalian=$jumlahbayar-$totalbayar;        
+        $kembalian=$jumlahbayar-$totalbayar;
+        if($jumlahbayar==$totalbayar){
+            $kembalian="0";
+        }          
         $response = [
             'status' => 'success',
             'kembalian' => $kembalian,
@@ -169,7 +172,7 @@ class Pos extends Controller
     }
     public function simpanTransaksi(){
         $session=session();
-        $iduser=$session->id;
+        $iduser=$session->user_id;
         $no_faktur=$this->request->getPost('nofaktur');
         $totalbayar=$this->request->getPost('totalbayar');
         $jumlahbayar=$this->request->getPost('jumlahbayar');

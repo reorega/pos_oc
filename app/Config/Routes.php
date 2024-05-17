@@ -50,6 +50,7 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
 
 $routes->group('kasir', ['filter' => 'kasir'], function ($routes) {
     $routes->get('/', 'Kasir');
+    // rute pos
     $routes->get('pos', 'Pos');
     $routes->post('buatFaktur', 'Pos::buatFaktur');
     $routes->post('ambilData', 'Pos::ambilData');
@@ -61,5 +62,10 @@ $routes->group('kasir', ['filter' => 'kasir'], function ($routes) {
     $routes->post('hitungKembalian', 'Pos::hitungKembalian');
     $routes->post('simpanTransaksi', 'Pos::simpanTransaksi');
     $routes->get('cetakNota/(:any)', 'Pos::cetakNota/$1');
-    // Tambahkan rute-rute user di sini
+    // rute laporan harian
+    $routes->get('laporanHarian', 'Penjualan::laporanHarian');
+    $routes->post('laporanHarianDetail', 'Penjualan::laporanHarianDetail');
+    $routes->get('printPdf', 'Penjualan::printPdf');
+    $routes->get('printPdf2', 'Penjualan::printPdf2');
+
 });

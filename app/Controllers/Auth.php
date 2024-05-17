@@ -34,7 +34,8 @@ class Auth extends Controller
                 $session->set([
                     'isLoggedIn' => true,
                     'username' => $user['username'],
-                    'level' => $user['level_users']
+                    'level' => $user['level_users'],
+                    'user_id' => $user['id_user'],
                 ]);
                 return redirect()->to($this->redirectBasedOnLevel($user['level_users']));
             }

@@ -32,7 +32,7 @@
             </li>
             <li class="header">Aplikasi</li>
             <li class="<?= isset($page_title) && $page_title == 'Kategori' ? 'active' : '' ?>">
-                <a href="<?= base_url('admin/kategori'); ?>">
+                <a href="<?= base_url('kasir/laporanHarian'); ?>">
                     <i class="fa fa-cubes"></i> <span>Laporan Harian</span>
                 </a>
             </li>
