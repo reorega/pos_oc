@@ -88,16 +88,10 @@ class Produk extends Controller
     public function barcode($id_produk)
     {
         $data['kode'] = $this->produkModel->find($id_produk);
-        return view('admin/barcode', $data);
-    }
-    public function download($id_produk)
-    {
-        $data['kode'] = $this->produkModel->find($id_produk);
-
         if (isset($data['kode']['kode_produk'])) {
             $html = view('admin/download', $data);
             // Panggil fungsi PdfGenerator
-            $this->PdfGenerator($html, 'code_produk-' . $data['kode']['kode_produk'], 'A4', 'portrait');
+           $this->PdfGenerator($html, 'code_produk-' . $data['kode']['kode_produk'], 'A4', 'portrait');
         } else {
             // Handle jika data tidak ditemukan
             return "Produk tidak ditemukan";
@@ -112,6 +106,8 @@ class Produk extends Controller
         // Render the HTML as PDF
         $dompdf->render();
         // Output the generated PDF to Browser
-        $dompdf->stream($filename, array('Attachment' => 0));
+        $dompdf->stream($filename, array(
+            'Attachment' => false
+        ));
     }
 }
