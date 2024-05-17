@@ -56,8 +56,9 @@
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="jml">Jumlah</label>
+                    <label for="jumlah">Jumlah</label>
                     <input type="number" class="form-control form-control-sm" name="jumlah" id="jumlah" value="1">
+                    <div id="cekstok" style="display:none;"></div>
                 </div>
             </div>
         </div>
@@ -120,6 +121,9 @@
     });
     $('#btnSimpanPenjualan').on('click', function(){
        simpanPenjualan();
+    });
+    $('#jumlah').on('input', function() {
+        cekStok();
     });
 });
 function ambilData(){
@@ -292,7 +296,27 @@ function popupCenter(url, title, width, height) {
     var options = 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, width=' + width + ', height=' + height + ', top=' + top + ', left=' + left;
     window.open(url, title, options);
 }
-
+function cekStok(){
+    $.ajax({
+        type: "post",
+        url: "<?= site_url('kasir/cekStok') ?>",
+        data: {
+            kodeProduk:$('#kodebarcode').val(),
+            jumlah:$('#jumlah').val(),
+        },
+        dataType: "json",
+        success: function(response){
+            if (response.status === 'error') {
+                $('#cekstok').html('<div style="color: red;">' + response.message + '</div>').show();
+            } else {
+                $('#cekstok').html('<div style="color: green;">' + response.message + '</div>').show();
+            }
+        },
+        error: function(xhr, thrownError){
+            alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+        }
+    });
+}
 </script>
 
 <?= $this->endSection()?>

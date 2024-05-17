@@ -48,4 +48,12 @@ class ProdukModel extends Model
     {
         return $this->countAll();
     }
+    public function cekStok($keyword){
+        $query = $this->db->table('produk'); // Ganti 'nama_tabel' dengan nama tabel Anda
+        $query->select('stok'); // Ganti 'nama_kolom' dengan nama kolom yang ingin Anda cari
+        $query->where('kode_produk', $keyword); // Ganti 'nama_kolom' dengan nama kolom yang ingin Anda cari
+        $result = $query->get()->getRow();
+        $stok = $result->stok;
+        return $stok;
+    } 
 }

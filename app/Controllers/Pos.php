@@ -237,5 +237,13 @@ class Pos extends Controller
         return view('kasir/nota',$data);
 
     }
-
+    public function cekStok(){
+        $kodeProduk = $this->request->getPost('kodeProduk');
+        $quantity = $this->request->getPost('jumlah');
+        $stock = $this->produkModel->cekStok($kodeProduk);
+        if ($quantity > $stock) {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Jumlah melebihi stok.']);
+        }
+        return $this->response->setJSON(['status' => 'success', 'message' => 'Stok mencukupi.']);
+    }
 }
