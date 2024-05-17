@@ -99,7 +99,7 @@
                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#hapusData<?= $user['id_user'] ?>">
                   <i class="fa fa-trash"></i>
                 </button>
-                <div class="modal fade " id="hapusData<?= $user['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade " id="hapusData<?= $user['id_user'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                       <div class="modal-content">
                         <div class="modal-header">
