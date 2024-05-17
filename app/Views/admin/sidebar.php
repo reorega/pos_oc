@@ -63,16 +63,6 @@
                     <i class="fa fa-upload"></i> <span>Penjualan</span>
                 </a>
             </li>
-            <li>
-                <a href="#">
-                    <i class="fa fa-cart-arrow-down"></i> <span>Transaksi Aktif</span>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class="fa fa-cart-arrow-down"></i> <span>Transaksi Baru</span>
-                </a>
-            </li>
             <li class="header">REPORT</li>
             <li>
                 <a href="#">

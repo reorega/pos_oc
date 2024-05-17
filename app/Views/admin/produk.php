@@ -74,15 +74,15 @@
                 <?php foreach ($produk as $pdk) : ?>
                 <tr>
                     <td><?= $pdk['kode_produk'] ?><br>
-                        <a href="<?= base_url('/admin/barcode/' . $pdk['id_produk']);?>" class="btn btn-default btn-xs">
-                            Barcode <i class="fa fa-barcode"></i>
-                        </a>
                     </td>
                     <td><?= $pdk['nama_produk'] ?></td>
                     <td><?= $pdk['diskon'] ?></td>
                     <td><?= $pdk['harga_jual'] ?></td>
                     <td><?= $pdk['stok'] ?></td>
                     <td>
+                        <button type="button" class="btn btn-success" onclick="window.open('<?= base_url('/admin/barcode/' . $pdk['id_produk'])?>','blank')">
+                            <i class="fa fa-barcode"></i>
+                        </button>
                         <button type="button" class="btn btn-info" data-toggle="modal"
                             data-target="#infoData<?= $pdk['id_produk'] ?>">
                             <i class="fa fa-eye"></i>
