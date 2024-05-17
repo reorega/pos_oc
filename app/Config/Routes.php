@@ -57,6 +57,7 @@ $routes->group('kasir', ['filter' => 'kasir'], function ($routes) {
     $routes->post('ambilDataTotalHarga', 'Pos::ambilDataTotalHarga');
     $routes->post('cekKode', 'Pos::viewProduk');
     $routes->post('cekKodeIsi', 'Pos::cekKode');
+    $routes->post('cekStok', 'Pos::cekStok');
     $routes->post('simpanTransaksiDetail', 'Pos::simpanTransaksiDetail');
     $routes->post('hapusTransaksiDetail', 'Pos::hapusTransaksiDetail');
     $routes->post('hitungKembalian', 'Pos::hitungKembalian');
