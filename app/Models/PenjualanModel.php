@@ -8,7 +8,7 @@ class PenjualanModel extends Model
 {
     protected $table = 'penjualan'; // Sesuaikan dengan nama tabel di database Anda
     protected $primaryKey = 'id_penjualan';
-    protected $allowedFields = ['no_faktur','total_item','total_harga','diterima','kembalian','user_id']; // Kolom yang diizinkan untuk dimasukkan atau diperbarui
+    protected $allowedFields = ['no_faktur','tanggal','total_item','total_harga','diterima','kembalian','user_id']; // Kolom yang diizinkan untuk dimasukkan atau diperbarui
 
 
     protected $useTimestamps = true; // Mengaktifkan penggunaan kolom created_at dan updated_at
@@ -22,4 +22,28 @@ class PenjualanModel extends Model
         $result = $query->get()->getResultArray();
         return $result;
     }
+    public function join()
+    {
+        $query = $this->db->table('penjualan'); // Ganti 'nama_tabel' dengan nama tabel Anda
+        $query->select('penjualan.*,users.username');
+        $query->join('users', 'users.id_user = penjualan.user_id');
+        $result=$query->get()->getResultArray();
+        return $result;
+    }
+    public function laporanHarian($keyword){
+        $query = $this->db->table('penjualan');
+        $query->select('penjualan.*,users.username');
+        $query->join('users', 'users.id_user = penjualan.user_id');
+        $query->orderBy('no_faktur', 'DESC'); // Ganti 'nama_kolom_terurut' dengan nama kolom yang ingin Anda urutkan
+        $query->where("DATE(penjualan.created_at)", $keyword);
+        $result = $query->get()->getResultArray();
+        return $result;
+    }
+    public function jumlahItem($keyword){
+        $query = $this->db->table('penjualan');
+        $query->select('SUM(total_item) as item,SUM(total_harga) as harga,SUM(diterima) as diterima,SUM(kembalian) as kembalian');
+        $query->where("DATE(created_at)", $keyword);
+        $result = $query->get()->getResultArray();
+        return $result;
+    }   
 }

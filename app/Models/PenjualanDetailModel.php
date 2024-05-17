@@ -57,5 +57,20 @@ class PenjualanDetailModel extends Model
         $result = $query->get()->getResultArray();
         return $result;
     }
-    
+    public function laporanHarian($keyword){
+        $query = $this->db->table('penjualan_detail');
+        $query->select('penjualan_detail.*, produk.nama_produk as produk');
+        $query->join('produk', 'produk.id_produk = penjualan_detail.produk_id');
+        $query->where("DATE(penjualan_detail.created_at)", $keyword);
+        $query->orderBy('no_faktur', 'ASC'); // Ganti 'nama_kolom_terurut' dengan nama kolom yang ingin Anda urutkan
+        $result = $query->get()->getResultArray();
+        return $result;
+    } 
+    public function jumlahItem2($keyword){
+        $query = $this->db->table('penjualan_detail');
+        $query->select('SUM(jumlah) as jumlah,SUM(sub_total) as total');
+        $query->where("DATE(created_at)", $keyword);
+        $result = $query->get()->getResultArray();
+        return $result;
+    }
 }
