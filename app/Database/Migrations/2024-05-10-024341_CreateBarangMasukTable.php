@@ -15,11 +15,11 @@ class CreateBarangMasukTable extends Migration
                 'unsigned' => true,
                 'auto_increment' => true,
             ],
-            'nama' => [
+            'id_supplier' => [
                 'type' => 'INT',
                 'constraint' => 255,
             ],
-            'nama_produk' => [
+            'id_produk' => [
                 'type' => 'INT',
                 'constraint' => 255,
             ],
@@ -27,7 +27,7 @@ class CreateBarangMasukTable extends Migration
                 'type' => 'INT',
                 'constraint' => 11,
             ],
-            'total_harga' => [
+            'harga_beli' => [
                 'type' => 'INT',
                 'constraint' => 11,
             ],
