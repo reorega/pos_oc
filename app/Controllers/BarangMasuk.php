@@ -41,6 +41,7 @@ class BarangMasuk extends Controller
         $id_supplier = $this->request->getPost('id_supplier');
         $id_produk = $this->request->getPost('produk_id');
         $total_item = $this->request->getPost('total_item');
+        $harga_beli = $this->request->getPost('harga_beli');
 
         // Check if id_supplier is provided
         if (empty($id_supplier)) {
@@ -53,6 +54,8 @@ class BarangMasuk extends Controller
             'id_supplier' => $id_supplier,
             'id_produk' => $id_produk,
             'total_item' => $total_item,
+            'harga_beli' => $harga_beli,
+
             // Add other fields here if needed
         ];
 
@@ -90,12 +93,14 @@ class BarangMasuk extends Controller
         $id_supplier = $this->request->getPost('id_supplier');
         $id_produk = $this->request->getPost('produk_id');
         $total_item = $this->request->getPost('total_item');
+        $harga_beli = $this->request->getPost('harga_beli');
 
         // Prepare data for update
         $data = [
             'id_supplier' => $id_supplier,
             'id_produk' => $id_produk,
             'total_item' => $total_item,
+            'harga_beli' => $harga_beli,
             // Add other fields here if needed
         ];
 
@@ -121,6 +126,7 @@ public function hapusDataBarangMasuk($id_barang_masuk)
     $transaction = $model->find($id_barang_masuk);
     $id_produk = $transaction['id_produk'];
     $total_item = $transaction['total_item'];
+    $harga_beli = $transaction['harga_beli'];
 
     // Delete the transaction data from the database
     $model->delete($id_barang_masuk);

@@ -40,6 +40,10 @@
                                 <label for="inputTotalItem" class="form-label">Total Item : </label>
                                 <input type="text" class="form-control" id="inputTotalItem" name="total_item">
                             </div>
+                            <div class="form-group">
+                                <label for="inputHargaBeli" class="form-label">Harga Beli : </label>
+                                <input type="text" class="form-control" id="inputHargaBeli" name="harga_beli">
+                            </div>
                             <!-- Hidden input for the current date -->
                             <input type="hidden" name="tanggal" value="<?= date('Y-m-d') ?>">
                             <!-- End of hidden input -->
@@ -58,6 +62,7 @@
                     <td>Supplier</td>
                     <td>Produk</td>
                     <td>Total Item</td>
+                    <td>Harga Beli</td>
                     <td>Aksi</td>
                 </tr>
             </thead>
@@ -69,6 +74,7 @@
                         <td><?= $BarangMasuk['nama_supplier'] ?></td>
                         <td><?= $BarangMasuk['nama_produk'] ?></td>
                         <td><?= $BarangMasuk['total_item'] ?></td>
+                        <td><?= 'Rp ' . number_format($BarangMasuk['harga_beli'], 0, ',', '.') ?></td>
                         <td>
                             <!-- Modal Previews -->
                             <button type="button" class="btn btn-info" data-toggle="modal" data-target="#infoData<?= $BarangMasuk['id_barang_masuk'] ?>">
@@ -95,6 +101,9 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="" class="form-label">Total Item: <?= $BarangMasuk['total_item'] ?></label>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="" class="form-label">Harga Beli: <?= $BarangMasuk['harga_beli'] ?></label>
                                             </div>
                                             <input type="hidden" name="id_barang_masuk" value="<?= $BarangMasuk['id_barang_masuk'] ?>">
                                         </div>
@@ -144,6 +153,10 @@
                                                 <div class="form-group">
                                                     <label for="inputTotalItem" class="form-label">Total Item : </label>
                                                     <input type="text" class="form-control" id="inputTotalItem" name="total_item" value="<?= $BarangMasuk['total_item'] ?>">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="inputHargaBeli" class="form-label">Harga Beli : </label>
+                                                    <input type="text" class="form-control" id="inputHargaBeli" name="harga_beli" value="<?= $BarangMasuk['harga_beli'] ?>">
                                                 </div>
                                                 <!-- Hidden input for the current date -->
                                                 <input type="hidden" name="tanggal" value="<?= date('Y-m-d') ?>">
