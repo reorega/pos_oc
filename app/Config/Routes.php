@@ -36,6 +36,11 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->post('editDataProduk', 'Produk::editData');
     $routes->get('hapusDataProduk/(:num)', 'Produk::hapusData/$1');
 
+       //Pengeluaran
+    $routes->get('pengeluaran', 'Pengeluaran');
+    $routes->get('downloadpdf', 'Pengeluaran::downloadPDF'); // tambahkan rute untuk download PDF
+    $routes->get('pengeluaranpdf', 'Pengeluaran::pengeluaranpdf'); // tambahkan rute untuk download PDF
+   
 
     //BarangMasuk
     $routes->get('barangmasuk', 'BarangMasuk');

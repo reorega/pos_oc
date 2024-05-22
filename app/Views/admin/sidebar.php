@@ -48,8 +48,8 @@
                 </a>
             </li>
             <li class="header">TRANSAKSI</li>
-            <li>
-                <a href="#">
+            <li class="<?= isset($page_title) && $page_title == 'Pengeluaran' ? 'active' : '' ?>">
+            <a href="<?= base_url('admin/pengeluaran'); ?>">
                     <i class="fa fa-money"></i> <span>Pengeluaran</span>
                 </a>
             </li>
