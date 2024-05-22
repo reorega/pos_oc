@@ -25,21 +25,15 @@
                         value="<?= date('Y-m-d'); ?>">
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label for="tanggal">Aksi</label>
-                    <div class="input-group">
-                        <button class="btn btn-danger btn-sm" type="button" id="btnHapusTransaksi">
-                            <i class="fa fa-trash"></i>
-                        </button>&nbsp;
-                        <button class="btn btn-success" type="button" id="btnSimpanTransaksi">
-                            <i class="fa fa-save"></i>
-                        </button>&nbsp;
-                    </div>
-                </div>
-            </div>
         </div>
         <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="kodebarcodelangsung">Scan Barcode</label>
+                    <input type="text" class="form-control form-control-sm" name="kodebarcodelangsung" id="kodebarcodelangsung"
+                        autofocus>
+                </div>
+            </div>
             <div class="col-md-3">
                 <div class="form-group">
                     <label for="kodebarcode">Kode Produk</label>
@@ -49,16 +43,19 @@
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="nama_produk">Nama Produk</label>
-                    <input type="text" class="form-control form-control-sm " name="nama_produk" id="nama_produk"
-                        disabled>
+                    <label for="jumlah">Jumlah</label>
+                    <input type="number" class="form-control form-control-sm" name="jumlah" id="jumlah" value="1">
+                    <div id="cekstok" style="display:none;"></div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="jumlah">Jumlah</label>
-                    <input type="number" class="form-control form-control-sm" name="jumlah" id="jumlah" value="1">
-                    <div id="cekstok" style="display:none;"></div>
+                    <label for="tanggal">Aksi</label>
+                    <div class="input-group">
+                        <button class="btn btn-success" type="button" id="btnSimpanTransaksi">
+                            <i class="fa fa-save"></i>
+                        </button>&nbsp;
+                    </div>
                 </div>
             </div>
         </div>
@@ -77,9 +74,10 @@
                 </div>
                 <div class="form-group">
                     <label for="kembalian">Total Kembalian</label>
-                    <input type="number" class="form-control form-control-lg" name="kembalian" id="kembalian" readonly>
+                    <input type="number" class="form-control form-control-lg" name="kembalian" id="kembalian" value="0" readonly>
                 </div>
                 <div>
+                    <button class="btn btn-danger" type="button" id="btnClearTransaksi">Clear Transaksi</button>&nbsp;
                     <button type="button" class="btn btn-success" id="btnSimpanPenjualan">Simpan Transaksi</button>
                 </div>
             </div>
@@ -124,6 +122,12 @@
     });
     $('#jumlah').on('input', function() {
         cekStok();
+    });
+    $('#kodebarcodelangsung').keydown(function() {
+        simpanTransaksiDetailScan();
+    });
+    $('#btnClearTransaksi').on('click', function(){
+       clearPenjualan();
     });
 });
 function ambilData(){
@@ -195,6 +199,9 @@ function simpanTransaksiDetail(){
         dataType: "json",
         success: function(response){
             ambilData();
+            $('#kodebarcode').val('');
+            $('#jumlah').val(1);
+        
         },
         error: function(xhr, thrownError){
             alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
@@ -216,8 +223,11 @@ function ambilDataTotalHarga(){
         },
         dataType: "json",
         success: function(response){
-            if(response.totalharga){
+            if(response.totalharga!=0){
                 $('#totalbayar').val(response.totalharga);
+            }
+            else{
+                $('#totalbayar').val(0);
             }
         },
     });
@@ -311,6 +321,73 @@ function cekStok(){
             } else {
                 $('#cekstok').html('<div style="color: green;">' + response.message + '</div>').show();
             }
+        },
+        error: function(xhr, thrownError){
+            alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+        }
+    });
+}
+function simpanTransaksiDetailScan(){
+    jumlahUlang = 0;
+    $.ajax({
+        type: "post",
+        url: "<?= site_url('kasir/simpanTransaksiDetail') ?>",
+        data: {
+            kode_produk: $('#kodebarcodelangsung').val(),
+            no_faktur: $('#nofaktur').val(),
+            jumlah: $('#jumlah').val(),
+        },
+        dataType: "json",
+        success: function(response){
+            jumlahUlang++;
+            console.log(jumlahUlang);
+            ambilData();
+            ambilDataTotalHarga();
+            $('#kodebarcodelangsung').val('')
+
+        },
+        error: function(xhr, thrownError){
+        }
+    });
+}
+function editSubtotal(id,kd,jmlh){
+    $.ajax({
+        type: "post",
+        url: "<?= site_url('kasir/editSubtotal') ?>",
+        data: {
+            id_penjualan_detail: id,
+            kode: kd,
+            jumlah: jmlh,
+            
+        },
+        dataType: "json",
+        success: function(response){
+            if(response.status=='error'){
+                $('#cekstok2').html('<div style="color: red;">' + response.message + '</div>').show();
+            }
+            ambilData();
+            ambilDataTotalHarga();    
+        },
+        error: function(xhr, thrownError){
+            
+        }
+    });
+
+}
+function clearPenjualan(){
+    $.ajax({
+        type: "post",
+        url: "<?= site_url('kasir/clearPenjualan') ?>",
+        data: {
+            nofaktur: $('#nofaktur').val(),
+            
+        },
+        dataType: "json",
+        success: function(response){
+            ambilData();
+            ambilDataTotalHarga();
+            $('#jumlahpembayaran').val('');
+            $('#kembalian').val(0)    
         },
         error: function(xhr, thrownError){
             alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);

@@ -63,6 +63,8 @@ $routes->group('kasir', ['filter' => 'kasir'], function ($routes) {
     $routes->post('hitungKembalian', 'Pos::hitungKembalian');
     $routes->post('simpanTransaksi', 'Pos::simpanTransaksi');
     $routes->get('cetakNota/(:any)', 'Pos::cetakNota/$1');
+    $routes->post('editSubtotal', 'Pos::editSubtotal');
+    $routes->post('clearPenjualan', 'Pos::clearPenjualan');
     // rute laporan harian
     $routes->get('laporanHarian', 'Penjualan::laporanHarian');
     $routes->post('laporanHarianDetail', 'Penjualan::laporanHarianDetail');
