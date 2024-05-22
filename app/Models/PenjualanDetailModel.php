@@ -23,6 +23,15 @@ class PenjualanDetailModel extends Model
         $result = $query->get()->getResultArray();
         return $result;
     }
+    public function cariDataKode($keyword,$keyword2){
+        $query = $this->db->table('penjualan_detail'); // Ganti 'nama_tabel' dengan nama tabel Anda
+        $query->select('*'); // Ganti 'nama_kolom' dengan nama kolom yang ingin Anda cari
+        $query->where('kode_produk',$keyword); // Batasi hasil ke 1 baris
+        $query->where('no_faktur',$keyword2); // Batasi hasil ke 1 baris
+        $query->orderBy('id_penjualan_detail', 'DESC'); 
+        $result = $query->get()->getResultArray();
+        return $result;
+    }
     public function join($keyword)
     {
         $query = $this->db->table('penjualan_detail'); // Ganti 'nama_tabel' dengan nama tabel Anda
@@ -52,7 +61,7 @@ class PenjualanDetailModel extends Model
     }
     public function jumlahItem($keyword){
         $query = $this->db->table('penjualan_detail');
-        $query->select('COUNT(*) as jumlah');
+        $query->select('SUM(jumlah) as jumlah');
         $query->where('no_faktur',$keyword);
         $result = $query->get()->getResultArray();
         return $result;

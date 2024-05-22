@@ -14,11 +14,18 @@
     <?php $nilai =1;?>
         <?php foreach ($datadetail as $pdk) : ?>
             <tr>
-                <td><?= $pdk['kode_produk'] ?></td>
+                <td><?= $pdk['produk'] ?></td>
                 <td><?= $pdk['diskon'] ?></td>
-                <td><?= $pdk['harga_jual'] ?></td>
-                <td><?= $pdk['jumlah'] ?></td>
-                <td><?= $pdk['sub_total'] ?></td>
+                <td><?= number_format($pdk['harga_jual'],0,",",".") ?></td>
+                <td>
+                  <div class="row">
+                      <div class="col-md-3">
+                        <input type="text" class="form-control form-control-sm" name="jumlahdetail" id="jumlahdetail" value="<?= $pdk['jumlah'] ?>" oninput="editSubtotal('<?= $pdk['id_penjualan_detail'] ?>','<?= $pdk['kode_produk'] ?>',this.value)">
+                        <div id="cekstok2" style="display:none;"></div>
+                      </div>
+                  </div>
+                </td>
+                <td><?= number_format($pdk['sub_total'],0,",",".") ?></td>
                 <td>
                   <button class="btn btn-danger btn-sm btnhapus" type="button" id="btnHapusTransaksi<?=$nilai?>" onclick="hapusDataDetail('<?= $pdk['id_penjualan_detail'] ?>')">
                     <i class="fa fa-trash"></i>

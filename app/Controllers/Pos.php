@@ -49,7 +49,7 @@ class Pos extends Controller
     }
     public function ambilData(){
         $nofaktur=$this->request->getPost('nofaktur');
-        $query = $this->penjualanDetailModel->cariData($nofaktur);        
+        $query = $this->penjualanDetailModel->join($nofaktur);        
         $data=[
             'datadetail' => $query
         ];
@@ -61,22 +61,21 @@ class Pos extends Controller
     }
     public function ambilDataTotalHarga(){
         $nofaktur=$this->request->getPost('nofaktur');
-        $query = $this->penjualanDetailModel->cariDataTotalHarga($nofaktur);        
-        if($query){
-            $harga=$query[0];
-            $response = [
-                'status' => 'success',
-                'totalharga' => $harga['total_sementara'],                   
-        ];
-            return $this->response->setJSON($response);
-        }else{
-            $harga=$query[0];
-            $response = [
-                'status' => 'success',
-                'totalharga' => 0,                   
-        ];
-            return $this->response->setJSON($response);
+        $totalHarga=0;
+        $data= $this->penjualanDetailModel->cariData($nofaktur);        
+        if($data){
+            foreach ($data as $item) {
+                // Misalnya, Anda memiliki field 'sub_total' dalam data yang didapat
+                $totalHarga += $item['sub_total'];
+            }
+            
+            
         }
+        $response = [
+            'status' => 'success',
+            'totalharga' => $totalHarga,                   
+        ];
+        return $this->response->setJSON($response);
     }
     public function hitungKembalian(){
         $totalbayar=$this->request->getPost('totalbayar');
@@ -122,13 +121,21 @@ class Pos extends Controller
         $kode_produk=$this->request->getPost('kode_produk');
         $jumlah=$this->request->getPost('jumlah');
         $no_faktur=$this->request->getPost('no_faktur');
-        $query=$this->produkModel->where('kode_produk',$kode_produk)->first();
-        if($query){
+        $cek=$this->penjualanDetailModel->cariDataKode($kode_produk,$no_faktur);
+        if($cek){
+            $dataitem=$cek[0];
+            $jumlahbr=$dataitem['jumlah']+$jumlah;
+            $data = [
+                'jumlah' => $jumlahbr,
+                'sub_total' => $this->subTotal($kode_produk,$jumlahbr),
+            ];
+            $this->penjualanDetailModel->update($dataitem['id_penjualan_detail'],$data);
+        }  
+        else{
+            $query=$this->produkModel->where('kode_produk',$kode_produk)->first();
             $harga=$query['harga_jual'];
             $diskon=$query['diskon']; 
-            $subTotal=$this->subTotal($no_faktur,$harga,$diskon,$jumlah);
-            $totalSementara=$this->totalSementara($no_faktur,$subTotal);
-            $diskon=$query['diskon'];
+            $subTotal=$this->subTotal($kode_produk,$jumlah);
             $id_produk=$query['id_produk'];
             $harga_jual=$query['harga_jual'];
             $data = [
@@ -139,17 +146,13 @@ class Pos extends Controller
                 'diskon' => $diskon,
                 'jumlah' => $jumlah,
                 'sub_total' => $subTotal ,
-                'total_sementara' => $totalSementara ,
             ];
-            $simpan=$this->penjualanDetailModel->insert($data);
-            if($simpan){
-                $response = [
-                    'status' => 'success',
-                    'totalharga' => $totalSementara,                   
-            ];
-                return $this->response->setJSON($response);
-            }
-        }   
+            $simpan=$this->penjualanDetailModel->insert($data);       
+        }
+        $response = [
+            'status' => 'success',              
+        ];
+        return $this->response->setJSON($response);  
     }
     public function hapusTransaksiDetail(){
         $id=$this->request->getPost('id_penjualan_detail');
@@ -198,36 +201,17 @@ class Pos extends Controller
             }
         }   
     }
-    public function subTotal($faktur,$harga,$diskon,$qty){
-        $nofaktur=$faktur;
-        $harga_jual=$harga;
-        $diskon_produk=$diskon;
-        $jumlah=$qty;
-        $query=$this->penjualanDetailModel->find($nofaktur);
-        //$query2=$this->produkModel->find($kodeproduk);
-        $harga=$harga_jual*$jumlah-($harga_jual*$diskon_produk);
-        $subsementara=$harga;
+    public function subTotal($kd,$jmlh){
+        $kode_produk=$kd;
+        $jumlah=$jmlh;
+        $subsementara=1;
+        $query=$this->produkModel->where('kode_produk',$kode_produk)->first();
         if($query){
-            foreach ($query as $q) :
-                $subsementara+=$q['sub_total'];
-            endforeach;
+            $harga_jual=$query['harga_jual'];
+            $diskon_produk=$query['diskon'];
+            $subsementara=$harga_jual*$jumlah-($harga_jual*$diskon_produk);
         }
-         return $subsementara;
-    }
-    public function totalSementara($faktur,$sTotal){
-        $subTotal=$sTotal;
-        $nofaktur=$faktur;
-        $totalHarga=0;
-        $query=$this->penjualanDetailModel->cariData($nofaktur);
-        if($query){
-            if($query){
-                foreach ($query as $q) :
-                    $totalHarga+=$q['sub_total'];
-                endforeach;
-            }
-        }
-        $totalHarga+=$subTotal;
-        return $totalHarga;
+        return $subsementara;
     }
     public function cetakNota($nofaktur){
         $data = [
@@ -245,5 +229,38 @@ class Pos extends Controller
             return $this->response->setJSON(['status' => 'error', 'message' => 'Jumlah melebihi stok.']);
         }
         return $this->response->setJSON(['status' => 'success', 'message' => 'Stok mencukupi.']);
+    }
+    public Function clearPenjualan(){
+        $no_faktur=$this->request->getPost('nofaktur');
+        $query=$this->penjualanDetailModel->where('no_faktur', $no_faktur)->delete();
+        $response = [
+            'status' => 'success',                  
+        ];
+        return $this->response->setJSON($response);
+
+    }
+    public function editSubtotal(){
+        $no_faktur=$this->request->getPost('nofaktur');
+        $id=$this->request->getPost('id_penjualan_detail');
+        $kode_barcode=$this->request->getPost('kode');
+        $jumlah=$this->request->getPost('jumlah');
+        $subtotal=$this->subTotal($kode_barcode,$jumlah);
+        $data = [
+            'jumlah' => $jumlah,
+            'sub_total' => $subtotal,
+        ];
+        $update=$this->penjualanDetailModel->update($id,$data);
+        if($update){
+            $response = [
+                'status' => 'success',                  
+            ];
+        }
+        else{
+            $response = [
+                'status' => 'error',
+                'message' => 'Jumlah tidak boleh kosong.' ,                
+            ];
+        }
+        return $this->response->setJSON($response);
     }
 }
