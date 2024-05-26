@@ -27,7 +27,7 @@
                                 <td><?= $pdk['diskon'] ?></td>
                                 <td><?= $pdk['harga_jual'] ?></td>
                                 <td><?= $pdk['stok'] ?></td>
-                                <td><button class="btn btn-success btn-pilih" type="button" id="button-addon2" onclick="pilihProduk('<?= $pdk['kode_produk'] ?>', '<?= $pdk['nama_produk'] ?>')">Pilih</button>
+                                <td><button class="btn btn-success btn-pilih" type="button" id="button-addon2" onclick="simpanTransaksiDetail('<?= $pdk['kode_produk'] ?>')">Pilih</button>
                                 </td>
                             </tr>
                         <?php endforeach; ?>  

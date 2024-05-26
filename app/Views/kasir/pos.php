@@ -36,26 +36,9 @@
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="kodebarcode">Kode Produk</label>
+                    <label for="kodebarcode">Cari Produk</label>
                     <input type="text" class="form-control form-control-sm" name="kodebarcode" id="kodebarcode"
                         autofocus>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label for="jumlah">Jumlah</label>
-                    <input type="number" class="form-control form-control-sm" name="jumlah" id="jumlah" value="1">
-                    <div id="cekstok" style="display:none;"></div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label for="tanggal">Aksi</label>
-                    <div class="input-group">
-                        <button class="btn btn-success" type="button" id="btnSimpanTransaksi">
-                            <i class="fa fa-save"></i>
-                        </button>&nbsp;
-                    </div>
                 </div>
             </div>
         </div>
@@ -105,16 +88,6 @@
     $('#jumlahpembayaran').keydown(function(){
         hitungKembalian();
         console.log("tombol");
-
-    });
-    $('#btnSimpanTransaksi').on('click', function(){
-       //console.log("Tombol diklik");
-        
-        simpanTransaksiDetail();
-        //var kode_produk= $('#kodebarcode').val();
-        //var no_faktur= $('#nofaktur').val();
-        //var jumlah = $('#jumlah').val();
-       // console.log(no_faktur);
 
     });
     $('#btnSimpanPenjualan').on('click', function(){
@@ -186,22 +159,21 @@ function pilihProduk(kode_produk,nama_produk){
     $('#modalProduk').modal('hide');
 
 }
-function simpanTransaksiDetail(){
-    jumlahUlang = 0;
+function simpanTransaksiDetail(kode){
     $.ajax({
         type: "post",
         url: "<?= site_url('kasir/simpanTransaksiDetail') ?>",
         data: {
-            kode_produk: $('#kodebarcode').val(),
+            kode_produk: kode,
             no_faktur: $('#nofaktur').val(),
-            jumlah: $('#jumlah').val(),
+            jumlah: 1,
         },
         dataType: "json",
         success: function(response){
             ambilData();
             $('#kodebarcode').val('');
             $('#jumlah').val(1);
-        
+            $('#modalProduk').modal('hide');
         },
         error: function(xhr, thrownError){
             alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
