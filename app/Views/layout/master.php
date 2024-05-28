@@ -8,35 +8,30 @@
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet"
-    href="<?php echo base_url('/AdminLTE-2/bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>">
+  <link rel="stylesheet" href="<?php echo base_url('/AdminLTE-2/bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>">
   <!-- Font Awesome -->
-  <link rel="stylesheet"
-    href="<?php echo base_url('/AdminLTE-2/bower_components/font-awesome/css/font-awesome.min.css'); ?>">
+  <link rel="stylesheet" href="<?php echo base_url('/AdminLTE-2/bower_components/font-awesome/css/font-awesome.min.css'); ?>">
   <!-- Ionicons -->
   <link rel="icon" href="<?php echo base_url('/AdminLTE-2/dist/img/logo.png'); ?>" type="image/png">
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo base_url('/AdminLTE-2/dist/css/AdminLTE.min.css'); ?>">
-  <!-- AdminLTE Skins. Choose a skin from the css/skins
-  folder instead of downloading all of them to reduce the load. -->
+  <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="<?php echo base_url('/AdminLTE-2/dist/css/skins/_all-skins.min.css'); ?>">
   <!-- Morris chart -->
   <link rel="stylesheet" href="<?php echo base_url('/AdminLTE-2/bower_components/morris.js/morris.css'); ?>">
   <!-- jvectormap -->
   <link rel="stylesheet" href="<?php echo base_url('/AdminLTE-2/bower_components/jvectormap/jquery-jvectormap.css'); ?>">
   <!-- Date Picker -->
-  <link rel="stylesheet"
-    href="<?php echo base_url('/AdminLTE-2/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css'); ?>">
+  <link rel="stylesheet" href="<?php echo base_url('/AdminLTE-2/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css'); ?>">
   <!-- Daterange picker -->
-  <link rel="stylesheet"
-    href="<?php echo base_url('/AdminLTE-2/bower_components/bootstrap-daterangepicker/daterangepicker.css'); ?>">
+  <link rel="stylesheet" href="<?php echo base_url('/AdminLTE-2/bower_components/bootstrap-daterangepicker/daterangepicker.css'); ?>">
   <!-- bootstrap wysihtml5 - text editor -->
-  <link rel="stylesheet"
-    href="<?php echo base_url('/AdminLTE-2/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css'); ?>">
+  <link rel="stylesheet" href="<?php echo base_url('/AdminLTE-2/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css'); ?>">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="<?php echo base_url('/AdminLTE-2/bower_components/select2/dist/css/select2.min.css'); ?>">
 
   <!-- Google Font -->
-  <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -51,7 +46,6 @@
        echo view('admin/sidebar'); 
     }else{
         echo view('kasir/sidebar'); 
-
     }
     ?>
     <!-- Program Sidebar -->
@@ -86,29 +80,29 @@
             <h3 class="control-sidebar-heading">Pengaturan Umum</h3>
             <div class="form-group">
               <label class="control-sidebar-subheading">
-              Penggunaan panel laporan
+                Penggunaan panel laporan
                 <input type="checkbox" class="pull-right" checked>
               </label>
               <p>
-              Beberapa informasi tentang opsi pengaturan umum ini
+                Beberapa informasi tentang opsi pengaturan umum ini
               </p>
             </div>
             <div class="form-group">
               <label class="control-sidebar-subheading">
-              Izinkan pengalihan email
+                Izinkan pengalihan email
                 <input type="checkbox" class="pull-right" checked>
               </label>
               <p>
-              Tersedia rangkaian opsi lainnya
+                Tersedia rangkaian opsi lainnya
               </p>
             </div>
             <div class="form-group">
               <label class="control-sidebar-subheading">
-              Paparkan nama penulis di postingan
+                Paparkan nama penulis di postingan
                 <input type="checkbox" class="pull-right" checked>
               </label>
               <p>
-              Izinkan pengguna untuk menampilkan namanya di postingan blog
+                Izinkan pengguna untuk menampilkan namanya di postingan blog
               </p>
             </div>
           </form>
@@ -132,8 +126,7 @@
   <script src="<?php echo base_url('/AdminLTE-2/bower_components/raphael/raphael.min.js'); ?>"></script>
   <script src="<?php echo base_url('/AdminLTE-2/bower_components/morris.js/morris.min.js'); ?>"></script>
   <!-- Sparkline -->
-  <script src="<?php echo base_url('/AdminLTE-2/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js'); ?>">
-  </script>
+  <script src="<?php echo base_url('/AdminLTE-2/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js'); ?>"></script>
   <!-- jvectormap -->
   <script src="<?php echo base_url('/AdminLTE-2/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js'); ?>"></script>
   <script src="<?php echo base_url('/AdminLTE-2/plugins/jvectormap/jquery-jvectormap-world-mill-en.js'); ?>"></script>
@@ -141,18 +134,13 @@
   <script src="<?php echo base_url('/AdminLTE-2/bower_components/jquery-knob/dist/jquery.knob.min.js'); ?>"></script>
   <!-- daterangepicker -->
   <script src="<?php echo base_url('/AdminLTE-2/bower_components/moment/min/moment.min.js'); ?>"></script>
-  <script src="<?php echo base_url('/AdminLTE-2/bower_components/bootstrap-daterangepicker/daterangepicker.js'); ?>">
-  </script>
+  <script src="<?php echo base_url('/AdminLTE-2/bower_components/bootstrap-daterangepicker/daterangepicker.js'); ?>"></script>
   <!-- datepicker -->
-  <script
-    src="<?php echo base_url('/AdminLTE-2/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js'); ?>">
-  </script>
+  <script src="<?php echo base_url('/AdminLTE-2/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js'); ?>"></script>
   <!-- Bootstrap WYSIHTML5 -->
-  <script src="<?php echo base_url('/AdminLTE-2/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js'); ?>">
-  </script>
+  <script src="<?php echo base_url('/AdminLTE-2/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js'); ?>"></script>
   <!-- Slimscroll -->
-  <script src="<?php echo base_url('/AdminLTE-2/bower_components/jquery-slimscroll/jquery.slimscroll.min.js'); ?>">
-  </script>
+  <script src="<?php echo base_url('/AdminLTE-2/bower_components/jquery-slimscroll/jquery.slimscroll.min.js'); ?>"></script>
   <!-- FastClick -->
   <script src="<?php echo base_url('/AdminLTE-2/bower_components/fastclick/lib/fastclick.js'); ?>"></script>
   <!-- AdminLTE App -->
@@ -161,6 +149,17 @@
   <script src="<?php echo base_url('/AdminLTE-2/dist/js/pages/dashboard.js'); ?>"></script>
   <!-- AdminLTE for demo purposes -->
   <script src="<?php echo base_url('/AdminLTE-2/dist/js/demo.js'); ?>"></script>
+  <!-- Select2 -->
+  <script src="<?php echo base_url('/AdminLTE-2/bower_components/select2/dist/js/select2.full.min.js'); ?>"></script>
+  <!-- Inisialisasi Select2 -->
+  <script>
+    $(document).ready(function () {
+      $('.select2').select2({
+        placeholder: 'Pilih opsi',
+        allowClear: true
+      });
+    });
+  </script>
 </body>
 
 </html>

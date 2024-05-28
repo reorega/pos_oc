@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\BarangMasukModel;
+use App\Models\KategoriModel;
 use App\Models\SupplierModel;
 use App\Models\ProdukModel;
 use CodeIgniter\Controller;
@@ -10,27 +11,31 @@ use CodeIgniter\Controller;
 class BarangMasuk extends Controller
 {
     public function index()
-    {
-        $BarangMasukModel = new BarangMasukModel();
-        $supplierModel = new SupplierModel();
-        $produkModel = new ProdukModel();
+{
+    $BarangMasukModel = new BarangMasukModel();
+    $supplierModel = new SupplierModel();
+    $produkModel = new ProdukModel();
+    $kategoriModel = new KategoriModel(); // Tambahkan pemanggilan model kategori
 
-        // Ambil semua data dari model
-        $data['BarangMasuks'] = $BarangMasukModel->findAll();
+    // Ambil semua data dari model
+    $data['BarangMasuks'] = $BarangMasukModel->findAll();
 
-        // Ambil semua data supplier dan produk
-        $data['suppliers'] = $supplierModel->findAll();
-        $data['produks'] = $produkModel->findAll();
+    // Ambil semua data supplier, produk, dan kategori
+    $data['suppliers'] = $supplierModel->findAll();
+    $data['produks'] = $produkModel->findAll();
+    $data['kategoris'] = $kategoriModel->findAll(); // Ambil semua data kategori
 
-        // Ubah ID supplier dan produk menjadi nama supplier dan produk
-        foreach ($data['BarangMasuks'] as &$BarangMasuk) {
-            $supplier = $supplierModel->find($BarangMasuk['id_supplier']);
-            $produk = $produkModel->find($BarangMasuk['id_produk']);
-            $BarangMasuk['nama_supplier'] = $supplier ? $supplier['nama'] : 'Supplier not found';
-            $BarangMasuk['nama_produk'] = $produk ? $produk['nama_produk'] : 'Product not found';
-        }
+    // Ubah ID supplier, produk, dan kategori menjadi nama supplier, produk, dan kategori
+    foreach ($data['BarangMasuks'] as &$BarangMasuk) {
+        $supplier = $supplierModel->find($BarangMasuk['id_supplier']);
+        $produk = $produkModel->find($BarangMasuk['id_produk']);
+        $kategori = $kategoriModel->find($BarangMasuk['id_kategori']);
+        $BarangMasuk['nama_supplier'] = $supplier ? $supplier['nama'] : 'Supplier not found';
+        $BarangMasuk['nama_produk'] = $produk ? $produk['nama_produk'] : 'Product not found';
+        $BarangMasuk['nama_kategori'] = $kategori ? $kategori['nama_kategori'] : 'Kategori not found';
+    }
 
-        return view('admin/barangmasuk', $data);
+    return view('admin/barangmasuk', $data);
     }
 
     public function tambahDataBarangMasuk()
@@ -40,6 +45,7 @@ class BarangMasuk extends Controller
         // Retrieve input data from the form
         $id_supplier = $this->request->getPost('id_supplier');
         $id_produk = $this->request->getPost('produk_id');
+        $id_kategori = $this->request->getPost('kategori_id');
         $total_item = $this->request->getPost('total_item');
         $harga_beli = $this->request->getPost('harga_beli');
 
@@ -53,6 +59,7 @@ class BarangMasuk extends Controller
         $data = [
             'id_supplier' => $id_supplier,
             'id_produk' => $id_produk,
+            'id_kategori' => $id_kategori,
             'total_item' => $total_item,
             'harga_beli' => $harga_beli,
 
@@ -92,6 +99,7 @@ class BarangMasuk extends Controller
         $id_barang_masuk = $this->request->getPost('id_barang_masuk');
         $id_supplier = $this->request->getPost('id_supplier');
         $id_produk = $this->request->getPost('produk_id');
+        $id_kategori = $this->request->getPost('kategori_id');
         $total_item = $this->request->getPost('total_item');
         $harga_beli = $this->request->getPost('harga_beli');
 
@@ -99,6 +107,7 @@ class BarangMasuk extends Controller
         $data = [
             'id_supplier' => $id_supplier,
             'id_produk' => $id_produk,
+            'id_kategori' => $id_kategori,
             'total_item' => $total_item,
             'harga_beli' => $harga_beli,
             // Add other fields here if needed
@@ -125,6 +134,7 @@ public function hapusDataBarangMasuk($id_barang_masuk)
     // Retrieve data of the transaction to get id_produk and total_item
     $transaction = $model->find($id_barang_masuk);
     $id_produk = $transaction['id_produk'];
+    $id_kategori = $transaction['id_kategori'];
     $total_item = $transaction['total_item'];
     $harga_beli = $transaction['harga_beli'];
 
