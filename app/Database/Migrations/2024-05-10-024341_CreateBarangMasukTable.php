@@ -17,11 +17,15 @@ class CreateBarangMasukTable extends Migration
             ],
             'id_supplier' => [
                 'type' => 'INT',
-                'constraint' => 255,
+                'constraint' => 11,
             ],
             'id_produk' => [
                 'type' => 'INT',
-                'constraint' => 255,
+                'constraint' => 11,
+            ],
+            'id_kategori' => [
+                'type' => 'VARCHAR',
+                'constraint' => 100,
             ],
             'total_item' => [
                 'type' => 'INT',
