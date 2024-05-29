@@ -2,8 +2,9 @@
     <section class="sidebar">
         <!-- Panel pengguna bilah sisi -->
         <div class="user-panel">
+            <?php $session= session(); ?>
             <div class="pull-left image">
-                <img src="<?php echo base_url('AdminLTE-2/dist/img/logo.png'); ?>" class="img-circle" alt="User Image">
+                <img src="<?php echo base_url('assets/fotoUser/').$session->foto_user; ?>" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
                 <p>Administrator</p>

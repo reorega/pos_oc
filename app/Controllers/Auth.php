@@ -42,7 +42,8 @@ class Auth extends Controller
                     'nama_perusahaan' => $pengaturan['nama_perusahaan'],
                     'path_logo' => $pengaturan['path_logo'],
                     'alamat' => $pengaturan['alamat'],
-                    'telepon' => $pengaturan['telepon']
+                    'telepon' => $pengaturan['telepon'],
+                    'foto_user' => $user['foto_user'],
                 ]);
                 return redirect()->to($this->redirectBasedOnLevel($user['level_users']));
             }
