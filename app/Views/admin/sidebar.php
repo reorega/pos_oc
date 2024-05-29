@@ -76,7 +76,7 @@
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a href="<?= base_url('admin/setting'); ?>">
                     <i class="fa fa-cog"></i> <span>Settings</span>
                 </a>
             </li>

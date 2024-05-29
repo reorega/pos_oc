@@ -13,44 +13,49 @@ $routes->post('/auth', 'Auth::process');
 $routes->get('/logout', 'Auth::logout');
 $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->get('/', 'Admin');
+
+    // Users
     $routes->get('users', 'User');
     $routes->post('tambahData', 'User::tambahData');
     $routes->post('editData', 'User::editData');
     $routes->get('hapusDataUser/(:num)', 'User::hapusData/$1');
 
-    // crud Kategori
+    // Kategori
     $routes->get('kategori', 'Kategori');
     $routes->post('tambahDataKategori', 'Kategori::tambahDataKategori');
     $routes->post('editDataKategori', 'Kategori::editDataKategori');
     $routes->post('hapusDataKategori', 'Kategori::hapusDataKategori');
 
-    // crud Supplier
+    // Supplier
     $routes->get('supplier', 'Supplier');
     $routes->post('tambahDataSupplier', 'Supplier::tambahDataSupplier');
     $routes->post('editDataSupplier', 'Supplier::editDataSupplier');
     $routes->post('hapusDataSupplier', 'Supplier::hapusDataSupplier');
 
-    // crud produk 
+    // Produk 
     $routes->get('produk', 'Produk');
     $routes->post('tambahDataProduk', 'Produk::tambahData');
     $routes->post('editDataProduk', 'Produk::editData');
     $routes->get('hapusDataProduk/(:num)', 'Produk::hapusData/$1');
 
-       //Pengeluaran
+    // Pengeluaran
     $routes->get('pengeluaran', 'Pengeluaran');
     $routes->get('downloadpdf', 'Pengeluaran::downloadPDF'); // tambahkan rute untuk download PDF
     $routes->get('pengeluaranpdf', 'Pengeluaran::pengeluaranpdf'); // tambahkan rute untuk download PDF
    
-
-    //BarangMasuk
+    // Barang Masuk
     $routes->get('barangmasuk', 'BarangMasuk');
     $routes->post('tambahDataBarangMasuk', 'BarangMasuk::tambahDataBarangMasuk');
     $routes->post('editDataBarangMasuk', 'BarangMasuk::editDataBarangMasuk');
     $routes->post('hapusDataBarangMasuk/(:num)', 'BarangMasuk::hapusDataBarangMasuk/$1');
 
+    // Cetak Barcode
     $routes->get('barcode/(:num)', 'Produk::barcode/$1'); // Rute untuk Barcode
     $routes->get('download/(:num)', 'Produk::download/$1'); // Rute untuk Download
 
+    // Setting
+    $routes->get('setting', 'Setting');
+    $routes->post('update', 'Setting::update');
 });
 
 $routes->group('kasir', ['filter' => 'kasir'], function ($routes) {
