@@ -258,6 +258,7 @@
                 <?php endforeach; ?>
             </tbody>
         </table>
+        <?= $pager->links('barangmasuk', 'default_full') ?>
     </section>
 </div>
 <?= $this->endSection() ?>

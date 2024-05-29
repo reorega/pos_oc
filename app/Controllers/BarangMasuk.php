@@ -10,15 +10,20 @@ use CodeIgniter\Controller;
 
 class BarangMasuk extends Controller
 {
-    public function index()
+    
+public function index()
 {
     $BarangMasukModel = new BarangMasukModel();
     $supplierModel = new SupplierModel();
     $produkModel = new ProdukModel();
     $kategoriModel = new KategoriModel(); // Tambahkan pemanggilan model kategori
 
-    // Ambil semua data dari model
-    $data['BarangMasuks'] = $BarangMasukModel->findAll();
+    // Mendapatkan nomor halaman saat ini
+    $currentPage = $this->request->getVar('page_barangmasuk') ? $this->request->getVar('page_barangmasuk') : 1;
+
+    // Mendapatkan semua data dari model dengan paginasi
+    $data['BarangMasuks'] = $BarangMasukModel->paginate(10, 'barangmasuk');
+    $data['pager'] = $BarangMasukModel->pager;
 
     // Ambil semua data supplier, produk, dan kategori
     $data['suppliers'] = $supplierModel->findAll();
@@ -36,7 +41,7 @@ class BarangMasuk extends Controller
     }
 
     return view('admin/barangmasuk', $data);
-    }
+}
 
     public function tambahDataBarangMasuk()
     {
