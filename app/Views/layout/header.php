@@ -1,10 +1,13 @@
 <header class="main-header">
   <!-- Logo -->
   <a href="http://localhost:8080/admin" class="logo">
+    <?php
+      $session = session();
+    ?>
     <!-- mini logo for sidebar mini 50x50 pixels -->
     <span class="logo-mini"><b>OC</b></span>
     <!-- logo for regular state and mobile devices -->
-    <span class="logo-lg"><b>Omah Cokelat</b></span>
+    <span><b><?=$session->nama_perusahaan?></b></span>
   </a>
   <!-- Header Navbar: style can be found in header.less -->
   <nav class="navbar navbar-static-top">
@@ -12,7 +15,6 @@
     <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
       <span class="sr-only">Toggle navigation</span>
     </a>
-
     <div class="navbar-custom-menu">
       <ul class="nav navbar-nav">
         <!-- User Account: style can be found in dropdown.less -->
@@ -25,7 +27,6 @@
             <!-- User image -->
             <li class="user-header">
               <img src="<?php echo base_url('AdminLTE-2/dist/img/logo.png'); ?>" class="img-circle" alt="User Image">
-
               <p>Administrator - Web Developer</p>
             </li>
             <!-- Menu Footer-->

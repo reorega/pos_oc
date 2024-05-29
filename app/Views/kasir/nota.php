@@ -1,5 +1,9 @@
+<?php
+    $session = session();
+?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -53,15 +57,17 @@
     ?>
     <?= $style; ?>
 </head>
+
 <body onload="window.print()">
     <?php  $session=session(); 
             $pj=$penjualan[0];
     ?>
-    
+
     <button class="btn-print" style="position: absolute; right: 1rem; top: rem;" onclick="window.print()">Print</button>
     <div class="text-center">
-        <h3 style="margin-bottom: 5px;">Perusahaan</h3>
-        <p>alamat</p>
+        <h3 style="margin-bottom: 5px;"><?=$session->nama_perusahaan?></h3>
+        <p><?=$session->alamat?></p>
+        <p>No. <?=$session->telepon?></p>
     </div>
     <br>
     <div>
@@ -71,21 +77,21 @@
     <div class="clear-both" style="clear: both;"></div>
     <p>No Faktur : <?= $pj['no_faktur'];   ?></p>
     <p class="text-center">===================================</p>
-    
+
     <br>
     <table width="100%" style="border: 0;">
         <?php $i=0;   ?>
         <?php foreach ($detail as $item) :  ?>
-            <?php $dt = $item; ?>
-            <tr>
-                <td colspan="3"><?= $dt['produk'] ?></td>
-            </tr>
-            <tr>
-                <td><?= $dt['jumlah'] ?> x RP <?=number_format($dt['harga_jual'],0,",",".");?></td>
-                <td></td>
-                <td class="text-right">RP <?=number_format($dt['sub_total'],0,",",".");?></td>
-            </tr>
-            <?php $i++;  ?>
+        <?php $dt = $item; ?>
+        <tr>
+            <td colspan="3"><?= $dt['produk'] ?></td>
+        </tr>
+        <tr>
+            <td><?= $dt['jumlah'] ?> x RP <?=number_format($dt['harga_jual'],0,",",".");?></td>
+            <td></td>
+            <td class="text-right">RP <?=number_format($dt['sub_total'],0,",",".");?></td>
+        </tr>
+        <?php $i++;  ?>
         <?php  endforeach;  ?>
     </table>
     <p class="text-center">-----------------------------------</p>
@@ -116,12 +122,12 @@
         let body = document.body;
         let html = document.documentElement;
         let height = Math.max(
-                body.scrollHeight, body.offsetHeight,
-                html.clientHeight, html.scrollHeight, html.offsetHeight
-            );
-
+            body.scrollHeight, body.offsetHeight,
+            html.clientHeight, html.scrollHeight, html.offsetHeight
+        );
         document.cookie = "innerHeight=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        document.cookie = "innerHeight="+ ((height + 50) * 0.264583);
+        document.cookie = "innerHeight=" + ((height + 50) * 0.264583);
     </script>
 </body>
+
 </html>

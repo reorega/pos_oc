@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use CodeIgniter\Controller;
 use App\Models\UserModel;
+use App\Models\SettingModel;
 
 class Auth extends Controller
 {
@@ -13,6 +14,7 @@ class Auth extends Controller
     {
         // Load model saat konstruktor dijalankan
         $this->userModel = new UserModel();
+        $this->settingModel = new SettingModel();
     }
 
     public function process()
@@ -31,11 +33,16 @@ class Auth extends Controller
         if ($user) {
             // mengecek password
             if ($password==$user['password']) {
+                $setting=$this->settingModel->findAll();
+                $pengaturan=$setting[0];
                 $session->set([
                     'isLoggedIn' => true,
                     'username' => $user['username'],
                     'level' => $user['level_users'],
-                    'user_id' => $user['id_user'],
+                    'nama_perusahaan' => $pengaturan['nama_perusahaan'],
+                    'path_logo' => $pengaturan['path_logo'],
+                    'alamat' => $pengaturan['alamat'],
+                    'telepon' => $pengaturan['telepon']
                 ]);
                 return redirect()->to($this->redirectBasedOnLevel($user['level_users']));
             }
