@@ -91,7 +91,7 @@
                                 data-toggle="tooltip" title="Collapse" style="margin-right: 5px;">
                                 <i class="fa fa-minus"></i></button>
                         </div>
-                        <li class="pull-left header"><i class="fa fa-bar-chart"></i> Sales Graph</li>
+                        <li class="pull-left header"><i class="fa fa-bar-chart"></i>Jumlah Item Terjual</li>
                     </ul>
                     <div class="tab-content no-padding">
                         <!-- Morris chart - Sales -->
@@ -131,4 +131,36 @@
         </div>
     </section>
 </div>
+<script src="<?= base_url('assets/js/jquery-3.7.1.min.js');?>"></script>
+<script>
+    $(function () {
+        'use strict';
+            var area = new Morris.Area({
+            element   : 'revenue-chart',
+            resize    : true,
+            data      : [
+                <?php foreach ($penjualan as $pj) : ?>
+
+            { 
+                y: '<?= $pj['tanggal'] ?>', item1: <?= $pj['item']?>,
+
+            },
+            <?php endforeach; ?>
+
+
+            ],
+            xkey      : 'y',
+            ykeys     : [
+                'item1',
+            ],
+            labels    : [
+                'Jumlah item terjual',
+            ],
+            lineColors: ['#a0d0e0'],
+            hideHover : 'auto'
+           
+        });
+        
+    });
+</script>
 <?= $this->endSection(); ?>

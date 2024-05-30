@@ -45,5 +45,12 @@ class PenjualanModel extends Model
         $query->where("DATE(created_at)", $keyword);
         $result = $query->get()->getResultArray();
         return $result;
+    }
+    public function dataChart(){
+        $query = $this->db->table('penjualan');
+        $query->select('DATE(created_at) as tanggal,SUM(total_item) as item,');
+        $query->groupBy('tanggal'); 
+        $result = $query->get()->getResultArray();
+        return $result;  
     }   
 }

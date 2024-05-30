@@ -7,7 +7,7 @@
                 <img src="<?php echo base_url('assets/fotoUser/').$session->foto_user; ?>" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-                <p>Administrator</p>
+                <p><?= $session->username;  ?></p>
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
         </div>

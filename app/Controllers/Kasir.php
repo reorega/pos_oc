@@ -1,12 +1,14 @@
 <?php
 
 namespace App\Controllers;
-
+use \App\Models\PenjualanModel;
 class Kasir extends BaseController
 {
     public function index()
     { 
-        
-        return view('kasir/index');
+        $penjualanModel = new PenjualanModel();
+        $penjualan = $penjualanModel->dataChart();
+        $data['penjualan'] = $penjualan;
+        return view('kasir/index',$data);
     }
 }
