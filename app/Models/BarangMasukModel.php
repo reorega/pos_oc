@@ -8,7 +8,7 @@ class BarangMasukModel extends Model
 {
     protected $table = 'barang_masuk'; // Adjust with your database table name
     protected $primaryKey = 'id_barang_masuk'; // Adjust with your table's primary key name
-    protected $allowedFields = ['id_supplier', 'id_produk','id_kategori', 'total_item', 'harga_beli', 'diskon', 'bayar', 'created_at', 'updated_at']; // Allowed fields for insertion or update
+    protected $allowedFields = ['id_supplier', 'id_produk', 'total_item', 'harga_beli','total_bayar', 'created_at', 'updated_at']; // Allowed fields for insertion or update
     protected $useTimestamps = true; // Activate the usage of created_at and updated_at columns
     protected $createdField = 'created_at'; // Name of created_at column in the table
     protected $updatedField = 'updated_at'; // Name of updated_at column in the table
@@ -34,6 +34,12 @@ class BarangMasukModel extends Model
         $query->join('kategori', 'kategori.id_kategori = barang_masuk.id_kategori'); // Adjust with your join condition
         $result = $query->get()->getResultArray();
         return $result;
+    }
+    public function getBarangMasuk()
+    {
+        return $this->select('barang_masuk.*, produk.nama_produk, produk.harga_beli')
+                    ->join('produk', 'produk.id_produk = barang_masuk.produk_id')
+                    ->findAll();
     }
 
     // Function to search for codes based on keyword
