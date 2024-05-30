@@ -131,4 +131,36 @@
         </div>
     </section>
 </div>
+<script src="<?= base_url('assets/js/jquery-3.7.1.min.js');?>"></script>
+<script>
+    $(function () {
+        'use strict';
+            var area = new Morris.Area({
+            element   : 'revenue-chart',
+            resize    : true,
+            data      : [
+                <?php foreach ($penjualan as $pj) : ?>
+
+            { 
+                y: '<?= $pj['tanggal'] ?>', item1: <?= $pj['item']?>,
+
+            },
+            <?php endforeach; ?>
+
+
+            ],
+            xkey      : 'y',
+            ykeys     : [
+                'item1',
+            ],
+            labels    : [
+                'Jumlah item terjual',
+            ],
+            lineColors: ['#a0d0e0'],
+            hideHover : 'auto'
+           
+        });
+        
+    });
+</script>
 <?= $this->endSection(); ?>

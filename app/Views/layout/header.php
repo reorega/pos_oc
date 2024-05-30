@@ -22,13 +22,13 @@
           <?php $session = session(); ?>
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             <img src="<?php echo base_url('assets/fotoUser/').$session->foto_user;?>" class="user-image" alt="User Image">
-            <span class="hidden-xs">Administrator</span>
+            <span class="hidden-xs"><?= $session->role; ?></span>
           </a>
           <ul class="dropdown-menu">
             <!-- User image -->
             <li class="user-header">
               <img src="<?php echo base_url('assets/fotoUser/').$session->foto_user; ?>" class="img-circle" alt="User Image">
-              <p>Administrator - Web Developer</p>
+              <p><?= $session->role; ?> - <?= $session->username;  ?></p>
             </li>
             <!-- Menu Footer-->
             <li class="user-footer">

@@ -35,10 +35,17 @@ class Auth extends Controller
             if ($password==$user['password']) {
                 $setting=$this->settingModel->findAll();
                 $pengaturan=$setting[0];
+                $role="";
+                if($user['level_users']==1){
+                    $role="Administrator";
+                }else{
+                    $role="Kasir";
+                }
                 $session->set([
                     'isLoggedIn' => true,
                     'username' => $user['username'],
                     'level' => $user['level_users'],
+                    'role' => $role,
                     'nama_perusahaan' => $pengaturan['nama_perusahaan'],
                     'path_logo' => $pengaturan['path_logo'],
                     'alamat' => $pengaturan['alamat'],

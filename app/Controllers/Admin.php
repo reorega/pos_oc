@@ -22,6 +22,10 @@ class Admin extends BaseController
         $totalUser = $userModel->totalUser();
         $data['totalUser'] = $totalUser;
 
+        $penjualanModel = new \App\Models\PenjualanModel();
+        $penjualan = $penjualanModel->dataChart();
+        $data['penjualan'] = $penjualan;
+
         return view('admin/index', $data);
     }
 }
