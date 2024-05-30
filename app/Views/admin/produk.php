@@ -20,7 +20,7 @@
                             enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="kategori_id" class="form-label">Nama Kategori : </label>
-                                <select class="form-control" aria-label="Default select example" name="kategori_id">
+                                <select class="form-control selectpicker" aria-label="Default select example" name="kategori_id" data-live-search="true">
                                     <option selected disabled>Pilih Kategori Produk</option>
                                     <?php foreach ($kategori as $ktg) : ?>
                                     <option value="<?= $ktg['id_kategori']; ?>"><?= $ktg['nama_kategori']?></option>
@@ -29,7 +29,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="suplier_id" class="form-label">Nama Suplier : </label>
-                                <select class="form-control" aria-label="Default select example" name="suplier_id">
+                                <select class="form-control selectpicker" aria-label="Default select example" name="suplier_id" data-live-search="true">
                                     <option selected disabled>Pilih Suplier</option>
                                     <?php foreach ($suplier as $sp) : ?>
                                     <option value="<?= $sp['id_supplier']; ?>"><?= $sp['nama']?></option>
@@ -64,6 +64,21 @@
                 <tr>
                     <td>Kode Produk</td>
                     <td>Nama Produk</td>
+                    <td>
+                        <div class="row">
+                            <div class="col col-4">
+                                Kategori
+                            </div>
+                            <div class="col col-4">
+                                <select class="form-control selectpicker" aria-label="Default select example" name="kategori_id" data-live-search="true">
+                                    <option selected disabled>Kategori</option>
+                                        <?php foreach ($kategori as $ktg) : ?>
+                                    <option value="<?= $ktg['id_kategori']; ?>"><?= $ktg['nama_kategori']?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>                        
+                    </td>
                     <td>Diskon</td>
                     <td>Harga Jual</td>
                     <td>Stok</td>
@@ -73,9 +88,9 @@
             <tbody>
                 <?php foreach ($produk as $pdk) : ?>
                 <tr>
-                    <td><?= $pdk['kode_produk'] ?><br>
-                    </td>
+                    <td><?= $pdk['kode_produk'] ?> </td>
                     <td><?= $pdk['nama_produk'] ?></td>
+                    <td><?= $pdk['kategori'] ?></td>
                     <td><?= $pdk['diskon'] ?></td>
                     <td><?= $pdk['harga_jual'] ?></td>
                     <td><?= $pdk['stok'] ?></td>
