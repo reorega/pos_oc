@@ -29,9 +29,15 @@
   <link rel="stylesheet" href="<?php echo base_url('/AdminLTE-2/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css'); ?>">
   <!-- Select2 -->
   <link rel="stylesheet" href="<?php echo base_url('/AdminLTE-2/bower_components/select2/dist/css/select2.min.css'); ?>">
-
+  <link rel="stylesheet" href="<?php echo base_url('/AdminLTE-2/bower_components/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css'); ?>">
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <style>
+        .bootstrap-select .dropdown-menu {
+            max-height: 100px; /* Tinggi maksimum dropdown untuk memicu scroll */
+            overflow-y: auto;
+        }
+    </style>
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -151,6 +157,7 @@
   <script src="<?php echo base_url('/AdminLTE-2/dist/js/demo.js'); ?>"></script>
   <!-- Select2 -->
   <script src="<?php echo base_url('/AdminLTE-2/bower_components/select2/dist/js/select2.full.min.js'); ?>"></script>
+  <script src="<?php echo base_url('/AdminLTE-2/bower_components/bootstrap-select-1.13.14/dist/js/bootstrap-select.min.js'); ?>"></script>
   <!-- Inisialisasi Select2 -->
   <script>
     $(document).ready(function () {
@@ -158,6 +165,7 @@
         placeholder: 'Pilih opsi',
         allowClear: true
       });
+      $('.select3').selectpicker();
     });
   </script>
 </body>
