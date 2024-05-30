@@ -40,23 +40,8 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="inputKategori" class="form-label">Kategori : </label>
-                                <select class="form-control select2" aria-label="Default select example"
-                                    name="kategori_id" style="width: 100%;">
-                                    <option selected disabled>Pilih Kategori</option>
-                                    <?php foreach ($kategoris as $kategori) : ?>
-                                    <option value="<?= $kategori['id_kategori']; ?>"><?= $kategori['nama_kategori'] ?>
-                                    </option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                            <div class="form-group">
                                 <label for="inputTotalItem" class="form-label">Total Item : </label>
                                 <input type="text" class="form-control" id="inputTotalItem" name="total_item">
-                            </div>
-                            <div class="form-group">
-                                <label for="inputHargaBeli" class="form-label">Harga Beli : </label>
-                                <input type="text" class="form-control" id="inputHargaBeli" name="harga_beli">
                             </div>
                             <!-- Hidden input for the current date -->
                             <input type="hidden" name="tanggal" value="<?= date('Y-m-d') ?>">
@@ -65,6 +50,7 @@
                             <button type="submit" class="btn btn-success">Simpan Data</button>
                         </form>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -75,9 +61,9 @@
                     <td>Tanggal</td>
                     <td>Supplier</td>
                     <td>Produk</td>
-                    <td>Kategori</td>
                     <td>Total Item</td>
                     <td>Harga Beli</td>
+                    <td>Total Bayar</td> <!-- New Column -->
                     <td>Aksi</td>
                 </tr>
             </thead>
@@ -88,9 +74,10 @@
                     <td><?= date('d F Y', strtotime($BarangMasuk['created_at'])) ?></td>
                     <td><?= $BarangMasuk['nama_supplier'] ?></td>
                     <td><?= $BarangMasuk['nama_produk'] ?></td>
-                    <td><?= $BarangMasuk['nama_kategori'] ?></td>
                     <td><?= $BarangMasuk['total_item'] ?></td>
                     <td><?= 'Rp ' . number_format($BarangMasuk['harga_beli'], 0, ',', '.') ?></td>
+                    <td><?= 'Rp ' . number_format($BarangMasuk['total_bayar'], 0, ',', '.') ?></td>
+                    <!-- New Column Data -->
                     <td>
                         <!-- Modal Previews -->
                         <button type="button" class="btn btn-info" data-toggle="modal"
@@ -121,16 +108,16 @@
                                                 <?= $BarangMasuk['nama_produk'] ?></label>
                                         </div>
                                         <div class="form-group">
-                                            <label for="" class="form-label">Kategori:
-                                                <?= $BarangMasuk['nama_kategori'] ?></label>
-                                        </div>
-                                        <div class="form-group">
                                             <label for="" class="form-label">Total Item:
                                                 <?= $BarangMasuk['total_item'] ?></label>
                                         </div>
                                         <div class="form-group">
                                             <label for="" class="form-label">Harga Beli:
                                                 <?= $BarangMasuk['harga_beli'] ?></label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="" class="form-label">Total Bayar:
+                                                <?= $BarangMasuk['total_bayar'] ?></label>
                                         </div>
                                         <input type="hidden" name="id_barang_masuk"
                                             value="<?= $BarangMasuk['id_barang_masuk'] ?>">
@@ -187,28 +174,9 @@
                                                 </select>
                                             </div>
                                             <div class="form-group">
-                                                <label for="inputKategori" class="form-label">Kategori : </label>
-                                                <select class="form-control select2" aria-label="Default select example"
-                                                    name="kategori_id" style="width: 100%;">
-                                                    <option selected disabled>Pilih Kategori</option>
-                                                    <?php foreach ($kategoris as $kategori) : ?>
-                                                    <option value="<?= $kategori['id_kategori']; ?>"
-                                                        <?= ($BarangMasuk['id_kategori'] == $kategori['id_kategori']) ? 'selected' : ''; ?>>
-                                                        <?= $kategori['nama_kategori'] ?>
-                                                    </option>
-                                                    <?php endforeach; ?>
-                                                </select>
-                                            </div>
-
-                                            <div class="form-group">
                                                 <label for="inputTotalItem" class="form-label">Total Item : </label>
                                                 <input type="text" class="form-control" id="inputTotalItem"
                                                     name="total_item" value="<?= $BarangMasuk['total_item'] ?>">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="inputHargaBeli" class="form-label">Harga Beli : </label>
-                                                <input type="text" class="form-control" id="inputHargaBeli"
-                                                    name="harga_beli" value="<?= $BarangMasuk['harga_beli'] ?>">
                                             </div>
                                             <!-- Hidden input for the current date -->
                                             <input type="hidden" name="tanggal" value="<?= date('Y-m-d') ?>">
@@ -259,6 +227,7 @@
             </tbody>
         </table>
         <?= $pager->links('barangmasuk', 'default_full') ?>
+
     </section>
 </div>
 <?= $this->endSection() ?>
