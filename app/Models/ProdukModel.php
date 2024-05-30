@@ -8,7 +8,7 @@ class ProdukModel extends Model
 {
     protected $table = 'produk'; // Sesuaikan dengan nama tabel di database Anda
     protected $primaryKey = 'id_produk'; // Sesuaikan dengan nama primary key di tabel pengguna
-    protected $allowedFields = ['kategori_id','suplier_id','kode_produk','nama_produk','diskon','harga_jual','stok']; // Kolom yang diizinkan untuk dimasukkan atau diperbarui
+    protected $allowedFields = ['kategori_id','suplier_id','kode_produk','nama_produk','harga_beli','diskon','harga_jual','stok']; // Kolom yang diizinkan untuk dimasukkan atau diperbarui
     protected $useTimestamps = true; // Mengaktifkan penggunaan kolom created_at dan updated_at
     protected $createdField = 'created_at'; // Nama kolom created_at di tabel
     protected $updatedField = 'updated_at'; // Nama kolom updated_at di tabel

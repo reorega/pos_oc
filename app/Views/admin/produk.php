@@ -41,6 +41,10 @@
                                 <input type="text" class="form-control" id="inputUserName" name="nama_produk">
                             </div>
                             <div class="form-group">
+                                <label for="harga_beli" class="form-label">Harga Beli : </label>
+                                <input type="number" class="form-control" id="inputUserName" name="harga_beli">
+                            </div>
+                            <div class="form-group">
                                 <label for="diskon" class="form-label">Diskon : </label>
                                 <input type="number" class="form-control" id="inputUserName" name="diskon" step="0.01">
                             </div>
@@ -79,6 +83,7 @@
                             </div>
                         </div>                        
                     </td>
+                    <td>Harga Beli</td>
                     <td>Diskon</td>
                     <td>Harga Jual</td>
                     <td>Stok</td>
@@ -91,6 +96,7 @@
                     <td><?= $pdk['kode_produk'] ?> </td>
                     <td><?= $pdk['nama_produk'] ?></td>
                     <td><?= $pdk['kategori'] ?></td>
+                    <td><?= $pdk['harga_beli'] ?></td>
                     <td><?= $pdk['diskon'] ?></td>
                     <td><?= $pdk['harga_jual'] ?></td>
                     <td><?= $pdk['stok'] ?></td>
@@ -133,6 +139,10 @@
                                             <label for="nama_produk" class="form-label">Nama Produk :
                                                 <?= $pdk['nama_produk'] ?></label>
 
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="harga_beli" class="form-label">Harga Beli :
+                                                <?= $pdk['harga_beli'] ?></label>
                                         </div>
                                         <div class="form-group">
                                             <label for="diskon" class="form-label">Diskon :
@@ -195,6 +205,10 @@
                                                 <label for="nama_produk" class="form-label">Nama Produk : </label>
                                                 <input type="text" class="form-control" id="inputUserName"
                                                     name="nama_produk" value="<?= $pdk['nama_produk'] ?>">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="harga_beli" class="form-label">Harga Jual : </label>
+                                                <input type="number" class="form-control" id="inputUserName" name="harga_beli" value="<?= $pdk['harga_beli'] ?>">
                                             </div>
                                             <div class="form-group">
                                                 <label for="diskon" class="form-label">Diskon : </label>
