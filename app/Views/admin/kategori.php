@@ -32,9 +32,9 @@
         <table class="table table-hover mt-2 table-bordered">
             <thead class="table">
                 <tr>
-                    <td>No</td>
-                    <td>Nama Kategori</td>
-                    <td>Aksi</td>
+                    <th>No</th>
+                    <th>Nama Kategori</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>

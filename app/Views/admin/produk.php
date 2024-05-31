@@ -66,9 +66,10 @@
         <table class="table table-hover mt-2 table-bordered">
             <thead class="table">
                 <tr>
-                    <td>Kode Produk</td>
-                    <td>Nama Produk</td>
-                    <td>
+                    <th>No</th>
+                    <th>Kode Produk</th>
+                    <th>Nama Produk</th>
+                    <th>
                         <div class="row">
                             <div class="col col-4">
                                 Kategori
@@ -82,17 +83,18 @@
                                 </select>
                             </div>
                         </div>                        
-                    </td>
-                    <td>Harga Beli</td>
-                    <td>Diskon</td>
-                    <td>Harga Jual</td>
-                    <td>Stok</td>
-                    <td>Aksi</td>
+                    </th>
+                    <th>Harga Beli</th>
+                    <th>Diskon</th>
+                    <th>Harga Jual</th>
+                    <th>Stok</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($produk as $pdk) : ?>
+                <?php foreach ($produk as $key => $pdk) : ?>
                 <tr>
+                    <td><?= $key + 1 ?></td>
                     <td><?= $pdk['kode_produk'] ?> </td>
                     <td><?= $pdk['nama_produk'] ?></td>
                     <td><?= $pdk['kategori'] ?></td>

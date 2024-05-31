@@ -5,36 +5,95 @@
         <?php
             $pengaturan = $setting[0];
         ?>
-        <h3>Pengaturan</h3>
-        <div class="box">
-            <div class="card">
-                <div class="card-body">
+        <h2 class="active">Pengaturan</h2>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box">
                     <form action="/admin/update" method="post" enctype="multipart/form-data">
-                        <div class="mb-3">
-                            <label for="nama_perusahaan" class="form-label">Nama Perusahaan</label>
-                            <input type="text" class="form-control" id="nama_perusahaan" name="nama_perusahaan"
-                                value="<?= $pengaturan['nama_perusahaan'] ?>">
+                        <div class="box-body">
+                            <div id="success-message" class="alert alert-info alert-dismissible"
+                                style="display: <?= session()->getFlashdata('success') ? 'block' : 'none' ?>;">
+                                <button type="button" class="close" data-dismiss="alert"
+                                    aria-hidden="true">&times;</button>
+                                <i class="icon fa fa-check"></i> Perubahan berhasil disimpan
+                            </div>
+                            <div class="form-group row">
+                                <label for="nama_perusahaan" class="col-lg-2 control-label">Nama Perusahaan</label>
+                                <div class="col-lg-6">
+                                    <input type="text" class="form-control" id="nama_perusahaan" name="nama_perusahaan"
+                                        value="<?= $pengaturan['nama_perusahaan'] ?>" required>
+                                    <span class="help-block with-errors"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="path_logo" class="col-lg-2 control-label">Logo Perusahaan</label>
+                                <div class="col-lg-6">
+                                    <input type="file" class="form-control" id="path_logo" name="path_logo"
+                                        onchange="previewLogo(this)">
+                                    <span class="help-block with-errors"></span>
+                                    <br>
+                                    <?php if (!empty($pengaturan['path_logo'])) : ?>
+                                    <img id="logoPreview" src="<?= base_url($pengaturan['path_logo']) ?>"
+                                        alt="Logo Perusahaan" style="max-height: 180px;">
+                                    <?php else : ?>
+                                    <img id="logoPreview" src="" alt="Logo Perusahaan"
+                                        style="max-height: 180px; display: none;">
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="alamat" class="col-lg-2 control-label">Alamat</label>
+                                <div class="col-lg-6">
+                                    <input type="text" class="form-control" id="alamat" name="alamat"
+                                        value="<?= $pengaturan['alamat'] ?>" required>
+                                    <span class="help-block with-errors"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="telepon" class="col-lg-2 control-label">Telepon</label>
+                                <div class="col-lg-6">
+                                    <input type="text" class="form-control" id="telepon" name="telepon"
+                                        value="<?= $pengaturan['telepon'] ?>" required>
+                                    <span class="help-block with-errors"></span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="path_logo" class="form-label">Logo</label>
-                            <input type="file" class="form-control" id="path_logo" name="path_logo"
-                                value="<?= $pengaturan['path_logo'] ?>">
+                        <div class="box-footer text-right">
+                            <button type="submit" class="btn btn-success">Simpan</button>
                         </div>
-                        <div class="mb-3">
-                            <label for="alamat" class="form-label">Alamat</label>
-                            <input type="text" class="form-control" id="alamat" name="alamat"
-                                value="<?= $pengaturan['alamat'] ?>">
-                        </div>
-                        <div class="mb-3">
-                            <label for="telepon" class="form-label">Telepon</label>
-                            <input type="text" class="form-control" id="telepon" name="telepon"
-                                value="<?= $pengaturan['telepon'] ?>">
-                        </div>
-                        <button type="submit">Simpan</button>
                     </form>
                 </div>
             </div>
         </div>
     </section>
 </div>
+<script>
+    // Fungsi untuk menampilkan pesan sukses
+    function showSuccessMessage() {
+        document.getElementById('success-message').style.display = 'block';
+        setTimeout(function() {
+            document.getElementById('success-message').style.display = 'none';
+        }, 3000); // Pesan akan hilang setelah 3 detik
+    }
+    // Panggil fungsi showSuccessMessage jika terdapat pesan sukses
+    if ('<?= session()->getFlashdata('
+        success ') ?>') {
+        showSuccessMessage();
+    }
+
+    function previewLogo(input) {
+        const preview = document.getElementById('logoPreview');
+        const file = input.files[0];
+        const reader = new FileReader();
+        reader.onloadend = function() {
+            preview.src = reader.result;
+        }
+        if (file) {
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = "";
+        }
+    }
+</script>
 <?= $this->endSection() ?>

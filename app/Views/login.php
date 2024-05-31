@@ -1,36 +1,70 @@
 <?php
     $session = session();
 ?>
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?= base_url(); ?>/assets/css/login_css.css">
-    <title>Document</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <link rel="icon" href="<?php echo base_url('/AdminLTE-2/dist/img/logo.png'); ?>" type="image/png">
+  <link href="<?= base_url(); ?>login/css/bootstrap.min.css" rel="stylesheet">
+  <link href="<?= base_url(); ?>login/css/font-awesome.min.css" rel="stylesheet">
+  <link href="<?= base_url(); ?>login/css/style.css" rel="stylesheet">
+
+  <title>Omah Cokelat Pacitan</title>
 </head>
 
-<body style="background-image: url('<?= base_url(); ?>/assets/image/bg.jpg');">
+<body>
+  <section class="form-02-main">
     <div class="container">
-        <div class="form_area">
-            <?php $pengaturan = $setting[0];  ?>
-            <p class="title">Login</p>
-            <img src="<?= base_url() ?>/img/<?= $pengaturan['path_logo'];    ?>" alt="Logo" width="100" height="100">
-            <form action="<?= base_url("auth"); ?>" method="post">
-                <div class="form_group">
-                    <label class="sub_title" for="email">Email</label>
-                    <input placeholder="Enter your email" id="email" class="form_style" name="email" type="email">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="_lk_de">
+            <div class="form-03-main">
+              <?php $pengaturan = isset($setting[0]) ? $setting[0] : []; ?>
+              <div class="logo">
+                <img src="<?= base_url($pengaturan['path_logo']) ?>" alt="Logo" width="100" height="100">
+              </div>
+              <form action="<?= base_url("auth"); ?>" method="post">
+                <div class="form-group">
+                  <input type="email" name="email" class="form-control _ge_de_ol" placeholder="Enter Email" required
+                    aria-required="true">
                 </div>
-                <div class="form_group">
-                    <label class="sub_title" for="password">Password</label>
-                    <input placeholder="Enter your password" id="password" class="form_style" name="password"
-                        type="password">
+                <div class="form-group" style="position: relative;">
+                  <input type="password" name="password" class="form-control _ge_de_ol" placeholder="Enter Password"
+                    required aria-required="true" id="password">
+                  <span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password"
+                    style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer;"></span>
                 </div>
-                <button class="btn" type="submit">Log In</button>
-            </form>
+                <div class="form-group">
+                  <button class="_btn_04"><b>LOGIN</b></button>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </section>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $(".toggle-password").click(function() {
+        $(this).toggleClass("fa-eye fa-eye-slash");
+        var input = $($(this).attr("toggle"));
+        if (input.attr("type") == "password") {
+          input.attr("type", "text");
+        } else {
+          input.attr("type", "password");
+        }
+      });
+    });
+  </script>
 </body>
 
 </html>
