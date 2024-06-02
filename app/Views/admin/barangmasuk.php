@@ -57,14 +57,14 @@
         <table class="table table-hover mt-2 table-bordered">
             <thead class="table">
                 <tr>
-                    <td>No</td>
-                    <td>Tanggal</td>
-                    <td>Supplier</td>
-                    <td>Produk</td>
-                    <td>Total Item</td>
-                    <td>Harga Beli</td>
-                    <td>Total Bayar</td> <!-- New Column -->
-                    <td>Aksi</td>
+                    <th>No</th>
+                    <th>Tanggal</th>
+                    <th>Supplier</th>
+                    <th>Produk</th>
+                    <th>Total Item</th>
+                    <th>Harga Beli</th>
+                    <th>Total Bayar</th> <!-- New Column -->
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>

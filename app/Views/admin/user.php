@@ -40,17 +40,17 @@
 <table class="table table-hover mt-2 table-bordered">
   <thead class="table">
     <tr>
-      <td>ID</td>
-      <td>Username</td>
-      <td>Level</td>
-      <td>Foto User</td>
-      <td>Aksi</td>
+      <th>No</th>
+      <th>Username</th>
+      <th>Level</th>
+      <th>Foto User</th>
+      <th>Aksi</th>
     </tr>
   </thead>
   <tbody>
-  <?php foreach ($users as $user) : ?>
+  <?php foreach ($users as $key => $user) : ?>
         <tr>
-            <td><?= $user['id_user'] ?></td>
+            <td><?= $key + 1 ?></td>
             <td><?= $user['username'] ?></td>
             <?php
              if($user['level_users']==2){
