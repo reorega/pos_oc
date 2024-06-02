@@ -21,8 +21,8 @@
                             enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="inputSupplier" class="form-label">Nama Supplier : </label>
-                                <select class="form-control select2" aria-label="Default select example"
-                                    name="id_supplier" style="width: 100%;">
+                                <select class="form-control selectpicker" aria-label="Default select example"
+                                    name="id_supplier" data-live-search="true">
                                     <option selected disabled>Pilih Supplier</option>
                                     <?php foreach ($suppliers as $supplier) : ?>
                                     <option value="<?= $supplier['id_supplier']; ?>"><?= $supplier['nama'] ?></option>
@@ -31,8 +31,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="inputProduk" class="form-label">Nama Produk : </label>
-                                <select class="form-control select2" aria-label="Default select example"
-                                    name="produk_id" style="width: 100%;">
+                                <select class="form-control selectpicker" aria-label="Default select example"
+                                    name="produk_id" data-live-search="true">
                                     <option selected disabled>Pilih Produk</option>
                                     <?php foreach ($produks as $produk) : ?>
                                     <option value="<?= $produk['id_produk']; ?>"><?= $produk['nama_produk'] ?></option>
@@ -149,8 +149,8 @@
                                                 value="<?= $BarangMasuk['id_barang_masuk'] ?>">
                                             <div class="form-group">
                                                 <label for="inputSupplier" class="form-label">Nama Supplier : </label>
-                                                <select class="form-control select2" aria-label="Default select example"
-                                                    name="id_supplier" style="width: 100%;">
+                                                <select class="form-control selectpicker" aria-label="Default select example"
+                                                    name="id_supplier" data-live-search="true">
                                                     <option selected disabled>Pilih Supplier</option>
                                                     <?php foreach ($suppliers as $supplier) : ?>
                                                     <option value="<?= $supplier['id_supplier']; ?>"
@@ -162,8 +162,8 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="inputProduk" class="form-label">Nama Produk : </label>
-                                                <select class="form-control select2" aria-label="Default select example"
-                                                    name="produk_id" style="width: 100%;">
+                                                <select class="form-control selectpicker" aria-label="Default select example"
+                                                    name="produk_id" data-live-search="true">
                                                     <option selected disabled>Pilih Produk</option>
                                                     <?php foreach ($produks as $produk) : ?>
                                                     <option value="<?= $produk['id_produk']; ?>"

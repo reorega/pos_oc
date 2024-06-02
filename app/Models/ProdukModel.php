@@ -29,6 +29,24 @@ class ProdukModel extends Model
         $result=$query->get()->getResultArray();
         return $result;
     }
+    public function cariKode2($keyword) {
+        $query = $this->db->table('produk');
+        $query->select('produk.*, supplier.nama as suplier, kategori.nama_kategori as kategori');
+        $query->join('supplier', 'supplier.id_supplier = produk.suplier_id');
+        $query->join('kategori', 'kategori.id_kategori = produk.kategori_id');
+        // Pertama, cari berdasarkan kode_produk yang cocok sebagian dengan keyword
+        $query->like('kode_produk', $keyword);
+        // Kedua, cari berdasarkan nama_produk yang cocok sebagian dengan keyword
+        $query->orLike('produk.nama_produk', $keyword);
+        $query->orLike('supplier.nama', $keyword);
+        $query->orLike('kategori.nama_kategori', $keyword);
+        // Terakhir, urutkan hasil berdasarkan kode_produk secara descending
+        $query->orderBy('kode_produk', 'ASC');
+        // Eksekusi query dan ambil hasilnya
+        $result = $query->get()->getResultArray();
+        return $result;
+    }
+
     public function cariKode($keyword) {
         $query = $this->db->table('produk');
         // Pertama, cari berdasarkan kode_produk yang cocok sebagian dengan keyword
@@ -40,10 +58,7 @@ class ProdukModel extends Model
         // Eksekusi query dan ambil hasilnya
         $result = $query->get()->getResultArray();
         return $result;
-    }
-    public function cariProdukKode($keyword){
-        
-    }   
+    } 
     public function totalProduk()
     {
         return $this->countAll();

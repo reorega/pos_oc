@@ -37,6 +37,8 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->post('tambahDataProduk', 'Produk::tambahData');
     $routes->post('editDataProduk', 'Produk::editData');
     $routes->get('hapusDataProduk/(:num)', 'Produk::hapusData/$1');
+    $routes->post('ambilDataProduk', 'Produk::ambilDataProduk');
+
 
     // Pengeluaran
     $routes->get('pengeluaran', 'Pengeluaran');
