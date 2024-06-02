@@ -23,10 +23,28 @@ class Produk extends Controller
     public function index(){
         $data['judul']="Halaman Produk";
         $data['page_title']="Produk";
-        $data['produk'] = $this->produkModel->join();
         $data['suplier'] = $this->suplierModel->findAll();
         $data['kategori'] = $this->kategoriModel->findAll();
         return view('/admin/produk',$data);
+    }
+    public Function ambilDataProduk(){
+        $search=$this->request->getPost('search');
+        if($search != ""){
+            $data=[
+                'produk' => $this->produkModel->cariKode2($search),
+                'suplier' => $this->suplierModel->findAll(),
+                'kategori' => $this->kategoriModel->findAll(),
+            ];
+        }else
+        {
+            $data=[
+                'produk' => $this->produkModel->join(),
+                'suplier' => $this->suplierModel->findAll(),
+                'kategori' => $this->kategoriModel->findAll(),
+            ];
+        }
+        $table = view('admin/tableproduk', $data);
+        return $this->response->setJSON(['table' => $table]);
     }
     public function tambahData(){
         $kategori_id=$this->request->getPost('kategori_id');
