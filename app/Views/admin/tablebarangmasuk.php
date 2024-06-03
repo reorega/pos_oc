@@ -1,66 +1,4 @@
-<?= $this->extend('layout/master') ?>
-
-<?= $this->section('content') ?>
-<div class="content-wrapper">
-    <section class="content">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tambahData">
-            <i class="fa fa-plus-square"></i> Tambah Barang Masuk
-        </button>
-        <div class="col-md-4 pull-right">
-                <div class="input-group ">
-                    <span class="input-group-addon bg-primary"><i class="fa fa-search"></i></span>                 
-                    <input type="text" class="form-control " id="search" name="search" placeholder="Pencarian">                       
-                </div>
-            </div>
-            <br><br>
-        <div class="modal fade" id="tambahData" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <h4 class="modal-title" id="exampleModalLabel">Tambah Barang Masuk</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form action="<?= base_url('/admin/tambahDataBarangMasuk'); ?>" method="post"
-                            enctype="multipart/form-data">
-                            <div class="form-group">
-                                <label for="inputSupplier" class="form-label">Nama Supplier : </label>
-                                <select class="form-control selectpicker" aria-label="Default select example"
-                                    name="id_supplier" data-live-search="true">
-                                    <option selected disabled>Pilih Supplier</option>
-                                    <?php foreach ($suppliers as $supplier) : ?>
-                                    <option value="<?= $supplier['id_supplier']; ?>"><?= $supplier['nama'] ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputProduk" class="form-label">Nama Produk : </label>
-                                <select class="form-control selectpicker" aria-label="Default select example"
-                                    name="produk_id" data-live-search="true">
-                                    <option selected disabled>Pilih Produk</option>
-                                    <?php foreach ($produks as $produk) : ?>
-                                    <option value="<?= $produk['id_produk']; ?>"><?= $produk['nama_produk'] ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputTotalItem" class="form-label">Total Item : </label>
-                                <input type="text" class="form-control" id="inputTotalItem" name="total_item">
-                            </div>
-                            <!-- Hidden input for the current date -->
-                            <input type="hidden" name="tanggal" value="<?= date('Y-m-d') ?>">
-                            <!-- End of hidden input -->
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                            <button type="submit" class="btn btn-success">Simpan Data</button>
-                        </form>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-        <table class="table table-hover mt-2 table-bordered">
+<table class="table table-hover mt-2 table-bordered">
             <thead class="table">
                 <tr>
                     <th>No</th>
@@ -232,8 +170,5 @@
                 <?php endforeach; ?>
             </tbody>
         </table>
-        <?= $pager->links('barangmasuk', 'default_full') ?>
 
-    </section>
-</div>
-<?= $this->endSection() ?>
+<?= $pager->links('barangmasuk', 'default_full') ?>
