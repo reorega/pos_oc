@@ -9,8 +9,6 @@ use CodeIgniter\Controller;
 
 class BarangMasuk extends Controller
 {
-    protected $produkModel; // Define the produkModel property
-
     public function __construct()
     {
         $this->produkModel = new ProdukModel(); // Initialize the produkModel
@@ -25,7 +23,7 @@ class BarangMasuk extends Controller
         $currentPage = $this->request->getVar('page_barangmasuk') ? $this->request->getVar('page_barangmasuk') : 1;
 
         // Mendapatkan semua data dari model dengan paginasi
-        $data['BarangMasuks'] = $BarangMasukModel->paginate(10, 'barangmasuk');
+        $data['BarangMasuks'] = $BarangMasukModel->paginate(5, 'barangmasuk');
         $data['pager'] = $BarangMasukModel->pager;
 
         // Ambil semua data supplier dan produk
@@ -39,6 +37,8 @@ class BarangMasuk extends Controller
             $BarangMasuk['nama_supplier'] = $supplier ? $supplier['nama'] : 'Supplier not found';
             $BarangMasuk['nama_produk'] = $produk ? $produk['nama_produk'] : 'Product not found';
         }
+
+        $data['currentPage'] = $currentPage;
 
         return view('admin/barangmasuk', $data);
     }
@@ -81,20 +81,28 @@ class BarangMasuk extends Controller
         return redirect()->to('admin/barangmasuk')->with('success', 'Data barang masuk berhasil ditambahkan.');
     }
 
-    private function updateStock($id_produk, $total_item)
+        private function updateStock($id_produk, $total_item)
     {
-        // Load ProdukModel
+        // Memuat ProdukModel
         $produkModel = new ProdukModel();
 
-        // Get current stock
-        $currentStock = $produkModel->find($id_produk)['stok'];
+        // Periksa apakah produk dengan ID yang diberikan ada
+        $produk = $produkModel->find($id_produk);
+        if ($produk) {
+            // Dapatkan stok saat ini
+            $stokSekarang = $produk['stok'];
 
-        // Calculate new stock
-        $newStock = $currentStock + $total_item;
+            // Hitung stok baru
+            $stokBaru = $stokSekarang + $total_item;
 
-        // Update stock in ProdukModel
-        $produkModel->update($id_produk, ['stok' => $newStock]);
+            // Perbarui stok di ProdukModel
+            $produkModel->update($id_produk, ['stok' => $stokBaru]);
+        } else {
+            // Tangani jika produk tidak ada
+            // Anda dapat mencatat kesalahan atau tidak melakukan apa-apa tergantung pada kebutuhan Anda
+        }
     }
+
 
     public function editDataBarangMasuk()
     {
@@ -152,4 +160,31 @@ class BarangMasuk extends Controller
         // Redirect to the BarangMasuk page with success message
         return redirect()->to('admin/barangmasuk')->with('success', 'Data barang masuk berhasil dihapus.');
     }
+   public function ambilDataBarangMasuk()
+{
+    $BarangMasukModel = new BarangMasukModel();
+    $supplierModel = new SupplierModel();
+
+    // Mendapatkan nilai pencarian dari request
+    $search = $this->request->getPost('search');
+
+    // Mendapatkan semua data dari model dengan atau tanpa pencarian
+    $BarangMasuks = $search ? $BarangMasukModel->search($search) : $BarangMasukModel->findAll();
+
+    // Ubah ID supplier menjadi nama supplier
+    foreach ($BarangMasuks as &$BarangMasuk) {
+        $supplier = $supplierModel->find($BarangMasuk['id_supplier']);
+        $BarangMasuk['nama_supplier'] = $supplier ? $supplier['nama'] : 'Supplier not found';
+        $produk = $this->produkModel->find($BarangMasuk['id_produk']); // Tambahkan baris ini
+        $BarangMasuk['nama_produk'] = $produk ? $produk['nama_produk'] : 'Product not found';
+    }
+
+    // Tampilkan data dalam bentuk tabel
+    $data['table'] = view('admin/tablebarangmasuk', ['BarangMasuks' => $BarangMasuks]);
+
+    // Encode data ke dalam format JSON
+    return $this->response->setJSON($data);
+}
+
+    
 }
