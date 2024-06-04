@@ -77,6 +77,7 @@
                     <td><?= $BarangMasuk['total_item'] ?></td>
                     <td><?= 'Rp ' . number_format($BarangMasuk['harga_beli'], 0, ',', '.') ?></td>
                     <td><?= 'Rp ' . number_format($BarangMasuk['total_bayar'], 0, ',', '.') ?></td>
+
                     <!-- New Column Data -->
                     <td>
                         <!-- Modal Previews -->

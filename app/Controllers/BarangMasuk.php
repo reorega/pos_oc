@@ -36,6 +36,7 @@ class BarangMasuk extends BaseController
         return view('admin/barangmasuk', $data);
     }
 
+
     public function tambahDataBarangMasuk()
     {
 
