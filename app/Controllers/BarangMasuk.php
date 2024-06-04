@@ -14,7 +14,7 @@ class BarangMasuk extends BaseController
         $currentPage = $this->request->getVar('page_barangmasuk') ? $this->request->getVar('page_barangmasuk') : 1;
 
         // Mendapatkan semua data dari model dengan paginasi
-        $data['BarangMasuks'] = $this->barangmasukModel->paginate(10, 'barangmasuk');
+        $data['BarangMasuks'] = $this->barangmasukModel->paginate(5, 'barangmasuk');
         $data['pager'] = $this->barangmasukModel->pager;
 
         // Ambil semua data supplier dan produk

@@ -104,7 +104,7 @@ class Pos extends BaseController
         
     }
     public function simpanTransaksiDetail(){
-        $session=session();
+        
         $kode_produk=$this->request->getPost('kode_produk');
         $jumlah=$this->request->getPost('jumlah');
         $no_faktur=$this->request->getPost('no_faktur');
@@ -120,7 +120,6 @@ class Pos extends BaseController
         }  
         else{
             $query=$this->produkModel->where('kode_produk',$kode_produk)->first();
-            $harga=$query['harga_jual'];
             $diskon=$query['diskon']; 
             $subTotal=$this->subTotal($kode_produk,$jumlah);
             $id_produk=$query['id_produk'];

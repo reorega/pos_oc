@@ -97,7 +97,7 @@
         cekStok();
     });
     $('#kodebarcodelangsung').keydown(function() {
-        simpanTransaksiDetailScan();
+       simpanTransaksiDetailScan();
     });
     $('#btnClearTransaksi').on('click', function(){
        clearPenjualan();
@@ -172,7 +172,6 @@ function simpanTransaksiDetail(kode){
         success: function(response){
             ambilData();
             $('#kodebarcode').val('');
-            $('#jumlah').val(1);
             $('#modalProduk').modal('hide');
         },
         error: function(xhr, thrownError){
@@ -300,19 +299,16 @@ function cekStok(){
     });
 }
 function simpanTransaksiDetailScan(){
-    jumlahUlang = 0;
     $.ajax({
         type: "post",
         url: "<?= site_url('kasir/simpanTransaksiDetail') ?>",
         data: {
             kode_produk: $('#kodebarcodelangsung').val(),
             no_faktur: $('#nofaktur').val(),
-            jumlah: $('#jumlah').val(),
+            jumlah: 1,
         },
         dataType: "json",
         success: function(response){
-            jumlahUlang++;
-            console.log(jumlahUlang);
             ambilData();
             ambilDataTotalHarga();
             $('#kodebarcodelangsung').val('')
