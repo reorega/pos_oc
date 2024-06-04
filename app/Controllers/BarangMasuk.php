@@ -32,9 +32,10 @@ class BarangMasuk extends BaseController
         $data['setting'] = $setting;
         $data['page_title'] = "Barang_Masuk";
 
-
+        $data['currentPage'] = $currentPage;
         return view('admin/barangmasuk', $data);
     }
+
 
     public function tambahDataBarangMasuk()
     {

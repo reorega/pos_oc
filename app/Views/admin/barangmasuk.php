@@ -70,13 +70,14 @@
             <tbody>
                 <?php foreach ($BarangMasuks as $key => $BarangMasuk) : ?>
                 <tr>
-                    <td><?= $key + 1 ?></td>
+                    <td><?= (($currentPage - 1) * 5) + $key + 1 ?></td>
                     <td><?= date('d F Y', strtotime($BarangMasuk['created_at'])) ?></td>
                     <td><?= $BarangMasuk['nama_supplier'] ?></td>
                     <td><?= $BarangMasuk['nama_produk'] ?></td>
                     <td><?= $BarangMasuk['total_item'] ?></td>
                     <td><?= 'Rp ' . number_format($BarangMasuk['harga_beli'], 0, ',', '.') ?></td>
                     <td><?= 'Rp ' . number_format($BarangMasuk['total_bayar'], 0, ',', '.') ?></td>
+
                     <!-- New Column Data -->
                     <td>
                         <!-- Modal Previews -->
