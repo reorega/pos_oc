@@ -2,17 +2,11 @@
 namespace App\Controllers;
 use \Dompdf\Dompdf;
 use CodeIgniter\Controller;
-use App\Models\PenjualanModel;
-use App\Models\PenjualanDetailModel;
+
 
 class Penjualan extends Controller
 {
-    public function __construct()
-    {
-        // Load model saat konstruktor dijalankan
-        $this->penjualanModel =new PenjualanModel();
-        $this->penjualanDetailModel =new PenjualanDetailModel();
-    }
+
     public function laporanHarian(){
         $data['judul']="Halaman Laporan";
         $data['page_title']="Laporan";

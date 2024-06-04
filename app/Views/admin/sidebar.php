@@ -27,7 +27,7 @@
         <!-- Program Sidebar -->
         <ul class="sidebar-menu" data-widget="tree">
 
-            <li>
+            <li class="<?= isset($page_title) && $page_title == 'Dashboard' ? 'active' : '' ?>">
                 <a href="<?=site_url('/admin')?>">
                     <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                 </a>
@@ -54,7 +54,7 @@
                     <i class="fa fa-money"></i> <span>Pengeluaran</span>
                 </a>
             </li>
-            <li class="<?= isset($page_title) && $page_title == 'BarangMasuk' ? 'active' : '' ?>">
+            <li class="<?= isset($page_title) && $page_title == 'Barang_Masuk' ? 'active' : '' ?>">
             <a href="<?= base_url('admin/barangmasuk'); ?>">
                     <i class="fa fa-download"></i> <span>Barang Masuk</span>
                 </a>

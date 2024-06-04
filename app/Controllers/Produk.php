@@ -3,28 +3,19 @@
 namespace App\Controllers;
 
 use CodeIgniter\Controller;
-use App\Models\ProdukModel;
-use App\Models\KategoriModel;
-use App\Models\SupplierModel;
+
 use Dompdf\Dompdf;
 
-class Produk extends Controller
+
+class Produk extends BaseController
 {
-    protected $produkModel;
-    protected $supplierModel;
-    protected $kategoriModel;
-    public function __construct()
-    {
-        // Load model saat konstruktor dijalankan
-        $this->produkModel = new ProdukModel();
-        $this->suplierModel = new SupplierModel();
-        $this->kategoriModel = new KategoriModel();
-    }
     public function index(){
         $data['judul']="Halaman Produk";
         $data['page_title']="Produk";
         $data['suplier'] = $this->suplierModel->findAll();
         $data['kategori'] = $this->kategoriModel->findAll();
+        $setting= $this->loadConfigData();
+        $data['setting'] = $setting;
         return view('/admin/produk',$data);
     }
     public Function ambilDataProduk(){
