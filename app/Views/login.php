@@ -25,9 +25,9 @@
         <div class="col-md-12">
           <div class="_lk_de">
             <div class="form-03-main">
-              <?php $pengaturan = isset($setting[0]) ? $setting[0] : []; ?>
+              
               <div class="logo">
-                <img src="<?= base_url($pengaturan['path_logo']) ?>" alt="Logo" width="100" height="100">
+                <img src="<?= base_url('img/').$setting['path_logo']; ?>" alt="Logo" width="100" height="100">
               </div>
               <form action="<?= base_url("auth"); ?>" method="post">
                 <div class="form-group">

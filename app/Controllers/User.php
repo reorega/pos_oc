@@ -3,20 +3,17 @@
 namespace App\Controllers;
 
 use CodeIgniter\Controller;
-use App\Models\UserModel;
 
-class User extends Controller
+
+
+class User extends BaseController
 {
-    protected $userModel;
-
-    public function __construct()
-    {
-        // Load model saat konstruktor dijalankan
-        $this->userModel = new UserModel();
-    }
+    
     public function index(){
         $data['judul']="Halaman User";
         $data['users'] = $this->userModel->viewUser();
+        $setting= $this->loadConfigData();
+        $data['setting'] = $setting;
         return view('/admin/user',$data);
     }
     public function tambahData(){

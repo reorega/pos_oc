@@ -1,31 +1,34 @@
 <?php
 
 namespace App\Controllers;
+use App\Models\SettingModel;
 
 class Admin extends BaseController
 {
     public function index() 
     {
-        $kategoriModel = new \App\Models\KategoriModel();
-        $totalKategori = $kategoriModel->totalKategori();
+
+        $totalKategori = $this->kategoriModel->totalKategori();
         $data['totalKategori'] = $totalKategori;
 
-        $produkModel = new \App\Models\ProdukModel();
-        $totalProduk = $produkModel->totalProduk();
+
+        $totalProduk = $this->produkModel->totalProduk();
         $data['totalProduk'] = $totalProduk;
 
-        $supplierModel = new \App\Models\SupplierModel();
-        $totalSupplier = $supplierModel->totalSupplier();
+
+        $totalSupplier = $this->supplierModel->totalSupplier();
         $data['totalSupplier'] = $totalSupplier;
 
-        $userModel = new \App\Models\UserModel();
-        $totalUser = $userModel->totalUser();
+
+        $totalUser = $this->userModel->totalUser();
         $data['totalUser'] = $totalUser;
 
-        $penjualanModel = new \App\Models\PenjualanModel();
-        $penjualan = $penjualanModel->dataChart();
+        $penjualan = $this->penjualanModel->dataChart();
         $data['penjualan'] = $penjualan;
 
+        $setting= $this->loadConfigData();
+        $data['setting'] = $setting;
+        $data['page_title'] = "Dashboard";
         return view('admin/index', $data);
     }
 }

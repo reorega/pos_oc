@@ -8,6 +8,16 @@ use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
+use App\Models\SettingModel;
+use App\Models\ProdukModel;
+use App\Models\KategoriModel;
+use App\Models\SupplierModel;
+use App\Models\PosModel;
+use App\Models\PenjualanDetailModel;
+use App\Models\PenjualanModel;
+use App\Models\UserModel;
+use App\Models\BarangMasukModel;
+
 
 /**
  * Class BaseController
@@ -50,9 +60,40 @@ abstract class BaseController extends Controller
     {
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
-
-        // Preload any models, libraries, etc, here.
-
-        // E.g.: $this->session = \Config\Services::session();
     }
+    protected $data = [];
+
+    public function __construct()
+    {
+        // Load the Setting model
+        $this->configModel = new SettingModel();
+        $this->settingModel = new SettingModel();
+        $this->produkModel = new ProdukModel();
+        $this->suplierModel = new SupplierModel();
+        $this->supplierModel = new SupplierModel();
+        $this->kategoriModel = new KategoriModel();
+        $this->posModel = new PosModel();
+        $this->penjualanDetailModel =new PenjualanDetailModel();
+        $this->penjualanModel =new PenjualanModel();
+        $this->userModel = new UserModel();
+        $this->barangmasukModel = new BarangMasukModel();
+
+
+
+    }
+
+    protected function loadConfigData()
+    {
+        $config = $this->configModel->first(); // Assuming you have a single row in the settings table
+        if ($config) {
+            return $data=[
+                'nama_perusahaan' => $config['nama_perusahaan'],
+                'alamat' => $config['alamat'],
+                'telepon' => $config['telepon'],
+                'path_logo' => $config['path_logo']
+            ];
+        }
+        return [];
+    }
+
 }

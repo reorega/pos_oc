@@ -2,21 +2,22 @@
 
 namespace App\Controllers;
 
-use App\Models\SettingModel;
+
 use CodeIgniter\Controller;
 
-class Setting extends Controller
+class Setting extends BaseController
 {
     public function index()
     {
-        $settingModel = new SettingModel();
-        $data['setting'] = $settingModel->findAll();
+        $setting= $this->loadConfigData();
+        $data['pengaturans'] = $this->settingModel->findAll();
+        $data['setting'] = $setting;
         return view('admin/setting', $data);
     }
 
     public function update()
 {
-    $settingModel = new SettingModel();
+
     $data = [
         'nama_perusahaan' => $this->request->getPost('nama_perusahaan'),
         'alamat' => $this->request->getPost('alamat'),
@@ -30,14 +31,14 @@ class Setting extends Controller
         $data['path_logo'] = 'img/' . $logoName;
     } else {
         // Jika tidak ada file yang diunggah, gunakan path logo yang sudah ada di database
-        $oldSetting = $settingModel->find(1);
+        $oldSetting = $this->settingModel->find(1);
         $data['path_logo'] = $oldSetting['path_logo'];
     }
 
-    $settingModel->update(1, $data);
+    $this->settingModel->update(1, $data);
 
     // Memuat ulang data setting dari database
-    $updatedSetting = $settingModel->find(1);
+    $updatedSetting = $this->settingModel->find(1);
 
     // Memperbarui sesi dengan data yang baru
     $session = session();

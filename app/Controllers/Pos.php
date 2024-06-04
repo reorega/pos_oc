@@ -2,32 +2,19 @@
 namespace App\Controllers;
 
 use CodeIgniter\Controller;
-use App\Models\ProdukModel;
-use App\Models\KategoriModel;
-use App\Models\SupplierModel;
-use App\Models\PosModel;
-use App\Models\PenjualanDetailModel;
-use App\Models\PenjualanModel;
 
 
-class Pos extends Controller
+
+class Pos extends BaseController
 {
-    public function __construct()
-    {
-        // Load model saat konstruktor dijalankan
-        $this->produkModel = new ProdukModel();
-        $this->suplierModel = new SupplierModel();
-        $this->kategoriModel = new KategoriModel();
-        $this->posModel = new PosModel();
-        $this->penjualanDetailModel =new PenjualanDetailModel();
-        $this->penjualanModel =new PenjualanModel();
-        
-    }
+
     public function index(){
         $data['produk'] = $this->produkModel->findAll();
         $data['faktur']=$this->buatFaktur();
         $data['judul']="Halaman POS";
         $data['page_title']="POS";
+        $setting= $this->loadConfigData();
+        $data['setting'] = $setting;
         return view('/kasir/pos',$data);
     }
     public function buatFaktur(){

@@ -2,50 +2,42 @@
 
 namespace App\Controllers;
 
-use App\Models\BarangMasukModel;
-use App\Models\SupplierModel;
-use App\Models\ProdukModel;
+
 use CodeIgniter\Controller;
 
-class BarangMasuk extends Controller
+
+class BarangMasuk extends BaseController
 {
-    protected $produkModel; // Define the produkModel property
-
-    public function __construct()
-    {
-        $this->produkModel = new ProdukModel(); // Initialize the produkModel
-    }
-
     public function index()
     {
-        $BarangMasukModel = new BarangMasukModel();
-        $supplierModel = new SupplierModel();
-
         // Mendapatkan nomor halaman saat ini
         $currentPage = $this->request->getVar('page_barangmasuk') ? $this->request->getVar('page_barangmasuk') : 1;
 
         // Mendapatkan semua data dari model dengan paginasi
-        $data['BarangMasuks'] = $BarangMasukModel->paginate(10, 'barangmasuk');
-        $data['pager'] = $BarangMasukModel->pager;
+        $data['BarangMasuks'] = $this->barangmasukModel->paginate(10, 'barangmasuk');
+        $data['pager'] = $this->barangmasukModel->pager;
 
         // Ambil semua data supplier dan produk
-        $data['suppliers'] = $supplierModel->findAll();
+        $data['suppliers'] = $this->suplierModel->findAll();
         $data['produks'] = $this->produkModel->findAll();
 
         // Ubah ID supplier dan produk menjadi nama supplier dan produk
         foreach ($data['BarangMasuks'] as &$BarangMasuk) {
-            $supplier = $supplierModel->find($BarangMasuk['id_supplier']);
+            $supplier = $this->suplierModel->find($BarangMasuk['id_supplier']);
             $produk = $this->produkModel->find($BarangMasuk['id_produk']);
             $BarangMasuk['nama_supplier'] = $supplier ? $supplier['nama'] : 'Supplier not found';
             $BarangMasuk['nama_produk'] = $produk ? $produk['nama_produk'] : 'Product not found';
         }
+        $setting= $this->loadConfigData();
+        $data['setting'] = $setting;
+        $data['page_title'] = "Barang_Masuk";
+
 
         return view('admin/barangmasuk', $data);
     }
 
     public function tambahDataBarangMasuk()
     {
-        $model = new BarangMasukModel();
 
         // Retrieve input data from the form
         $id_supplier = $this->request->getPost('id_supplier');
@@ -73,7 +65,7 @@ class BarangMasuk extends Controller
         ];
 
         // Insert data into the database
-        $model->insert($data);
+        $this->barangmasukModel->insert($data);
 
         $this->updateStock($id_produk, $total_item);
 
@@ -83,22 +75,20 @@ class BarangMasuk extends Controller
 
     private function updateStock($id_produk, $total_item)
     {
-        // Load ProdukModel
-        $produkModel = new ProdukModel();
+
 
         // Get current stock
-        $currentStock = $produkModel->find($id_produk)['stok'];
+        $currentStock = $this->produkModel->find($id_produk)['stok'];
 
         // Calculate new stock
         $newStock = $currentStock + $total_item;
 
         // Update stock in ProdukModel
-        $produkModel->update($id_produk, ['stok' => $newStock]);
+        $this->produkModel->update($id_produk, ['stok' => $newStock]);
     }
 
     public function editDataBarangMasuk()
     {
-        $model = new BarangMasukModel();
 
         // Retrieve input data from the form
         $id_barang_masuk = $this->request->getPost('id_barang_masuk');
@@ -121,11 +111,11 @@ class BarangMasuk extends Controller
         ];
 
         // Find the previous total_item
-        $previousTransaction = $model->find($id_barang_masuk);
+        $previousTransaction = $this->barangmasukModel->find($id_barang_masuk);
         $previousTotalItem = $previousTransaction['total_item'];
 
         // Update data in the database
-        $model->update($id_barang_masuk, $data);
+        $this->barangmasukModel->update($id_barang_masuk, $data);
 
         // Update stock in ProdukModel by subtracting the previous total_item and adding the new total_item
         $this->updateStock($id_produk, $total_item - $previousTotalItem);
@@ -136,15 +126,14 @@ class BarangMasuk extends Controller
 
     public function hapusDataBarangMasuk($id_barang_masuk)
     {
-        $model = new BarangMasukModel();
 
         // Retrieve data of the transaction to get id_produk and total_item
-        $transaction = $model->find($id_barang_masuk);
+        $transaction = $this->barangmasukModel->find($id_barang_masuk);
         $id_produk = $transaction['id_produk'];
         $total_item = $transaction['total_item'];
 
         // Delete the transaction data from the database
-        $model->delete($id_barang_masuk);
+        $this->barangmasukModel->delete($id_barang_masuk);
 
         // Update stock in ProdukModel by subtracting the total_item of the deleted transaction
         $this->updateStock($id_produk, -$total_item);

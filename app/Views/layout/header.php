@@ -7,7 +7,7 @@
     <!-- mini logo for sidebar mini 50x50 pixels -->
     <span class="logo-mini"><b>OC</b></span>
     <!-- logo for regular state and mobile devices -->
-    <span><b><?=$session->nama_perusahaan?></b></span>
+    <span><b><?=$setting['nama_perusahaan'];?></b></span>
   </a>
   <!-- Header Navbar: style can be found in header.less -->
   <nav class="navbar navbar-static-top">
