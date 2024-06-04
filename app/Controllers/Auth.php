@@ -24,36 +24,35 @@ class Auth extends Controller
         if ($session->isLoggedIn) {
             return redirect()->to($this->redirectBasedOnLevel($session->level));
         }
+
         $email = $this->request->getPost('email');
         $password = $this->request->getPost('password');
 
         // Mengecek email yang diinputkan apa sudah ada di database
-        $user = $this->userModel->where('email', $email)
-                                ->first();
+        $user = $this->userModel->where('email', $email)->first();
+
         if ($user) {
             // mengecek password
-            if ($password==$user['password']) {
-                $setting=$this->settingModel->findAll();
-                $pengaturan=$setting[0];
-                $role="";
-                if($user['level_users']==1){
-                    $role="Administrator";
-                }else{
-                    $role="Kasir";
-                }
+            if ($password === $user['password']) {
+                $setting = $this->settingModel->first();
                 $session->set([
                     'isLoggedIn' => true,
                     'username' => $user['username'],
                     'level' => $user['level_users'],
-                    'role' => $role,
-                    'nama_perusahaan' => $pengaturan['nama_perusahaan'],
-                    'path_logo' => $pengaturan['path_logo'],
-                    'alamat' => $pengaturan['alamat'],
-                    'telepon' => $pengaturan['telepon'],
+                    'nama_perusahaan' => $setting['nama_perusahaan'],
+                    'path_logo' => $setting['path_logo'],
+                    'alamat' => $setting['alamat'],
+                    'telepon' => $setting['telepon'],
                     'foto_user' => $user['foto_user'],
                 ]);
                 return redirect()->to($this->redirectBasedOnLevel($user['level_users']));
+            } else {
+                // Password salah, kirim pesan kesalahan
+                return redirect()->back()->with('error', 'Email atau password anda salah');
             }
+        } else {
+            // Email tidak ditemukan, kirim pesan kesalahan
+            return redirect()->back()->with('error', 'Email tidak ditemukan. Silakan coba lagi.');
         }
     }
     private function redirectBasedOnLevel($level)

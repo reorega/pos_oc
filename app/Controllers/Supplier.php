@@ -17,6 +17,18 @@ class Supplier extends BaseController
         return view('admin/supplier', $data);
     }
 
+    public function ambilDataSupplier()
+    {
+        $search = $this->request->getPost('search');
+        if ($search != "") {
+            $data['supplier'] = $this->supplierModel->cariKode($search);
+        } else {
+            $data['supplier'] = $this->supplierModel->findAll();
+        }
+        $table = view('admin/tablesupplier', $data);
+        return $this->response->setJSON(['table' => $table]);
+    }
+
     public function tambahDataSupplier()
 {
     $alamat = $this->request->getPost('alamat');

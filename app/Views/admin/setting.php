@@ -33,7 +33,7 @@
                                     <span class="help-block with-errors"></span>
                                     <br>
                                     <?php if (!empty($pengaturan['path_logo'])) : ?>
-                                    <img id="logoPreview" src="<?= base_url('img/').$pengaturan['path_logo'] ?>"
+                                    <img id="logoPreview" src="<?= base_url().$pengaturan['path_logo'] ?>"
                                         alt="Logo Perusahaan" style="max-height: 180px;">
                                     <?php else : ?>
                                     <img id="logoPreview" src="" alt="Logo Perusahaan"

@@ -41,6 +41,13 @@ class KategoriModel extends Model
     {
         return $this->countAll();
     }
+    public function cariKode($keyword)
+    {
+        $query = $this->table('kategori');
+        $query->like('nama_kategori', $keyword);
+        $result = $query->get()->getResultArray();
+        return $result;
+    } 
 }
 
 

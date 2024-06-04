@@ -1,5 +1,5 @@
 <?php
-    $session = session();
+$error = session('error');
 ?>
 <!doctype html>
 <html lang="en">
@@ -25,10 +25,15 @@
         <div class="col-md-12">
           <div class="_lk_de">
             <div class="form-03-main">
-              
               <div class="logo">
-                <img src="<?= base_url('img/').$setting['path_logo']; ?>" alt="Logo" width="100" height="100">
+                <img src="<?= base_url().$setting['path_logo']; ?>" alt="Logo" width="100" height="100">
               </div>
+              <!-- Tampilkan pesan kesalahan jika ada -->
+              <?php if ($error) : ?>
+              <div class="alert alert-danger text-center _alert_kt" role="alert">
+                <?= $error ?>
+              </div>
+              <?php endif; ?>
               <form action="<?= base_url("auth"); ?>" method="post">
                 <div class="form-group">
                   <input type="email" name="email" class="form-control _ge_de_ol" placeholder="Enter Email" required

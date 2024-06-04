@@ -16,6 +16,19 @@ class User extends BaseController
         $data['setting'] = $setting;
         return view('/admin/user',$data);
     }
+
+    public function ambilDataUsers()
+    {
+        $search = $this->request->getPost('search');
+        if ($search != "") {
+            $data['users'] = $this->userModel->cariKode($search);
+        } else {
+            $data['users'] = $this->userModel->viewUser();
+        }
+        $table = view('admin/tableuser', $data);
+        return $this->response->setJSON(['table' => $table]);
+    }
+
     public function tambahData(){
         $foto_user = $this->request->getFile('foto_user');
         if ($foto_user->getSize() > 0) {

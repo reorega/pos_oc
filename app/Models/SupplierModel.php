@@ -20,4 +20,15 @@ class SupplierModel extends Model
     {
         return $this->countAll();
     }
+    public function cariKode($keyword)
+    {
+        $query = $this->table('supplier');
+        $query->like('nama', $keyword);
+        $query->orLike('kode_supplier', $keyword);
+        $query->orLike('alamat', $keyword);
+        $query->orLike('telepon', $keyword);
+        $query->orderBy('kode_supplier', 'ASC');
+        $result = $query->get()->getResultArray();
+        return $result;
+    }   
 }
