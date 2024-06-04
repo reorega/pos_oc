@@ -28,4 +28,11 @@ class UserModel extends Model
     {
         return $this->countAll();
     }
+    public function cariKode($keyword)
+    {
+        $query = $this->table('users');
+        $query->like('username', $keyword);
+        $result = $query->get()->getResultArray();
+        return $result;
+    }
 }

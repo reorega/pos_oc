@@ -19,18 +19,21 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->post('tambahData', 'User::tambahData');
     $routes->post('editData', 'User::editData');
     $routes->get('hapusDataUser/(:num)', 'User::hapusData/$1');
+    $routes->post('ambilDataUsers', 'User::ambilDataUsers');
 
     // Kategori
     $routes->get('kategori', 'Kategori');
     $routes->post('tambahDataKategori', 'Kategori::tambahDataKategori');
     $routes->post('editDataKategori', 'Kategori::editDataKategori');
     $routes->post('hapusDataKategori', 'Kategori::hapusDataKategori');
+    $routes->post('ambilDataKategori', 'Kategori::ambilDataKategori');
 
     // Supplier
     $routes->get('supplier', 'Supplier');
     $routes->post('tambahDataSupplier', 'Supplier::tambahDataSupplier');
     $routes->post('editDataSupplier', 'Supplier::editDataSupplier');
     $routes->post('hapusDataSupplier', 'Supplier::hapusDataSupplier');
+    $routes->post('ambilDataSupplier', 'Supplier::ambilDataSupplier');
 
     // Produk 
     $routes->get('produk', 'Produk');

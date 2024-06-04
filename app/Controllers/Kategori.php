@@ -17,6 +17,18 @@ class Kategori extends BaseController
         return view('admin/kategori', $data);
     }
 
+    public function ambilDataKategori()
+    {
+        $search = $this->request->getPost('search');
+        if ($search != "") {
+            $data['kategori'] = $this->kategoriModel->cariKode($search);
+        } else {
+            $data['kategori'] = $this->kategoriModel->findAll();
+        }
+        $table = view('admin/tablekategori', $data);
+        return $this->response->setJSON(['table' => $table]);
+    }
+
     public function tambahDataKategori()
     {
         $data = [
@@ -43,3 +55,4 @@ class Kategori extends BaseController
         return redirect()->to('/admin/kategori');
     }
 }
+
