@@ -1,19 +1,21 @@
 <table class="table table-hover mt-2 table-bordered">
             <thead class="table">
                 <tr>
-                    <td>Kode Produk</td>
-                    <td>Nama Produk</td>
-                    <td>Kategori </td>
-                    <td>Harga Beli</td>
-                    <td>Diskon</td>
-                    <td>Harga Jual</td>
-                    <td>Stok</td>
-                    <td>Aksi</td>
+                    <th>No</th>
+                    <th>Kode Produk</th>
+                    <th>Nama Produk</th>
+                    <th>Kategori </th>
+                    <th>Harga Beli</th>
+                    <th>Diskon</th>
+                    <th>Harga Jual</th>
+                    <th>Stok</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($produk as $pdk) : ?>
+                <?php foreach ($produk as $key => $pdk) : ?>
                 <tr>
+                    <td><?= $key + 1 ?> </td>
                     <td><?= $pdk['kode_produk'] ?> </td>
                     <td><?= $pdk['nama_produk'] ?></td>
                     <td><?= $pdk['kategori'] ?></td>
@@ -99,7 +101,7 @@
                                         <form action="<?= base_url('/admin/editDataProduk');?>" method="post"
                                             enctype="multipart/form-data">
                                             <div class="form-group">
-                                                <label for="kategori_id" class="form-label">Nama Kategori : </label>
+                                                <label for="kategori_id" class="form-label">Nama Kategori</label>
                                                 <select class="form-control" aria-label="Default select example"
                                                     name="kategori_id">
                                                     <option value="" <?= ($pdk['kategori_id']==0) ? 'selected' : ''; ?>>
@@ -112,7 +114,7 @@
                                                 </select>
                                             </div>
                                             <div class="form-group">
-                                                <label for="suplier_id" class="form-label">Nama Suplier : </label>
+                                                <label for="suplier_id" class="form-label">Nama Suplier</label>
                                                 <select class="form-control" aria-label="Default select example"
                                                     name="suplier_id">
                                                     <?php foreach ($suplier as $sp) : ?>
@@ -123,26 +125,26 @@
                                                 </select>
                                             </div>
                                             <div class="form-group">
-                                                <label for="nama_produk" class="form-label">Nama Produk : </label>
+                                                <label for="nama_produk" class="form-label">Nama Produk</label>
                                                 <input type="text" class="form-control" id="inputUserName"
                                                     name="nama_produk" value="<?= $pdk['nama_produk'] ?>">
                                             </div>
                                             <div class="form-group">
-                                                <label for="harga_beli" class="form-label">Harga Jual : </label>
+                                                <label for="harga_beli" class="form-label">Harga Beli</label>
                                                 <input type="number" class="form-control" id="inputUserName" name="harga_beli" value="<?= $pdk['harga_beli'] ?>">
                                             </div>
                                             <div class="form-group">
-                                                <label for="diskon" class="form-label">Diskon : </label>
+                                                <label for="diskon" class="form-label">Diskon</label>
                                                 <input type="number" class="form-control" id="inputUserName"
                                                     name="diskon" value="<?= $pdk['diskon'] ?>" step="0.01">
                                             </div>
                                             <div class="form-group">
-                                                <label for="harga_jual" class="form-label">Harga Jual : </label>
+                                                <label for="harga_jual" class="form-label">Harga Jual</label>
                                                 <input type="number" class="form-control" id="inputUserName"
                                                     name="harga_jual" value="<?= $pdk['harga_jual'] ?>">
                                             </div>
                                             <div class="form-group">
-                                                <label for="stok" class="form-label">Stok : </label>
+                                                <label for="stok" class="form-label">Stok</label>
                                                 <input type="number" class="form-control" id="inputUserName" name="stok"
                                                     value="<?= $pdk['stok'] ?>">
                                             </div>

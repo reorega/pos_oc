@@ -2,8 +2,10 @@
 <?= $this->section('content')?>
 <div class="content-wrapper">
     <section class="content">
+        <h3 class="active" style="background-color: white; margin: 0px 0px 10px 0px; padding: 10px">Tabel Kategori</h3>
+        <br>
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tambahData">
-            <i class="fa fa-plus-square"></i> Tambah Kategori
+            <i class="fa fa-plus-square"></i> <b>Tambah Data</b>
         </button>
         <div class="modal fade" id="tambahData" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -18,7 +20,7 @@
                         <form action="<?= base_url('/admin/tambahDataKategori');?>" method="post"
                             enctype="multipart/form-data">
                             <div class="form-group">
-                                <label for="inputNamaKategori" class="form-label">Nama Kategori : </label>
+                                <label for="inputNamaKategori" class="form-label">Nama Kategori</label>
                                 <input type="text" class="form-control" id="inputNamaKategori" name="nama_kategori">
                             </div>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>

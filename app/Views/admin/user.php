@@ -2,8 +2,10 @@
 <?= $this->section('content')?>
 <div class="content-wrapper">
   <section class="content">
+    <h3 class="active" style="background-color: white; margin: 0px 0px 10px 0px; padding: 10px">Tabel Users</h3>
+    <br>
     <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#tambahData">
-      <i class="fa fa-plus-square"></i> Tambah Users
+      <i class="fa fa-plus-square"></i> <b>Tambah Data</b>
     </button>
     <div class="modal fade" id="tambahData" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -16,19 +18,19 @@
           <div class="modal-body">
             <form action="<?= base_url('/admin/tambahData');?>" method="post" enctype="multipart/form-data">
               <div class="form-group">
-                <label for="inputUserName" class="form-label">Username : </label>
+                <label for="inputUserName" class="form-label">Username</label>
                 <input type="text" class="form-control" id="inputUserName" name="username">
               </div>
               <div class="form-group">
-                <label for="inputEmail" class="form-label">Email : </label>
+                <label for="inputEmail" class="form-label">Email</label>
                 <input type="email" class="form-control" id="inputEmail" name="email">
               </div>
               <div class="form-group">
-                <label for="inputPassword" class="form-label">Password : </label>
+                <label for="inputPassword" class="form-label">Password</label>
                 <input type="password" class="form-control" id="inputPassword" name="password">
               </div>
               <div class="form-group">
-                <label for="formFile" class="form-label">Foto User : </label>
+                <label for="formFile" class="form-label">Foto User</label>
                 <input class="form-control" type="file" id="formFile" name="foto_user">
               </div>
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
