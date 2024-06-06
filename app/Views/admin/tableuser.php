@@ -38,22 +38,22 @@
                                 <form action="<?= base_url('/admin/editData');?>" method="post"
                                     enctype="multipart/form-data">
                                     <div class="form-group">
-                                        <label for="inputUserName" class="form-label">Username : </label>
+                                        <label for="inputUserName" class="form-label">Username</label>
                                         <input type="text" class="form-control" id="inputUserName" name="username"
                                             value="<?= $user['username'] ?>">
                                     </div>
                                     <div class="form-group">
-                                        <label for="inputEmail" class="form-label">Email : </label>
+                                        <label for="inputEmail" class="form-label">Email</label>
                                         <input type="email" class="form-control" id="inputEmail" name="email"
                                             value="<?= $user['email'] ?>">
                                     </div>
                                     <div class="form-group">
-                                        <label for="inputPassword" class="form-label">Password : </label>
+                                        <label for="inputPassword" class="form-label">Password</label>
                                         <input type="password" class="form-control" id="inputPassword" name="password"
                                             value="<?= $user['password'] ?>">
                                     </div>
                                     <div class="form-group">
-                                        <label for="formFile" class="form-label">Foto User : </label>
+                                        <label for="formFile" class="form-label">Foto User</label>
                                         <input class="form-control" type="file" id="formFile" name="foto_user">
                                     </div>
                                     <input type="hidden" name="id" value="<?= $user['id_user']?>">

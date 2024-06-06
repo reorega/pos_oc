@@ -14,7 +14,7 @@
             <td>
                 <button type="button" class="btn btn-warning" data-toggle="modal"
                     data-target="#editData<?= $kat['id_kategori'] ?>">
-                    <i class="fa fa-pencil"></i> Edit
+                    <i class="fa fa-pencil"></i>
                 </button>
                 <div class="modal fade" id="editData<?= $kat['id_kategori'] ?>" tabindex="-1"
                     aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -31,7 +31,7 @@
                                     enctype="multipart/form-data">
                                     <input type="hidden" name="id_kategori" value="<?= $kat['id_kategori'] ?>">
                                     <div class="form-group">
-                                        <label for="editNamaKategori" class="form-label">Nama Kategori :
+                                        <label for="editNamaKategori" class="form-label">Nama Kategori
                                         </label>
                                         <input type="text" class="form-control" id="editNamaKategori"
                                             name="edit_nama_kategori" value="<?= $kat['nama_kategori'] ?>">
@@ -45,7 +45,7 @@
                 </div>
                 <button type="button" class="btn btn-danger" data-toggle="modal"
                     data-target="#hapusData<?= $kat['id_kategori'] ?>">
-                    <i class="fa fa-trash"></i> Hapus
+                    <i class="fa fa-trash"></i>
                 </button>
                 <div class="modal fade" id="hapusData<?= $kat['id_kategori'] ?>" tabindex="-1"
                     aria-labelledby="exampleModalLabel" aria-hidden="true">

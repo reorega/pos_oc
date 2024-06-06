@@ -1,10 +1,11 @@
 <?= $this->extend('layout/master') ?>
-
 <?= $this->section('content') ?>
 <div class="content-wrapper">
     <section class="content">
+        <h3 class="active" style="background-color: white; margin: 0px 0px 10px 0px; padding: 10px">Tabel Barang Masuk</h3>
+        <br>
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tambahData">
-            <i class="fa fa-plus-square"></i> Tambah Barang Masuk
+            <i class="fa fa-plus-square"></i> <b>Tambah Data</b>
         </button>
         <br><br>
         <div class="modal fade" id="tambahData" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -14,13 +15,13 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title" id="exampleModalLabel">Tambah Barang Masuk</h4>
+                        <h4 class="modal-title" id="exampleModalLabel">Tambah Data</h4>
                     </div>
                     <div class="modal-body">
                         <form action="<?= base_url('/admin/tambahDataBarangMasuk'); ?>" method="post"
                             enctype="multipart/form-data">
                             <div class="form-group">
-                                <label for="inputSupplier" class="form-label">Nama Supplier : </label>
+                                <label for="inputSupplier" class="form-label">Nama Supplier</label>
                                 <select class="form-control selectpicker" aria-label="Default select example"
                                     name="id_supplier" data-live-search="true">
                                     <option selected disabled>Pilih Supplier</option>
@@ -30,7 +31,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="inputProduk" class="form-label">Nama Produk : </label>
+                                <label for="inputProduk" class="form-label">Nama Produk</label>
                                 <select class="form-control selectpicker" aria-label="Default select example"
                                     name="produk_id" data-live-search="true">
                                     <option selected disabled>Pilih Produk</option>
@@ -40,7 +41,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="inputTotalItem" class="form-label">Total Item : </label>
+                                <label for="inputTotalItem" class="form-label">Total Item</label>
                                 <input type="text" class="form-control" id="inputTotalItem" name="total_item">
                             </div>
                             <!-- Hidden input for the current date -->
@@ -141,7 +142,7 @@
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
-                                        <h4 class="modal-title" id="exampleModalLabel">Edit BarangMasuk</h4>
+                                        <h4 class="modal-title" id="exampleModalLabel">Edit Data</h4>
                                     </div>
                                     <div class="modal-body">
                                         <form action="<?= base_url('/admin/editDataBarangMasuk'); ?>" method="post"
@@ -149,9 +150,10 @@
                                             <input type="hidden" name="id_barang_masuk"
                                                 value="<?= $BarangMasuk['id_barang_masuk'] ?>">
                                             <div class="form-group">
-                                                <label for="inputSupplier" class="form-label">Nama Supplier : </label>
-                                                <select class="form-control selectpicker" aria-label="Default select example"
-                                                    name="id_supplier" data-live-search="true">
+                                                <label for="inputSupplier" class="form-label">Nama Supplier</label>
+                                                <select class="form-control selectpicker"
+                                                    aria-label="Default select example" name="id_supplier"
+                                                    data-live-search="true">
                                                     <option selected disabled>Pilih Supplier</option>
                                                     <?php foreach ($suppliers as $supplier) : ?>
                                                     <option value="<?= $supplier['id_supplier']; ?>"
@@ -162,9 +164,10 @@
                                                 </select>
                                             </div>
                                             <div class="form-group">
-                                                <label for="inputProduk" class="form-label">Nama Produk : </label>
-                                                <select class="form-control selectpicker" aria-label="Default select example"
-                                                    name="produk_id" data-live-search="true">
+                                                <label for="inputProduk" class="form-label">Nama Produk</label>
+                                                <select class="form-control selectpicker"
+                                                    aria-label="Default select example" name="produk_id"
+                                                    data-live-search="true">
                                                     <option selected disabled>Pilih Produk</option>
                                                     <?php foreach ($produks as $produk) : ?>
                                                     <option value="<?= $produk['id_produk']; ?>"
@@ -175,7 +178,7 @@
                                                 </select>
                                             </div>
                                             <div class="form-group">
-                                                <label for="inputTotalItem" class="form-label">Total Item : </label>
+                                                <label for="inputTotalItem" class="form-label">Total Item</label>
                                                 <input type="text" class="form-control" id="inputTotalItem"
                                                     name="total_item" value="<?= $BarangMasuk['total_item'] ?>">
                                             </div>
@@ -184,7 +187,7 @@
                                             <!-- End of hidden input -->
                                             <button type="button" class="btn btn-secondary"
                                                 data-dismiss="modal">Batal</button>
-                                            <button type="submit" class="btn btn-success">Simpan Data</button>
+                                            <button type="submit" class="btn btn-success">Simpan Perubahan</button>
                                         </form>
                                     </div>
                                 </div>
@@ -228,7 +231,6 @@
             </tbody>
         </table>
         <?= $pager->links('barangmasuk', 'default_full') ?>
-
     </section>
 </div>
 <?= $this->endSection() ?>
