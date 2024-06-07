@@ -2,48 +2,27 @@
 
 namespace App\Controllers;
 
-
 use CodeIgniter\Controller;
-
 
 class BarangMasuk extends BaseController
 {
     public function index()
     {
-        // Mendapatkan nomor halaman saat ini
-        $currentPage = $this->request->getVar('page_barangmasuk') ? $this->request->getVar('page_barangmasuk') : 1;
-
-        // Mendapatkan semua data dari model dengan paginasi
-        $data['BarangMasuks'] = $this->barangmasukModel->paginate(5, 'barangmasuk');
-        $data['pager'] = $this->barangmasukModel->pager;
-
-        // Ambil semua data supplier dan produk
-        $data['suppliers'] = $this->suplierModel->findAll();
-        $data['produks'] = $this->produkModel->findAll();
-
-        // Ubah ID supplier dan produk menjadi nama supplier dan produk
-        foreach ($data['BarangMasuks'] as &$BarangMasuk) {
-            $supplier = $this->suplierModel->find($BarangMasuk['id_supplier']);
-            $produk = $this->produkModel->find($BarangMasuk['id_produk']);
-            $BarangMasuk['nama_supplier'] = $supplier ? $supplier['nama'] : 'Supplier not found';
-            $BarangMasuk['nama_produk'] = $produk ? $produk['nama_produk'] : 'Product not found';
-        }
-        $setting= $this->loadConfigData();
-        $data['setting'] = $setting;
-        $data['page_title'] = "Barang_Masuk";
-
-        $data['currentPage'] = $currentPage;
-        return view('admin/barangmasuk', $data);
+        $data['judul'] = "Halaman BarangMasuk";
+        $data['page_title'] = "BarangMasuk";
+        $data['barangmasuk'] = $this->barangmasukModel->join(); // Menggunakan method join dari PembelianModel untuk mendapatkan data pembelian
+        $data['suppliers'] = $this->supplierModel->findAll(); // Ambil semua data supplier
+        $data['produk'] = $this->produkModel->findAll(); // Ambil semua data produk
+        $data['setting'] = $this->loadConfigData(); // Load data konfigurasi
+        return view('/admin/barangmasuk', $data);
     }
-
 
     public function tambahDataBarangMasuk()
     {
-
         // Retrieve input data from the form
         $id_supplier = $this->request->getPost('id_supplier');
         $id_produk = $this->request->getPost('produk_id');
-        $total_item = (int)$this->request->getPost('total_item');
+        $total_item = (int) $this->request->getPost('total_item');
 
         // Retrieve product data including the purchase price
         $produkData = $this->produkModel->find($id_produk);
@@ -76,8 +55,6 @@ class BarangMasuk extends BaseController
 
     private function updateStock($id_produk, $total_item)
     {
-
-
         // Get current stock
         $currentStock = $this->produkModel->find($id_produk)['stok'];
 
@@ -90,7 +67,6 @@ class BarangMasuk extends BaseController
 
     public function editDataBarangMasuk()
     {
-
         // Retrieve input data from the form
         $id_barang_masuk = $this->request->getPost('id_barang_masuk');
         $id_supplier = $this->request->getPost('id_supplier');
@@ -127,7 +103,6 @@ class BarangMasuk extends BaseController
 
     public function hapusDataBarangMasuk($id_barang_masuk)
     {
-
         // Retrieve data of the transaction to get id_produk and total_item
         $transaction = $this->barangmasukModel->find($id_barang_masuk);
         $id_produk = $transaction['id_produk'];
@@ -141,5 +116,28 @@ class BarangMasuk extends BaseController
 
         // Redirect to the BarangMasuk page with success message
         return redirect()->to('admin/barangmasuk')->with('success', 'Data barang masuk berhasil dihapus.');
+    }
+
+    public function ambilDataBarangMasuk()
+    {
+        $search = $this->request->getPost('search');
+        if ($search != "") {
+            // Cari pembelian berdasarkan kode produk atau nama produk
+            $data = [
+                'barangmasuk' => $this->barangmasukModel->searchbarangmasuk($search),
+                'suppliers' => $this->supplierModel->findAll(),
+                'produk' => $this->produkModel->findAll(),
+            ];
+        } else {
+            // Jika tidak ada kata kunci pencarian, ambil semua data pembelian
+            $data = [
+                'barangmasuk' => $this->barangmasukModel->join(),
+                'suppliers' => $this->supplierModel->findAll(),
+                'produk' => $this->produkModel->findAll(),
+            ];
+        }
+        // Load view untuk tabel pembelian
+        $table = view('admin/tablebarangmasuk', $data);
+        return $this->response->setJSON(['table' => $table]);
     }
 }

@@ -6,43 +6,46 @@ use CodeIgniter\Model;
 
 class BarangMasukModel extends Model
 {
-    protected $table = 'barang_masuk'; // Adjust with your database table name
-    protected $primaryKey = 'id_barang_masuk'; // Adjust with your table's primary key name
-    protected $allowedFields = ['id_supplier', 'id_produk', 'total_item', 'harga_beli','total_bayar', 'created_at', 'updated_at']; // Allowed fields for insertion or update
-    protected $useTimestamps = true; // Activate the usage of created_at and updated_at columns
-    protected $createdField = 'created_at'; // Name of created_at column in the table
-    protected $updatedField = 'updated_at'; // Name of updated_at column in the table
+    protected $table = 'barang_masuk'; // Sesuaikan dengan nama tabel di database Anda
+    protected $primaryKey = 'id_barang_masuk'; // Sesuaikan dengan nama primary key di tabel barang masuk
+    protected $allowedFields = ['id_supplier', 'id_produk', 'total_item', 'harga_beli', 'total_bayar', 'created_at', 'updated_at']; // Kolom yang diizinkan untuk dimasukkan atau diperbarui
+    protected $useTimestamps = true; // Mengaktifkan penggunaan kolom created_at dan updated_at
+    protected $createdField = 'created_at'; // Nama kolom created_at di tabel
+    protected $updatedField = 'updated_at'; // Nama kolom updated_at di tabel
 
-    // Function to search for data based on keyword
-    public function search($keyword)
+    // Function untuk melakukan pencarian berdasarkan kata kunci
+    public function searchbarangmasuk($keyword)
     {
-        $query = $this->db->table('barang_masuk'); // Adjust with your table name
-        $query->like('kode_produk', $keyword); // Adjust with the column you want to search
-        $query->orderBy('kode_produk', 'DESC'); // Adjust with the column you want to sort
-        $query->limit(1); // Limit the result to 1 row
+        $query = $this->db->table('barang_masuk'); // Sesuaikan dengan nama tabel Anda
+        $query->select('barang_masuk.*, supplier.nama as supplier_name, produk.nama_produk as product_name'); // Sesuaikan dengan kolom yang ingin Anda pilih
+        $query->join('supplier', 'supplier.id_supplier = barang_masuk.id_supplier'); // Sesuaikan dengan kondisi join Anda
+        $query->join('produk', 'produk.id_produk = barang_masuk.id_produk'); // Sesuaikan dengan kondisi join Anda
+        $query->like('supplier.nama', $keyword); // Sesuaikan dengan kolom yang ingin Anda cari
+        $query->orLike('produk.nama_produk', $keyword); // Sesuaikan dengan kolom yang ingin Anda cari
         $result = $query->get()->getResultArray();
         return $result;
     }
 
-    // Function to perform a join operation
+    // Function untuk melakukan operasi join
     public function join()
     {
-        $query = $this->db->table('barang_masuk'); // Adjust with your table name
-        $query->select('barang_masuk.*, supplier.nama as supplier_name, produk.nama_produk as product_name'); // Adjust with the columns you want to select
-        $query->join('supplier', 'supplier.id_supplier = barang_masuk.id_supplier'); // Adjust with your join condition
-        $query->join('produk', 'produk.id_produk = barang_masuk.id_produk'); // Adjust with your join condition
-        $query->join('kategori', 'kategori.id_kategori = barang_masuk.id_kategori'); // Adjust with your join condition
+        $query = $this->db->table('barang_masuk'); // Sesuaikan dengan nama tabel Anda
+        $query->select('barang_masuk.*, supplier.nama as supplier_name, produk.nama_produk as product_name'); // Sesuaikan dengan kolom yang ingin Anda pilih
+        $query->join('supplier', 'supplier.id_supplier = barang_masuk.id_supplier'); // Sesuaikan dengan kondisi join Anda
+        $query->join('produk', 'produk.id_produk = barang_masuk.id_produk'); // Sesuaikan dengan kondisi join Anda
         $result = $query->get()->getResultArray();
         return $result;
     }
+
+    // Fungsi untuk mendapatkan data barang masuk
     public function getBarangMasuk()
     {
         return $this->select('barang_masuk.*, produk.nama_produk, produk.harga_beli')
-                    ->join('produk', 'produk.id_produk = barang_masuk.produk_id')
+                    ->join('produk', 'produk.id_produk = barang_masuk.id_produk')
                     ->findAll();
     }
 
-    // Function to search for codes based on keyword
+    // Function untuk mencari kode berdasarkan kata kunci
     public function searchCode($keyword)
     {
         $query = $this->db->table('barang_masuk');
@@ -54,21 +57,21 @@ class BarangMasukModel extends Model
         return $result;
     }
 
-    // Function to update stock in ProdukModel based on total_item
+    // Function untuk mengupdate stok di ProdukModel berdasarkan total_item
     public function updateStock($id_produk, $total_item)
     {
         // Load ProdukModel
         $produkModel = new ProdukModel();
 
-        // Get current stock
+        // Dapatkan stok saat ini
         $currentStock = $produkModel->find($id_produk)['stok'];
 
-        // Calculate new stock
+        // Hitung stok baru
         $newStock = $currentStock + $total_item;
 
-        // Update stock in ProdukModel
+        // Update stok di ProdukModel
         $produkModel->update($id_produk, ['stok' => $newStock]);
     }
-    
-    // Additional functions can be added here
+
+    // Fungsi tambahan dapat ditambahkan di sini
 }
