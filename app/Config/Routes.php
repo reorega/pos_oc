@@ -42,6 +42,8 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->post('tambahDataBarangMasuk', 'BarangMasuk::tambahDataBarangMasuk');
     $routes->post('editDataBarangMasuk', 'BarangMasuk::editDataBarangMasuk');
     $routes->post('hapusDataBarangMasuk/(:num)', 'BarangMasuk::hapusDataBarangMasuk/$1');
+    $routes->post('ambilDataBarangMasuk', 'BarangMasuk::ambilDataBarangMasuk');
+
 
     $routes->get('barcode/(:num)', 'Produk::barcode/$1'); // Rute untuk Barcode
     $routes->get('download/(:num)', 'Produk::download/$1'); // Rute untuk Download
