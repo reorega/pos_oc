@@ -1,6 +1,7 @@
 <table class="table table-hover mt-2 table-bordered">
             <thead class="table">
                 <tr>
+                    <td>NO</td>
                     <td>Kode Produk</td>
                     <td>Nama Produk</td>
                     <td>Kategori </td>
@@ -12,8 +13,10 @@
                 </tr>
             </thead>
             <tbody>
+                <?php $nilai =$no ?? 1;?>
                 <?php foreach ($produk as $pdk) : ?>
                 <tr>
+                    <td><?= $nilai ?></td>
                     <td><?= $pdk['kode_produk'] ?> </td>
                     <td><?= $pdk['nama_produk'] ?></td>
                     <td><?= $pdk['kategori'] ?></td>
@@ -96,12 +99,11 @@
                                         <h4 class="modal-title" id="exampleModalLabel">Edit Data</h4>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="<?= base_url('/admin/editDataProduk');?>" method="post"
-                                            enctype="multipart/form-data">
+                                        <form action="" enctype="multipart/form-data">
                                             <div class="form-group">
                                                 <label for="kategori_id" class="form-label">Nama Kategori : </label>
-                                                <select class="form-control" aria-label="Default select example"
-                                                    name="kategori_id">
+                                                <select class="form-control selectpicker" aria-label="Default select example"
+                                                    name="kategori_id" data-live-search="true" id="editKategori<?= $pdk['id_produk']?>" >
                                                     <option value="" <?= ($pdk['kategori_id']==0) ? 'selected' : ''; ?>>
                                                         Pilih Kategori Produk</option>
                                                     <?php foreach ($kategori as $ktg) : ?>
@@ -113,8 +115,8 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="suplier_id" class="form-label">Nama Suplier : </label>
-                                                <select class="form-control" aria-label="Default select example"
-                                                    name="suplier_id">
+                                                <select class="form-control selectpicker" aria-label="Default select example"
+                                                    name="suplier_id" data-live-search="true" id="editSuplier<?= $pdk['id_produk']?>">
                                                     <?php foreach ($suplier as $sp) : ?>
                                                     <option value="<?= $sp['id_supplier']; ?>"
                                                         <?= ($sp['id_supplier'] == $pdk['suplier_id']) ? 'selected' : ''; ?>>
@@ -124,32 +126,30 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="nama_produk" class="form-label">Nama Produk : </label>
-                                                <input type="text" class="form-control" id="inputUserName"
+                                                <input type="text" class="form-control" id="editNamaProduk<?= $pdk['id_produk']?>"
                                                     name="nama_produk" value="<?= $pdk['nama_produk'] ?>">
                                             </div>
                                             <div class="form-group">
-                                                <label for="harga_beli" class="form-label">Harga Jual : </label>
-                                                <input type="number" class="form-control" id="inputUserName" name="harga_beli" value="<?= $pdk['harga_beli'] ?>">
+                                                <label for="harga_beli" class="form-label">Harga beli : </label>
+                                                <input type="number" class="form-control" id="editHargaBeli<?= $pdk['id_produk']?>" name="harga_beli" value="<?= $pdk['harga_beli'] ?>">
                                             </div>
                                             <div class="form-group">
                                                 <label for="diskon" class="form-label">Diskon : </label>
-                                                <input type="number" class="form-control" id="inputUserName"
+                                                <input type="number" class="form-control" id="editDiskon<?= $pdk['id_produk']?>"
                                                     name="diskon" value="<?= $pdk['diskon'] ?>" step="0.01">
                                             </div>
                                             <div class="form-group">
                                                 <label for="harga_jual" class="form-label">Harga Jual : </label>
-                                                <input type="number" class="form-control" id="inputUserName"
+                                                <input type="number" class="form-control" id="editHargaJual<?= $pdk['id_produk']?>"
                                                     name="harga_jual" value="<?= $pdk['harga_jual'] ?>">
                                             </div>
                                             <div class="form-group">
                                                 <label for="stok" class="form-label">Stok : </label>
-                                                <input type="number" class="form-control" id="inputUserName" name="stok"
+                                                <input type="number" class="form-control" id="editStok<?= $pdk['id_produk']?>" name="stok"
                                                     value="<?= $pdk['stok'] ?>">
                                             </div>
-                                            <input type="hidden" name="id_produk" value="<?= $pdk['id_produk']?>">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-dismiss="modal">Batal</button>
-                                            <button type="submit" class="btn btn-success">Simpan Perubahan</button>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                            <button type="button" class="btn btn-success" onclick="editData('<?= $pdk['id_produk']?>')">Simpan Perubahan</button>
                                         </form>
                                     </div>
                                 </div>
@@ -173,16 +173,20 @@
                                         <div>
                                             <p class="">Anda Yakin Menghapus Data Produk <?= $pdk['nama_produk']?></p>
                                         </div>
-                                        <button type="button" class="btn btn-secondary"
-                                            data-dismiss="modal">Close</button>
-                                        <a href="<?= base_url('/admin/hapusDataProduk/' . $pdk['id_produk']);?>"
-                                            class="btn btn-danger">Hapus Data</a>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-danger" onclick="hapusData('<?= $pdk['id_produk'] ?>')">Hapus Data</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </td>
                 </tr>
+                <?php $nilai++; ?>
                 <?php endforeach; ?>
             </tbody>
-        </table>
+</table>
+<?php
+    if($search=="no"){
+        echo $pager->links();
+    }
+?>

@@ -71,4 +71,17 @@ class ProdukModel extends Model
         $stok = $result->stok;
         return $stok;
     } 
+    public function produkPagination($perPage = 10, $page = 1)
+    {
+        $builder=$this->builder();
+        
+        $builder->select('produk.*, supplier.nama as suplier, kategori.nama_kategori as kategori')
+        ->join('supplier', 'supplier.id_supplier = produk.suplier_id')
+        ->join('kategori', 'kategori.id_kategori = produk.kategori_id');
+        
+        return [
+            'produk' => $this->paginate($perPage, 'default', $page),
+            'pager' => $this->pager,
+        ];
+    }
 }

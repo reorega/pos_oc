@@ -20,43 +20,55 @@ class Produk extends BaseController
     }
     public Function ambilDataProduk(){
         $search=$this->request->getPost('search');
+        $page = $this->request->getPost('page') ?? 1;
+        $jumlahpagination = 5;
+        $no = $page * $jumlahpagination - ($jumlahpagination - 1);
         if($search != ""){
             $data=[
                 'produk' => $this->produkModel->cariKode2($search),
                 'suplier' => $this->suplierModel->findAll(),
                 'kategori' => $this->kategoriModel->findAll(),
+                'search' => "yes",
             ];
         }else
         {
+            $cari = $this->produkModel->produkPagination($jumlahpagination,$page);
             $data=[
-                'produk' => $this->produkModel->join(),
+                'produk' => $cari['produk'] ,
+                'pager' => $cari['pager'],
                 'suplier' => $this->suplierModel->findAll(),
                 'kategori' => $this->kategoriModel->findAll(),
+                'no' => $no,
+                'search' => "no",
             ];
         }
         $table = view('admin/tableproduk', $data);
         return $this->response->setJSON(['table' => $table]);
     }
     public function tambahData(){
-        $kategori_id=$this->request->getPost('kategori_id');
+        $kategori_id=$this->request->getPost('kategori');
         $kode_produk=$this->createKode($kategori_id);
         $data = [
             'kategori_id' => $kategori_id,
-            'suplier_id' => $this->request->getPost('suplier_id'),
+            'suplier_id' => $this->request->getPost('suplier'),
             'kode_produk' => $kode_produk,
-            'nama_produk' => $this->request->getPost('nama_produk'),
-            'harga_beli' => $this->request->getPost('harga_beli'),
+            'nama_produk' => $this->request->getPost('produk'),
+            'harga_beli' => $this->request->getPost('hargabeli'),
             'diskon' => $this->request->getPost('diskon'),
-            'harga_jual' => $this->request->getPost('harga_jual'),
+            'harga_jual' => $this->request->getPost('hargajual'),
             'stok' => $this->request->getPost('stok'),
         ];
         $this->produkModel->insert($data);
-        return redirect()->to('/admin/produk');
+        cache()->clean();
+        $response = [
+            'status' => 'success',              
+        ];
+        return $this->response->setJSON($response); 
     }
     public function editData(){
-        $id = $this->request->getPost('id_produk');
+        $id = $this->request->getPost('id');
         $produkbyid = $this->produkModel->find($id);
-        $kategori_id=$this->request->getPost('kategori_id');
+        $kategori_id=$this->request->getPost('kategori');
         if($kategori_id!=$produkbyid['kategori_id']){
             $kode= $this->createKode($kategori_id);
             
@@ -64,21 +76,30 @@ class Produk extends BaseController
             $kode=$produkbyid['kode_produk'];
         }
         $data = [
-            'kategori_id' => $this->request->getPost('kategori_id'),
-            'suplier_id' => $this->request->getPost('suplier_id'),
+            'kategori_id' => $kategori_id,
+            'suplier_id' => $this->request->getPost('suplier'),
             'kode_produk' => $kode,
-            'nama_produk' => $this->request->getPost('nama_produk'),
-            'harga_beli' => $this->request->getPost('harga_beli'),
+            'nama_produk' => $this->request->getPost('produk'),
+            'harga_beli' => $this->request->getPost('hargabeli'),
             'diskon' => $this->request->getPost('diskon'),
-            'harga_jual' => $this->request->getPost('harga_jual'),
+            'harga_jual' => $this->request->getPost('hargajual'),
             'stok' => $this->request->getPost('stok'),
         ];
         $this->produkModel->update($id,$data);
-        return redirect()->to('/admin/produk');
+        cache()->clean();
+        $response = [
+            'status' => 'success',              
+        ];
+        return $this->response->setJSON($response); 
     }
-    public function hapusData($id=null){
+    public function hapusData(){
+        $id = $this->request->getPost('id');
         $this->produkModel->delete($id);
-        return redirect()->to('/admin/produk');
+        cache()->clean();
+        $response = [
+            'status' => 'success',              
+        ];
+        return $this->response->setJSON($response); 
     }
     protected function createKode($kategori){
         $kategoriBaru=$this->kategoriModel->find($kategori);

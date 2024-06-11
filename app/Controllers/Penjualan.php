@@ -4,7 +4,7 @@ use \Dompdf\Dompdf;
 use CodeIgniter\Controller;
 
 
-class Penjualan extends Controller
+class Penjualan extends BaseController
 {
 
     public function laporanHarian(){
