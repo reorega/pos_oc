@@ -39,7 +39,7 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->get('produk', 'Produk');
     $routes->post('tambahDataProduk', 'Produk::tambahData');
     $routes->post('editDataProduk', 'Produk::editData');
-    $routes->get('hapusDataProduk/(:num)', 'Produk::hapusData/$1');
+    $routes->post('hapusDataProduk', 'Produk::hapusData');
     $routes->post('ambilDataProduk', 'Produk::ambilDataProduk');
 
 
@@ -61,6 +61,10 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     // Setting
     $routes->get('setting', 'Setting');
     $routes->post('update', 'Setting::update');
+
+    //Laporan
+    $routes->get('laporan', 'Laporan');
+    $routes->post('ambilDataLaporan', 'Laporan::ambilData');
 });
 
 $routes->group('kasir', ['filter' => 'kasir'], function ($routes) {

@@ -66,7 +66,7 @@
             </li>
             <li class="header">REPORT</li>
             <li>
-                <a href="#">
+                <a href="<?= base_url('admin/laporan'); ?>">
                     <i class="fa fa-file-pdf-o"></i> <span>Laporan</span>
                 </a>
             </li>

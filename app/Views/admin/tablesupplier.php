@@ -10,9 +10,10 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($supplier as $key => $sup) : ?>
+        <?php $nilai =$no ?? 1;?>
+        <?php foreach ($supplier as $sup) : ?>
         <tr>
-            <td><?= $key +1 ?></td>
+            <td><?= $nilai ?></td>
             <td><?= $sup['kode_supplier'] ?></td>
             <td><?= $sup['nama'] ?></td>
             <td><?= $sup['alamat'] ?></td>
@@ -34,27 +35,26 @@
                                 <h4 class="modal-title" id="exampleModalLabel">Edit Data</h4>
                             </div>
                             <div class="modal-body">
-                                <form action="<?= base_url('/admin/editDataSupplier');?>" method="post"
-                                    enctype="multipart/form-data">
-                                    <input type="hidden" name="id_supplier" value="<?= $sup['id_supplier'] ?>">
+                                
+                                    <input type="hidden" name="id_supplier" id="id<?= $sup['id_supplier'] ?>" value="<?= $sup['id_supplier'] ?>">
                                     <div class="form-group">
                                         <label for="editNamaSupplier" class="form-label">Nama Supplier</label>
-                                        <input type="text" class="form-control" id="editNamaSupplier" name="edit_nama"
+                                        <input type="text" class="form-control" id="editNamaSupplier<?= $sup['id_supplier'] ?>" name="edit_nama"
                                             value="<?= $sup['nama'] ?>">
                                     </div>
                                     <div class="form-group">
                                         <label for="editAlamat" class="form-label">Alamat</label>
-                                        <input type="text" class="form-control" id="editAlamat" name="edit_alamat"
+                                        <input type="text" class="form-control" id="editAlamat<?= $sup['id_supplier'] ?>" name="edit_alamat"
                                             value="<?= $sup['alamat'] ?>">
                                     </div>
                                     <div class="form-group">
                                         <label for="editTelepon" class="form-label">Telepon</label>
-                                        <input type="text" class="form-control" id="editTelepon" name="edit_telepon"
+                                        <input type="text" class="form-control" id="editTelepon<?= $sup['id_supplier'] ?>" name="edit_telepon"
                                             value="<?= $sup['telepon'] ?>">
                                     </div>
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                                    <button type="submit" class="btn btn-success">Simpan Perubahan</button>
-                                </form>
+                                    <button type="button" class="btn btn-success" onclick="editData('<?= $sup['id_supplier'] ?>')">Simpan Perubahan</button>
+                                
                             </div>
                         </div>
                     </div>
@@ -78,18 +78,20 @@
                                 Apakah Anda yakin ingin menghapus supplier ini?
                             </div>
                             <div class="modal-footer">
-                                <form id="formHapus<?= $sup['id_supplier'] ?>"
-                                    action="<?= base_url('/admin/hapusDataSupplier');?>" method="post">
-                                    <input type="hidden" name="id_supplier" value="<?= $sup['id_supplier'] ?>">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                                    <button type="submit" class="btn btn-danger">Hapus</button>
-                                </form>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                <button type="button" class="btn btn-danger" onclick="hapusData('<?= $sup['id_supplier'] ?>')">Hapus</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </td>
         </tr>
+        <?php $nilai++; ?>
         <?php endforeach; ?>
     </tbody>
 </table>
+<?php
+    if($search=="no"){
+        echo $pager->links();
+    }
+?>
