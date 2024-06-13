@@ -30,7 +30,7 @@
                             <div class="modal-body">
                                 <form action="" method="" enctype="multipart/form-data">
                                     <div class="form-group">
-                                        <label for="editNamaKategori" class="form-label">Nama Kategori :
+                                        <label for="editNamaKategori" class="form-label">Nama Kategori
                                         </label>
                                         <input type="text" class="form-control" id="editNamaKategori<?= $kat['id_kategori'] ?>" name="edit_nama_kategori" value="<?= $kat['nama_kategori'] ?>">
                                     </div>
@@ -56,12 +56,12 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                Apakah Anda yakin ingin menghapus kategori ini?
+                            <p class="">Anda Yakin Menghapus Data Kategori <?= $kat['nama_kategori']?>?</p>
                             </div>
                             <div class="modal-footer">
                                 <form id="formHapus<?= $kat['id_kategori'] ?>" action="" method="">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                                    <button type="button" class="btn btn-danger" onclick="hapusData('<?= $kat['id_kategori'] ?>')">Hapus</button>
+                                    <button type="button" class="btn btn-danger" onclick="hapusData('<?= $kat['id_kategori'] ?>')">Hapus Data</button>
                                 </form>
                             </div>
                         </div>
