@@ -60,31 +60,102 @@
         </div>
         <br><br>
         <!-- Tabel Data Barang Masuk -->
-        <div class="dataProduk"></div>
+        <div class="dataBarangMasuk"></div>
     </section>
 </div>
 
-<script src="<?= base_url('assets/js/jquery-3.7.1.min.js'); ?>"></script>
+<script src="<?= base_url('assets/js/jquery-3.7.1.min.js');?>"></script>
 <script>
-    $(document).ready(function() {
-        ambilData();
+    $(document).ready(function(){
+        var page=$('#page').val();
+        ambilData();       
         $('#search').keyup(function() {
-            ambilData();
+            console.log($('#search').val())
+        ambilData();
         });
+        $(document).on('click', '.pagination a', function(event) {
+            event.preventDefault();
+            page = $(this).attr('href').split('page=')[1];
+            ambilData(page);
+        });   
     });
-
-    function ambilData() {
+    function ambilData(page = 1){
         $.ajax({
             type: "post",
             url: "<?= site_url('admin/ambilDataBarangMasuk') ?>",
             data: {
                 search: $('#search').val(),
+                page : page,
+            },
+            dataType: "json",
+            success: function(response){
+                if(response.table){
+                    $('.dataBarangMasuk').html(response.table);
+                    $('#page').val(page);
+                    $('.selectpicker').selectpicker();
+                }
+            },
+            error: function(xhr, thrownError){
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                }
+        });
+    }
+    function tambahData(){
+        $.ajax({
+            type: "post",
+            url: "<?= site_url('/admin/tambahDataBarangMasuk') ?>",
+            data: {
+                supplier: $('#inputSupplier').val(),
+                produk: $('#inputProduk').val(),
+                totalitem: $('#inputTotalItem').val(),
+                hargabarang: $('#inputHargaBarang').val(),
+                totalbayar: $('#inputTotalBayar').val(),
             },
             dataType: "json",
             success: function(response) {
-                if (response.table) {
-                    $('.dataProduk').html(response.table);
-                }
+                ambilData($('#page').val());
+                $('#tambahData').modal('hide');
+            },
+            error: function(xhr, thrownError) {
+                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+            }
+        });
+    }
+    function editData(id_barang_masuk){
+        idprod=id_barang_masuk
+        $.ajax({
+            type: "post",
+            url: "<?= site_url('/admin/editDataBarangMasuk') ?>",
+            data: {
+                id: idprod,
+                supplier: $('#inputSupplier').val(),
+                produk: $('#inputProduk').val(),
+                totalitem: $('#inputTotalItem').val(),
+                hargabarang: $('#inputHargaBarang').val(),
+                totalbayar: $('#inputTotalBayar').val(),
+            },
+            dataType: "json",
+            success: function(response) {
+                ambilData($('#page').val());
+                $('#editData'+idprod).modal('hide');
+            },
+            error: function(xhr, thrownError) {
+                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+            }
+        });
+    }
+    function hapusData(id_produk){
+        idprod=id_produk
+        $.ajax({
+            type: "post",
+            url: "<?= site_url('/admin/hapusDataBarangMasuk') ?>",
+            data: {
+                id: idprod,
+            },
+            dataType: "json",
+            success: function(response) {
+                ambilData($('#page').val());
+                $('#hapusData'+idprod).modal('hide');
             },
             error: function(xhr, thrownError) {
                 alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
@@ -92,4 +163,4 @@
         });
     }
 </script>
-<?= $this->endSection() ?>
+<?= $this->endSection()?>

@@ -11,9 +11,10 @@
         </tr>
     </thead>
     <tbody>
+        <?php $nilai =$no ?? 1;?>
         <?php foreach ($barangmasuk as $key => $brg) : ?>
         <tr>
-            <td><?= $key + 1 ?></td>
+            <td><?= $nilai ?></td>
             <td><?= $brg['supplier_name'] ?></td>
             <td><?= $brg['product_name'] ?></td>
             <td><?= $brg['total_item'] ?></td>
@@ -163,7 +164,13 @@
                         </div>
                         <!-- End Modal Hapus -->
                     </td>
-                </tr>
+                    </tr>
+                <?php $nilai++; ?>
                 <?php endforeach; ?>
             </tbody>
-        </table>
+</table>
+<?php
+    if($search=="no"){
+        echo $pager->links();
+    }
+?>

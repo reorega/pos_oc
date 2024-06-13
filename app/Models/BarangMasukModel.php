@@ -58,19 +58,32 @@ class BarangMasukModel extends Model
     }
 
     // Function untuk mengupdate stok di ProdukModel berdasarkan total_item
-    public function updateStock($id_produk, $total_item)
+    public function updateStok($id_produk, $total_item)
     {
         // Load ProdukModel
         $produkModel = new ProdukModel();
 
         // Dapatkan stok saat ini
-        $currentStock = $produkModel->find($id_produk)['stok'];
+        $currentStok = $produkModel->find($id_produk)['stok'];
 
         // Hitung stok baru
-        $newStock = $currentStock + $total_item;
+        $newStok = $currentStok + $total_item;
 
         // Update stok di ProdukModel
-        $produkModel->update($id_produk, ['stok' => $newStock]);
+        $produkModel->update($id_produk, ['stok' => $newStok]);
+    }
+    public function barangmasukPagination($perPage = 10, $page = 1)
+    {
+        $builder=$this->builder();
+        
+        $builder->select('barang_masuk.*, supplier.nama as supplier_name, produk.nama_produk as product_name')
+        ->join('supplier', 'supplier.id_supplier = barang_masuk.id_supplier') 
+        ->join('produk', 'produk.id_produk = barang_masuk.id_produk'); 
+
+        return [
+            'barangmasuk' => $this->paginate($perPage, 'default', $page),
+            'pager' => $this->pager,
+        ];
     }
 
     // Fungsi tambahan dapat ditambahkan di sini
