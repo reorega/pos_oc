@@ -60,7 +60,7 @@
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a href="<?= base_url('admin/penjualan'); ?>">
                     <i class="fa fa-upload"></i> <span>Penjualan</span>
                 </a>
             </li>

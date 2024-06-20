@@ -35,7 +35,7 @@ class Pengeluaran extends Controller
         // Load the view with the data
         return view('admin/pengeluaran', $data);
     }
-
+    
     public function downloadPDF()
     {
         $barangMasukModel = new BarangMasukModel();
@@ -59,4 +59,6 @@ class Pengeluaran extends Controller
         // Output PDF to browser
         $dompdf->stream('laporan_pengeluaran.pdf', array('Attachment' => 0));
     }
+
+
 }
