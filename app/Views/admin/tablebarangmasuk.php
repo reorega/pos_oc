@@ -132,7 +132,6 @@
                     </div>
                 </div>
                 <!-- End Modal Edit -->
-
                 <!-- Modal Hapus -->
                 <button type="button" class="btn btn-danger" data-toggle="modal"
                     data-target="#hapusData<?= $brg['id_barang_masuk'] ?>">

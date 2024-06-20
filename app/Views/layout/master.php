@@ -159,6 +159,7 @@
   <script src="<?php echo base_url('/AdminLTE-2/bower_components/select2/dist/js/select2.full.min.js'); ?>"></script>
   <script src="<?php echo base_url('/AdminLTE-2/bower_components/bootstrap-select-1.13.14/dist/js/bootstrap-select.min.js'); ?>"></script>
   <!-- Inisialisasi Select2 -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 </body>
 
 </html>
