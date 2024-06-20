@@ -81,6 +81,7 @@
                                 <div>
                                     <p class="">Anda Yakin Menghapus Data User <?= $user['username']?>?</p>
                                 </div>
+                                <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                                 <a href="<?= base_url('/admin/hapusDataUser/' . $user['id_user']);?>"
                                     class="btn btn-danger">Hapus

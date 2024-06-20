@@ -40,12 +40,11 @@
                 <h4 class="modal-title" id="exampleModalLabel">Tambah Data</h4>
             </div>
             <div class="modal-body">
-                <form action="<?= base_url('/admin/tambahDataBarangMasuk'); ?>" method="post"
-                    enctype="multipart/form-data">
+                <form action="" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="inputSupplier" class="form-label">Nama Supplier</label>
                         <select class="form-control selectpicker" aria-label="Default select example" name="id_supplier"
-                            data-live-search="true">
+                            id="supplier" data-live-search="true">
                             <option selected disabled>Pilih Supplier</option>
                             <?php foreach ($suppliers as $supplier) : ?>
                             <option value="<?= $supplier['id_supplier']; ?>"><?= $supplier['nama'] ?></option>
@@ -55,7 +54,7 @@
                     <div class="form-group">
                         <label for="inputProduk" class="form-label">Produk</label>
                         <select class="form-control selectpicker" aria-label="Default select example" name="produk_id"
-                            data-live-search="true">
+                            id="produk" data-live-search="true">
                             <option selected disabled>Pilih Produk</option>
                             <?php foreach ($produk as $pdk) : ?>
                             <option value="<?= $pdk['id_produk']; ?>"><?= $pdk['nama_produk']; ?></option>
@@ -68,62 +67,59 @@
                     </div>
                     <input type="hidden" name="tanggal" value="<?= date('Y-m-d') ?>">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-success">Simpan Data</button>
+                    <button type="button" class="btn btn-success" onclick="tambahData()">Simpan Data</button>
                 </form>
             </div>
         </div>
-        <br><br>
-        <!-- Tabel Data Barang Masuk -->
-        <div class="dataBarangMasuk"></div>
-    </section>
+    </div>
 </div>
 
 <script src="<?= base_url('assets/js/jquery-3.7.1.min.js');?>"></script>
 <script>
-    $(document).ready(function(){
-        var page=$('#page').val();
-        ambilData();       
+    $(document).ready(function() {
+        var page = $('#page').val();
+        ambilData();
         $('#search').keyup(function() {
             console.log($('#search').val())
-        ambilData();
+            ambilData();
         });
         $(document).on('click', '.pagination a', function(event) {
             event.preventDefault();
             page = $(this).attr('href').split('page=')[1];
             ambilData(page);
-        });   
+        });
     });
-    function ambilData(page = 1){
+
+    function ambilData(page = 1) {
         $.ajax({
             type: "post",
             url: "<?= site_url('admin/ambilDataBarangMasuk') ?>",
             data: {
                 search: $('#search').val(),
-                page : page,
+                page: page,
             },
             dataType: "json",
-            success: function(response){
-                if(response.table){
+            success: function(response) {
+                if (response.table) {
                     $('.dataBarangMasuk').html(response.table);
                     $('#page').val(page);
                     $('.selectpicker').selectpicker();
                 }
             },
-            error: function(xhr, thrownError){
-                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-                }
+            error: function(xhr, thrownError) {
+                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+            }
         });
     }
-    function tambahData(){
+
+    function tambahData() {
         $.ajax({
             type: "post",
             url: "<?= site_url('/admin/tambahDataBarangMasuk') ?>",
             data: {
-                supplier: $('#inputSupplier').val(),
-                produk: $('#inputProduk').val(),
+                supplier: $('#supplier').val(),
+                produk: $('#produk').val(),
                 totalitem: $('#inputTotalItem').val(),
-                hargabarang: $('#inputHargaBarang').val(),
-                totalbayar: $('#inputTotalBayar').val(),
             },
             dataType: "json",
             success: function(response) {
@@ -135,41 +131,40 @@
             }
         });
     }
-    function editData(id_barang_masuk){
-        idprod=id_barang_masuk
+
+    function editData(id_barang_masuk) {
         $.ajax({
             type: "post",
             url: "<?= site_url('/admin/editDataBarangMasuk') ?>",
             data: {
-                id: idprod,
-                supplier: $('#inputSupplier').val(),
-                produk: $('#inputProduk').val(),
-                totalitem: $('#inputTotalItem').val(),
-                hargabarang: $('#inputHargaBarang').val(),
-                totalbayar: $('#inputTotalBayar').val(),
+                id: id_barang_masuk,
+                supplier: $('#editSupplier' + id_barang_masuk).val(),
+                produk: $('#editProduk' + id_barang_masuk).val(),
+                totalitem: $('#editTotalItem' + id_barang_masuk).val(),
             },
             dataType: "json",
             success: function(response) {
                 ambilData($('#page').val());
-                $('#editData'+idprod).modal('hide');
+                $('#editData' + id_barang_masuk).modal('hide');
             },
             error: function(xhr, thrownError) {
                 alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
             }
         });
     }
-    function hapusData(id_produk){
-        idprod=id_produk
+
+    function hapusData(id_barang_masuk) {
+        id_barang_masuk = id_barang_masuk
         $.ajax({
             type: "post",
             url: "<?= site_url('/admin/hapusDataBarangMasuk') ?>",
             data: {
-                id: idprod,
+                id: id_barang_masuk,
             },
             dataType: "json",
             success: function(response) {
                 ambilData($('#page').val());
-                $('#hapusData'+idprod).modal('hide');
+                $('#hapusData' + id_barang_masuk).modal('hide');
             },
             error: function(xhr, thrownError) {
                 alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);

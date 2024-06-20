@@ -50,9 +50,9 @@ class BarangMasuk extends BaseController
     public function tambahDataBarangMasuk()
     {
         // Retrieve input data from the form
-        $id_supplier = $this->request->getPost('id_supplier');
-        $id_produk = $this->request->getPost('produk_id');
-        $total_item = (int) $this->request->getPost('total_item');
+        $id_supplier = $this->request->getPost('supplier');
+        $id_produk = $this->request->getPost('produk');
+        $total_item = (int) $this->request->getPost('totalitem');
 
         // Retrieve product data including the purchase price
         $produkData = $this->produkModel->find($id_produk);
@@ -100,10 +100,10 @@ class BarangMasuk extends BaseController
     public function editDataBarangMasuk()
     {
         // Retrieve input data from the form
-        $id_barang_masuk = $this->request->getPost('id_barang_masuk');
-        $id_supplier = $this->request->getPost('id_supplier');
-        $id_produk = $this->request->getPost('produk_id');
-        $total_item = $this->request->getPost('total_item');
+        $id_barang_masuk = $this->request->getPost('id');
+        $id_supplier = $this->request->getPost('supplier');
+        $id_produk = $this->request->getPost('produk');
+        $total_item = $this->request->getPost('totalitem');
 
         // Retrieve product data including the purchase price
         $produkData = $this->produkModel->find($id_produk);
@@ -133,9 +133,10 @@ class BarangMasuk extends BaseController
         return $this->response->setJSON($response);  
     }
 
-    public function hapusDataBarangMasuk($id_barang_masuk)
+    public function hapusDataBarangMasuk()
     {
         // Retrieve data of the transaction to get id_produk and total_item
+        $id_barang_masuk = $this->request->getPost('id');
         $transaction = $this->barangmasukModel->find($id_barang_masuk);
         $id_produk = $transaction['id_produk'];
         $total_item = $transaction['total_item'];

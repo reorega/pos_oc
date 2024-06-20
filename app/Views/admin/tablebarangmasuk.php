@@ -83,13 +83,13 @@
                                 <h4 class="modal-title" id="exampleModalLabel">Edit Data</h4>
                             </div>
                             <div class="modal-body">
-                                <form action="<?= base_url('/admin/editDataBarangMasuk'); ?>" method="post"
-                                    enctype="multipart/form-data">
+                                <form action="" method="post" enctype="multipart/form-data">
                                     <input type="hidden" name="id_barang_masuk" value="<?= $brg['id_barang_masuk'] ?>">
                                     <div class="form-group">
-                                        <label for="inputSupplier" class="form-label">Nama Supplier</label>
+                                        <label for="editSupplier<?= $brg['id_barang_masuk'] ?>" class="form-label">Nama
+                                            Supplier</label>
                                         <select class="form-control selectpicker" aria-label="Default select example"
-                                            name="id_supplier" data-live-search="true">
+                                            id="editSupplier<?= $brg['id_barang_masuk'] ?>" data-live-search="true">
                                             <option selected disabled>Pilih Supplier</option>
                                             <?php foreach ($suppliers as $supplier) : ?>
                                             <option value="<?= $supplier['id_supplier']; ?>"
@@ -100,9 +100,10 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="inputProduk" class="form-label">Nama Produk</label>
+                                        <label for="editProduk<?= $brg['id_barang_masuk'] ?>" class="form-label">Nama
+                                            Produk</label>
                                         <select class="form-control selectpicker" aria-label="Default select example"
-                                            name="produk_id" data-live-search="true">
+                                            id="editProduk<?= $brg['id_barang_masuk'] ?>" data-live-search="true">
                                             <option selected disabled>Pilih Produk</option>
                                             <?php foreach ($produk as $pdk) : ?>
                                             <option value="<?= $pdk['id_produk']; ?>"
@@ -113,15 +114,18 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="inputTotalItem" class="form-label">Total Item</label>
-                                        <input type="text" class="form-control" id="inputTotalItem" name="total_item"
+                                        <label for="editTotalItem<?= $brg['id_barang_masuk'] ?>"
+                                            class="form-label">Total Item</label>
+                                        <input type="text" class="form-control"
+                                            id="editTotalItem<?= $brg['id_barang_masuk'] ?>" name="total_item"
                                             value="<?= $brg['total_item'] ?>">
                                     </div>
                                     <!-- Hidden input for the current date -->
                                     <input type="hidden" name="tanggal" value="<?= date('Y-m-d') ?>">
                                     <!-- End of hidden input -->
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                                    <button type="subrgit" class="btn btn-success">Simpan Perubahan</button>
+                                    <button type="button" class="btn btn-success"
+                                        onclick="editData('<?= $brg['id_barang_masuk'] ?>')">Simpan Perubahan</button>
                                 </form>
                             </div>
                         </div>
@@ -147,22 +151,20 @@
                                 <p>Anda Yakin Menghapus Data Barang Masuk?</p>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                                <form
-                                    action="<?= base_url('/admin/hapusDataBarangMasuk/' . $brg['id_barang_masuk']); ?>"
-                                    method="post">
-                                    <button type="subrgit" class="btn btn-danger">Hapus Data</button>
+                                <form id="formHapus<?= $brg['id_barang_masuk'] ?>" action="" method="">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                    <button type="button" class="btn btn-danger" onclick="hapusData('<?= $brg['id_barang_masuk'] ?>')">Hapus Data</button>
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- End Modal Hapus -->
-             </td>
-                    </tr>
-                <?php $nilai++; ?>
-                <?php endforeach; ?>
-            </tbody>
+            </td>
+        </tr>
+        <?php $nilai++; ?>
+        <?php endforeach; ?>
+    </tbody>
 </table>
 <?php
     if($search=="no"){

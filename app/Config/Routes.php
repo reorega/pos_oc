@@ -52,7 +52,7 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->get('barangmasuk', 'BarangMasuk');
     $routes->post('tambahDataBarangMasuk', 'BarangMasuk::tambahDataBarangMasuk');
     $routes->post('editDataBarangMasuk', 'BarangMasuk::editDataBarangMasuk');
-    $routes->post('hapusDataBarangMasuk/(:num)', 'BarangMasuk::hapusDataBarangMasuk/$1');
+    $routes->post('hapusDataBarangMasuk', 'BarangMasuk::hapusDataBarangMasuk');
     $routes->post('ambilDataBarangMasuk', 'BarangMasuk::ambilDataBarangMasuk');
 
     // Cetak Barcode
