@@ -14,29 +14,6 @@ class KategoriModel extends Model
     protected $createdField = 'created_at';
     protected $updatedField = 'updated_at';
 
-    public function getKategori($id_kategori = null)
-    {
-        if ($id_kategori === null) {
-            return $this->findAll();
-        }
-
-        return $this->find($id_kategori);
-    }
-
-    public function tambahKategori($data)
-    {
-        return $this->insert($data);
-    }
-
-    public function updateKategori($id_kategori, $data)
-    {
-        return $this->update($id_kategori, $data);
-    }
-
-    public function hapusKategori($id_kategori)
-    {
-        return $this->delete($id_kategori);
-    }
     public function totalKategori()
     {
         return $this->countAll();
@@ -49,5 +26,3 @@ class KategoriModel extends Model
         return $result;
     } 
 }
-
-
