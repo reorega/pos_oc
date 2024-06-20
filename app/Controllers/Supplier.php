@@ -65,8 +65,13 @@ class Supplier extends BaseController
     public function editDataSupplier(){
         $id = $this->request->getPost('id');
         $alamat = $this->request->getPost('alamat');
-        $existingCount = $this->supplierModel->where('alamat', $alamat)->countAllResults();
-        $kodeSupplier = strtoupper(substr($alamat, 0, 3)) . sprintf('%03d', $existingCount + 1);
+        $cari=$this->supplierModel->find($id);
+        if($alamat != $cari['alamat']){
+            $existingCount = $this->supplierModel->where('alamat', $alamat)->countAllResults();
+            $kodeSupplier = strtoupper(substr($alamat, 0, 3)) . sprintf('%03d', $existingCount + 1);
+        }else{
+            $kodeSupplier=$cari['kode_supplier'];
+        }
         
         $data = [
             'kode_supplier' => $kodeSupplier,

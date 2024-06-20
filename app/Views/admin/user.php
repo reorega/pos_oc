@@ -54,7 +54,10 @@
           </div>
           <div class="form-group">
             <label for="formFile" class="form-label">Foto User</label>
-            <input class="form-control" type="file" id="formFile" name="foto_user">
+            <input class="form-control" type="file" id="formFileTambah" name="foto_user"
+              onchange="previewTambahFoto(this, 'tambahFotoPreview')">
+            <br>
+            <img id="tambahFotoPreview" src="" alt="Foto User" style="max-height: 150px; display: none;">
           </div>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
           <button type="submit" class="btn btn-success">Simpan Data</button>
@@ -93,5 +96,17 @@
       }
     });
   }
+
+  function previewTambahFoto(input, idPreview) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#' + idPreview).attr('src', e.target.result).show();
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
 </script>
 <?= $this->endSection()?>

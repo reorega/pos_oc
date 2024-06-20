@@ -54,9 +54,19 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="formFile" class="form-label">Foto User</label>
-                                        <input class="form-control" type="file" id="formFile" name="foto_user">
+                                        <input class="form-control" type="file" id="formFile" name="foto_user"
+                                            onchange="previewEditFoto(this, 'editFotoPreview<?= $user['id_user'] ?>')">
+                                        <br>
+                                        <?php if (!empty($user['foto_user'])) : ?>
+                                        <img id="editFotoPreview<?= $user['id_user'] ?>"
+                                            src="<?= base_url('/assets/fotoUser/' . $user['foto_user']); ?>"
+                                            alt="Foto User" style="max-height: 150px;">
+                                        <?php else : ?>
+                                        <img id="editFotoPreview<?= $user['id_user'] ?>" src="" alt="Foto User"
+                                            style="max-height: 150px; display: none;">
+                                        <?php endif; ?>
                                     </div>
-                                    <input type="hidden" name="id" value="<?= $user['id_user']?>">
+                                    <input type="hidden" name="id" value="<?= $user['id_user'] ?>">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                                     <button type="submit" class="btn btn-success">Simpan Perubahan</button>
                                 </form>
@@ -82,14 +92,14 @@
                                     <p class="">Anda Yakin Menghapus Data User <?= $user['username']?>?</p>
                                 </div>
                                 <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                                <a href="<?= base_url('/admin/hapusDataUser/' . $user['id_user']);?>"
-                                    class="btn btn-danger">Hapus
-                                    Data</a>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                    <a href="<?= base_url('/admin/hapusDataUser/' . $user['id_user']);?>"
+                                        class="btn btn-danger">Hapus
+                                        Data</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
             </td>
         </tr>
         <?php endforeach; ?>
