@@ -39,11 +39,8 @@ class Auth extends Controller
                     'isLoggedIn' => true,
                     'username' => $user['username'],
                     'level' => $user['level_users'],
-                    'nama_perusahaan' => $setting['nama_perusahaan'],
-                    'path_logo' => $setting['path_logo'],
-                    'alamat' => $setting['alamat'],
-                    'telepon' => $setting['telepon'],
                     'foto_user' => $user['foto_user'],
+                    'user_id' => $user['id_user'],
                 ]);
                 return redirect()->to($this->redirectBasedOnLevel($user['level_users']));
             } else {

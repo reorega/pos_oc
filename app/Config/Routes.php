@@ -11,6 +11,9 @@ use App\Filters\Kasir;
 $routes->get('/', 'Home::index');
 $routes->post('/auth', 'Auth::process');
 $routes->get('/logout', 'Auth::logout');
+$routes->get('profile','User::profile');
+$routes->post('updateProfile','User::updateProfile');
+
 $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->get('/', 'Admin');
 
@@ -66,6 +69,10 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     //Laporan
     $routes->get('laporan', 'Laporan');
     $routes->post('ambilDataLaporan', 'Laporan::ambilData');
+
+    //penjualan
+    $routes->get('penjualan', 'Penjualan');
+    $routes->post('ambilDataPenjualan', 'Penjualan::dataPenjualan'); 
 });
 
 $routes->group('kasir', ['filter' => 'kasir'], function ($routes) {

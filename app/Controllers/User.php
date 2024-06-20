@@ -88,4 +88,40 @@ class User extends BaseController
         }
  
     }
+    public function profile(){
+        $session= session();
+        $id= $session->user_id;
+        $data['profile'] = $this->userModel->find($id);
+        $setting= $this->loadConfigData();
+        $data['setting'] = $setting;
+        return view('/profile',$data);
+    }
+    public function updateProfile(){
+        $id=$this->request->getPost('id');
+        $username=$this->request->getPost('username');
+        $email=$this->request->getPost('email');
+        $password=$this->request->getPost('password');
+        $foto_user=$this->request->getFile('foto_user');
+        $user=$this->userModel->find($id);
+        
+        if ($foto_user->getSize() > 0) {
+            // Jika ada file baru yang diunggah   
+            unlink(ROOTPATH . 'public/assets/fotoUser/' . $user['foto_user']); // Hapus foto lama           
+            $nama_file = $foto_user->getClientName(); // Menggunakan nama file baru
+            $foto_user->move(ROOTPATH . 'public/assets/fotoUser',$nama_file);
+        } else {
+            // Jika tidak ada file baru yang diunggah
+            $nama_file = $user['foto_user']; // Gunakan foto lama
+        }
+        $data = [
+            'username' => $this->request->getPost('username'),
+            'email' => $this->request->getPost('email'),
+            'password' => $this->request->getPost('password'),
+            'foto_user' => $nama_file,
+            'password' => $this->request->getPost('password'),
+        ];
+        $this->userModel->update($id,$data);
+        return redirect()->to(base_url('/profile'))->with('success', 'Data berhasil diperbarui');
+    }
+
 }
