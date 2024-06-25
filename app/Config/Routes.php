@@ -12,6 +12,9 @@ $routes->get('/', 'Home::index');
 $routes->post('/auth', 'Auth::process');
 $routes->get('/logout', 'Auth::logout');
 
+$routes->get('profile','User::profile');
+$routes->post('updateProfile','User::updateProfile');
+
 
 $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->get('/', 'Admin');
@@ -55,7 +58,7 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->get('barangmasuk', 'BarangMasuk');
     $routes->post('tambahDataBarangMasuk', 'BarangMasuk::tambahDataBarangMasuk');
     $routes->post('editDataBarangMasuk', 'BarangMasuk::editDataBarangMasuk');
-    $routes->post('hapusDataBarangMasuk/(:num)', 'BarangMasuk::hapusDataBarangMasuk/$1');
+    $routes->post('hapusDataBarangMasuk', 'BarangMasuk::hapusDataBarangMasuk');
     $routes->post('ambilDataBarangMasuk', 'BarangMasuk::ambilDataBarangMasuk');
 
     // Cetak Barcode
@@ -71,7 +74,9 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->post('ambilDataLaporan', 'Laporan::ambilData');
     $routes->post('cetakLaporanPdf', 'Laporan::cetakPdf');
 
-
+    //penjualan
+    $routes->get('penjualan', 'Penjualan');
+    $routes->post('ambilDataPenjualan', 'Penjualan::dataPenjualan'); 
 
 });
 

@@ -69,4 +69,41 @@ class Penjualan extends BaseController
         $dataPenjualan = $this->penjualanModel->dataChart($startDate, $endDate);
         return $this->response->setJSON($dataPenjualan);
     }
+    public function index(){
+        $data['judul']="Halaman Penjualan";
+        $data['page_title']="Penjualan";
+        $setting= $this->loadConfigData();
+        $data['setting'] = $setting;
+        return view('/admin/penjualan',$data); 
+    }
+
+public function dataPenjualan(){
+        $tanggalawal=$this->request->getPost('tanggalmulai');
+        $tanggalakhir=$this->request->getPost('tanggalakhir');
+        $page = $this->request->getPost('page') ?? 1;
+        $jumlahpagination = 5;
+        $no = $page * $jumlahpagination - ($jumlahpagination - 1);
+        if($tanggalawal != ""){
+            $olah_data = $this->penjualanModel->dataPenjualan($tanggalawal,$tanggalakhir,$jumlahpagination,$page);
+            $data=[
+                'penjualan' => $olah_data['penjualan'],
+                'pager' => $olah_data['pager'],
+                'no' => $no,  
+            ];
+        }else
+        {
+            $tanggalakhir = date('Y-m-d'); // Mendapatkan tanggal hari ini dalam format 'Y-m-d'
+            $tanggalakhir_unix = strtotime($tanggalakhir); // Mengonversi tanggal menjadi UNIX timestamp
+            $tanggalawal_unix = strtotime('-1 week', $tanggalakhir_unix); // Mengurangi satu minggu dari tanggal akhir
+            $tanggalawal = date('Y-m-d', $tanggalawal_unix);
+            $olah_data = $this->penjualanModel->dataPenjualan($tanggalawal,$tanggalakhir,$jumlahpagination,$page);
+            $data=[
+                'penjualan' => $olah_data['penjualan'],
+                'pager' => $olah_data['pager'],
+                'no' => $no,              
+            ];
+        }
+        $table = view('admin/tablepenjualan', $data);
+        return $this->response->setJSON(['table' => $table]);
+    }
 }

@@ -1,14 +1,21 @@
 <?= $this->extend('layout/master') ?>
 <?= $this->section('content') ?>
 <div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            Tabel Laporan
+        </h1>
+    </section>
+    <input type="hidden" id="page" value="1">
     <section class="content">
-        <div class="row">
-            <div class="col-md-2">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tambahData">
-                    <i class="fa fa-plus-square"></i> Pilih Periode
-                </button>
-                <br><br>
-                <div class="modal fade" id="tambahData" tabindex="-1" aria-labelledby="exampleModalLabel"
+        <div class="box">
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-9">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tambahData">
+                            <i class="fa fa-plus-square"></i> Pilih Periode
+                        </button>
+                        <div class="modal fade" id="tambahData" tabindex="-1" aria-labelledby="exampleModalLabel"
                     aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -35,12 +42,13 @@
                         </div>
                     </div>
                 </div>
+                <br>
+                <div class="dataLaporan"></div>
             </div>
             <div class="col-md-1">
                 <button type="button" class="btn btn-primary" onclick="cetakPdf()"> Cetak PDF</button>
             </div>
         </div>
-        <div class="dataLaporan"></div>
     </section>
 </div>
 <script src="<?= base_url('assets/js/jquery-3.7.1.min.js'); ?>"></script>
@@ -53,6 +61,7 @@
             format: "yyyy-mm-dd"
         });
         ambilData();
+
         $('#btnTerapkan').on('click', function () {
             ambilData();
         });
@@ -67,12 +76,14 @@
                 tanggalakhir: $('#tanggalakhir').val(),
             },
             dataType: "json",
-            success: function (response) {
+
+            success: function(response) {
                 if (response.table) {
                     $('.dataLaporan').html(response.table);
                     $('#tambahData').modal('hide');
                 }
             },
+
             error: function (xhr, thrownError) {
                 alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
             }
@@ -90,9 +101,12 @@
             success: function (response) {
             },
             error: function (xhr, thrownError) {
+
                 alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
             }
         });
     }
 </script>
+
 <?= $this->endSection() ?>
+

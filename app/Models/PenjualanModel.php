@@ -107,14 +107,14 @@ class PenjualanModel extends Model
         $query = $this->db->query($sql);
         $result = $query->getResultArray();
         return $result;
-    }
-    public function dataPenjualan($start_date, $end_date, $perPage = 10, $page = 1)
-    {
-        $builder = $this->builder();
+    
+    public function dataPenjualan($start_date, $end_date,$perPage = 10, $page = 1){
+        $builder=$this->builder();
         $builder->select('penjualan.*,DATE(penjualan.created_at) as tanggal,users.username as user')
-            ->join('users', 'users.id_user = penjualan.user_id')
-            ->where('DATE(penjualan.created_at) >=', $start_date)
-            ->where('DATE(penjualan.created_at) <=', $end_date);
+        ->join('users','users.id_user = penjualan.user_id')
+        ->where('DATE(penjualan.created_at) >=', $start_date)
+        ->where('DATE(penjualan.created_at) <=', $end_date);
+
         return [
             'penjualan' => $this->paginate($perPage, 'default', $page),
             'pager' => $this->pager,

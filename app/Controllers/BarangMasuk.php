@@ -10,19 +10,49 @@ class BarangMasuk extends BaseController
     {
         $data['judul'] = "Halaman BarangMasuk";
         $data['page_title'] = "BarangMasuk";
-        $data['barangmasuk'] = $this->barangmasukModel->join(); // Menggunakan method join dari PembelianModel untuk mendapatkan data pembelian
         $data['suppliers'] = $this->supplierModel->findAll(); // Ambil semua data supplier
         $data['produk'] = $this->produkModel->findAll(); // Ambil semua data produk
-        $data['setting'] = $this->loadConfigData(); // Load data konfigurasi
+        $setting= $this->loadConfigData();
+        $data['setting'] = $setting; // Load data konfigurasi
         return view('/admin/barangmasuk', $data);
+    }
+    
+    public function ambilDataBarangMasuk()
+    {
+        $search=$this->request->getPost('search');
+        $page = $this->request->getPost('page') ?? 1;
+        $jumlahpagination = 5;
+        $no = $page * $jumlahpagination - ($jumlahpagination - 1);
+        if($search != ""){           
+            $data = [
+                'barangmasuk' => $this->barangmasukModel->searchbarangmasuk($search),
+                'suppliers' => $this->supplierModel->findAll(),
+                'produk' => $this->produkModel->findAll(),
+                'search' => "yes",
+            ];
+        } else 
+        {
+            $cari = $this->barangmasukModel->barangmasukPagination($jumlahpagination,$page);
+            $data=[
+                'barangmasuk' => $cari['barangmasuk'] ,
+                'pager' => $cari['pager'],
+                'suppliers' => $this->supplierModel->findAll(),
+                'produk' => $this->produkModel->findAll(),
+                'no' => $no,
+                'search' => "no",
+            ];
+        }
+        // Load view untuk tabel pembelian
+        $table = view('admin/tablebarangmasuk', $data);
+        return $this->response->setJSON(['table' => $table]);
     }
 
     public function tambahDataBarangMasuk()
     {
         // Retrieve input data from the form
-        $id_supplier = $this->request->getPost('id_supplier');
-        $id_produk = $this->request->getPost('produk_id');
-        $total_item = (int) $this->request->getPost('total_item');
+        $id_supplier = $this->request->getPost('supplier');
+        $id_produk = $this->request->getPost('produk');
+        $total_item = (int) $this->request->getPost('totalitem');
 
         // Retrieve product data including the purchase price
         $produkData = $this->produkModel->find($id_produk);
@@ -47,31 +77,33 @@ class BarangMasuk extends BaseController
         // Insert data into the database
         $this->barangmasukModel->insert($data);
 
-        $this->updateStock($id_produk, $total_item);
+        $this->updateStok($id_produk, $total_item);
+        cache()->clean();
+        $response = [
+            'status' => 'success',              
+        ];
+        return $this->response->setJSON($response); 
+      }
 
-        // Redirect to the BarangMasuk page with success message
-        return redirect()->to('admin/barangmasuk')->with('success', 'Data barang masuk berhasil ditambahkan.');
-    }
-
-    private function updateStock($id_produk, $total_item)
+    private function updateStok($id_produk, $total_item)
     {
         // Get current stock
-        $currentStock = $this->produkModel->find($id_produk)['stok'];
+        $currentStok = $this->produkModel->find($id_produk)['stok'];
 
         // Calculate new stock
-        $newStock = $currentStock + $total_item;
+        $newStok = $currentStok + $total_item;
 
         // Update stock in ProdukModel
-        $this->produkModel->update($id_produk, ['stok' => $newStock]);
+        $this->produkModel->update($id_produk, ['stok' => $newStok]);
     }
 
     public function editDataBarangMasuk()
     {
         // Retrieve input data from the form
-        $id_barang_masuk = $this->request->getPost('id_barang_masuk');
-        $id_supplier = $this->request->getPost('id_supplier');
-        $id_produk = $this->request->getPost('produk_id');
-        $total_item = $this->request->getPost('total_item');
+        $id_barang_masuk = $this->request->getPost('id');
+        $id_supplier = $this->request->getPost('supplier');
+        $id_produk = $this->request->getPost('produk');
+        $total_item = $this->request->getPost('totalitem');
 
         // Retrieve product data including the purchase price
         $produkData = $this->produkModel->find($id_produk);
@@ -90,20 +122,21 @@ class BarangMasuk extends BaseController
         // Find the previous total_item
         $previousTransaction = $this->barangmasukModel->find($id_barang_masuk);
         $previousTotalItem = $previousTransaction['total_item'];
-
         // Update data in the database
         $this->barangmasukModel->update($id_barang_masuk, $data);
-
         // Update stock in ProdukModel by subtracting the previous total_item and adding the new total_item
-        $this->updateStock($id_produk, $total_item - $previousTotalItem);
-
-        // Redirect to the BarangMasuk page with success message
-        return redirect()->to('admin/barangmasuk')->with('success', 'Data barang masuk berhasil diubah.');
+        $this->updateStok($id_produk, $total_item - $previousTotalItem);
+        cache()->clean();
+        $response = [
+            'status' => 'success',              
+        ];
+        return $this->response->setJSON($response);  
     }
 
-    public function hapusDataBarangMasuk($id_barang_masuk)
+    public function hapusDataBarangMasuk()
     {
         // Retrieve data of the transaction to get id_produk and total_item
+        $id_barang_masuk = $this->request->getPost('id');
         $transaction = $this->barangmasukModel->find($id_barang_masuk);
         $id_produk = $transaction['id_produk'];
         $total_item = $transaction['total_item'];
@@ -112,32 +145,12 @@ class BarangMasuk extends BaseController
         $this->barangmasukModel->delete($id_barang_masuk);
 
         // Update stock in ProdukModel by subtracting the total_item of the deleted transaction
-        $this->updateStock($id_produk, -$total_item);
-
-        // Redirect to the BarangMasuk page with success message
-        return redirect()->to('admin/barangmasuk')->with('success', 'Data barang masuk berhasil dihapus.');
+        $this->updateStok($id_produk, -$total_item);
+        cache()->clean();
+        $response = [
+            'status' => 'success',              
+        ];
+        return $this->response->setJSON($response); 
     }
 
-    public function ambilDataBarangMasuk()
-    {
-        $search = $this->request->getPost('search');
-        if ($search != "") {
-            // Cari pembelian berdasarkan kode produk atau nama produk
-            $data = [
-                'barangmasuk' => $this->barangmasukModel->searchbarangmasuk($search),
-                'suppliers' => $this->supplierModel->findAll(),
-                'produk' => $this->produkModel->findAll(),
-            ];
-        } else {
-            // Jika tidak ada kata kunci pencarian, ambil semua data pembelian
-            $data = [
-                'barangmasuk' => $this->barangmasukModel->join(),
-                'suppliers' => $this->supplierModel->findAll(),
-                'produk' => $this->produkModel->findAll(),
-            ];
-        }
-        // Load view untuk tabel pembelian
-        $table = view('admin/tablebarangmasuk', $data);
-        return $this->response->setJSON(['table' => $table]);
-    }
 }
