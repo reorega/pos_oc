@@ -1,8 +1,8 @@
 <table class="table table-hover mt-2 table-bordered">
-  <thead class="table-dark">
+  <thead class="table">
     <tr>
-      <td>Kode Produk</td>
-      
+      <td>No</td>
+      <td>Nama Produk</td>
       <td>Diskon</td>
       <td>Harga Jual</td>
       <td>Qty</td>
@@ -14,6 +14,7 @@
     <?php $nilai =1;?>
         <?php foreach ($datadetail as $pdk) : ?>
             <tr>
+                <td><?= $nilai;  ?></td>
                 <td><?= $pdk['produk'] ?></td>
                 <td><?= $pdk['diskon'] ?></td>
                 <td><?= number_format($pdk['harga_jual'],0,",",".") ?></td>

@@ -37,6 +37,18 @@
             max-height: 100px; /* Tinggi maksimum dropdown untuk memicu scroll */
             overflow-y: auto;
         }
+        .col-md-8 {
+          max-height: 270px;
+          overflow-y: scroll;
+        }
+        .col-md-8 .table thead {
+          position: sticky;
+          top: 0;
+          z-index: 1;
+        }
+        
+        
+  
     </style>
 </head>
 

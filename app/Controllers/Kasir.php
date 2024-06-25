@@ -5,12 +5,24 @@ namespace App\Controllers;
 class Kasir extends BaseController
 {
     public function index()
-    { 
-        
-        $penjualan = $this->penjualanModel->dataChart();
-        $setting= $this->loadConfigData();
+    {
+        $totalKategori = $this->kategoriModel->totalKategori();
+        $data['totalKategori'] = $totalKategori;
+
+
+        $totalProduk = $this->produkModel->totalProduk();
+        $data['totalProduk'] = $totalProduk;
+
+
+        $totalSupplier = $this->supplierModel->totalSupplier();
+        $data['totalSupplier'] = $totalSupplier;
+
+
+        $totalUser = $this->userModel->totalUser();
+        $data['totalUser'] = $totalUser;
+
+        $setting = $this->loadConfigData();
         $data['setting'] = $setting;
-        $data['penjualan'] = $penjualan;
-        return view('kasir/index',$data);
+        return view('kasir/index', $data);
     }
 }

@@ -21,13 +21,14 @@
                 <!-- small box -->
                 <div class="small-box bg-aqua">
                     <div class="inner">
-                        <h3>150</h3>
+                        <h3><?= $totalKategori ?></h3>
                         <p><b>TOTAL KATEGORI</b></p>
                     </div>
                     <div class="icon">
                         <i class="fa fa-cubes"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="admin/kategori" class="small-box-footer">More info <i
+                            class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -35,13 +36,14 @@
                 <!-- small box -->
                 <div class="small-box bg-green">
                     <div class="inner">
-                        <h3>505</h3>
+                        <h3><?= $totalProduk ?></h3>
                         <p><b>TOTAL PRODUK</b></p>
                     </div>
                     <div class="icon">
                         <i class="fa fa-cube"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="admin/produk" class="small-box-footer">More info <i
+                            class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -49,13 +51,14 @@
                 <!-- small box -->
                 <div class="small-box bg-yellow">
                     <div class="inner">
-                        <h3>4</h3>
-                        <p><b>TOTAL SUPLIER</b></p>
+                        <h3><?= $totalSupplier ?></h3>
+                        <p><b>TOTAL SUPPLIER</b></p>
                     </div>
                     <div class="icon">
                         <i class="fa fa-truck"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="admin/supplier" class="small-box-footer">More info <i
+                            class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -63,13 +66,14 @@
                 <!-- small box -->
                 <div class="small-box bg-red">
                     <div class="inner">
-                        <h3>2</h3>
+                        <h3><?= $totalUser ?></h3>
                         <p><b>TOTAL USERS</b></p>
                     </div>
                     <div class="icon">
                         <i class="fa fa-users"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="admin/users" class="small-box-footer">More info <i
+                            class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -91,7 +95,7 @@
                                 data-toggle="tooltip" title="Collapse" style="margin-right: 5px;">
                                 <i class="fa fa-minus"></i></button>
                         </div>
-                        <li class="pull-left header"><i class="fa fa-bar-chart"></i> Sales Graph</li>
+                        <li class="pull-left header"><i class="fa fa-bar-chart"></i>Jumlah Item Terjual</li>
                     </ul>
                     <div class="tab-content no-padding">
                         <!-- Morris chart - Sales -->
@@ -131,36 +135,61 @@
         </div>
     </section>
 </div>
-<script src="<?= base_url('assets/js/jquery-3.7.1.min.js');?>"></script>
+<script src="<?= base_url('assets/js/jquery-3.7.1.min.js'); ?>"></script>
 <script>
-    $(function () {
-        'use strict';
-            var area = new Morris.Area({
-            element   : 'revenue-chart',
-            resize    : true,
-            data      : [
-                <?php foreach ($penjualan as $pj) : ?>
-
-            { 
-                y: '<?= $pj['tanggal'] ?>', item1: <?= $pj['item']?>,
-
-            },
-            <?php endforeach; ?>
-
-
+    function updateChartData(startDate, endDate) {
+        var area = new Morris.Area({
+            element: 'revenue-chart',
+            resize: true,
+            data: [],
+            xkey: 'y',
+            ykeys: [
+                'item',
             ],
-            xkey      : 'y',
-            ykeys     : [
-                'item1',
-            ],
-            labels    : [
+            labels: [
                 'Jumlah item terjual',
             ],
             lineColors: ['#a0d0e0'],
-            hideHover : 'auto'
-           
+            hideHover: 'auto'
+
         });
-        
+        $.ajax({
+            url: '<?php echo base_url('/admin/ambilDataChart'); ?>',
+            method: 'POST',
+            data: {
+                start_date: startDate.format('YYYY-MM-DD'),
+                end_date: endDate.format('YYYY-MM-DD')
+            },
+            dataType: 'json',
+            success: function (response) {
+                var chartData = response.map(function (item) {
+                    return {
+                        y: item.tanggal,
+                        item: item.item
+                    };
+                });
+                area.setData(chartData);
+            }
+        });
+    }
+    $(document).ready(function () {
+        $('.daterange').daterangepicker({
+            ranges: {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            },
+            startDate: moment().subtract(29, 'days'),
+            endDate: moment()
+        }, function (start, end) {
+            updateChartData(start, end);
+        });
+
+        // Initial load
+        updateChartData(moment().subtract(29, 'days'), moment());
     });
 </script>
 <?= $this->endSection(); ?>

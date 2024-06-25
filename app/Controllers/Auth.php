@@ -34,16 +34,17 @@ class Auth extends Controller
         if ($user) {
             // mengecek password
             if ($password === $user['password']) {
-                $setting = $this->settingModel->first();
+                $role="Kasir";
+                if($user['level_users']==1){
+                    $role="Administrator";
+                }
                 $session->set([
                     'isLoggedIn' => true,
                     'username' => $user['username'],
                     'level' => $user['level_users'],
-                    'nama_perusahaan' => $setting['nama_perusahaan'],
-                    'path_logo' => $setting['path_logo'],
-                    'alamat' => $setting['alamat'],
-                    'telepon' => $setting['telepon'],
                     'foto_user' => $user['foto_user'],
+                    'user_id' => $user['id_user'],
+                    'role' => $role,
                 ]);
                 return redirect()->to($this->redirectBasedOnLevel($user['level_users']));
             } else {

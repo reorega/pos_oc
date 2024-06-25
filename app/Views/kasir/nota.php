@@ -65,9 +65,9 @@
 
     <button class="btn-print" style="position: absolute; right: 1rem; top: rem;" onclick="window.print()">Print</button>
     <div class="text-center">
-        <h3 style="margin-bottom: 5px;"><?=$session->nama_perusahaan?></h3>
-        <p><?=$session->alamat?></p>
-        <p>No. <?=$session->telepon?></p>
+        <h3 style="margin-bottom: 5px;"><?=$setting['nama_perusahaan']?></h3>
+        <p><?=$setting['alamat']?></p>
+        <p>No. <?=$setting['telepon']?></p>
     </div>
     <br>
     <div>
