@@ -133,25 +133,14 @@
 </div>
 <script src="<?= base_url('assets/js/jquery-3.7.1.min.js');?>"></script>
 <script>
-    $(function () {
-        'use strict';
-            var area = new Morris.Area({
+    function updateChartData(startDate, endDate) {
+        var area = new Morris.Area({
             element   : 'revenue-chart',
             resize    : true,
-            data      : [
-                <?php foreach ($penjualan as $pj) : ?>
-
-            { 
-                y: '<?= $pj['tanggal'] ?>', item1: <?= $pj['item']?>,
-
-            },
-            <?php endforeach; ?>
-
-
-            ],
+            data      : [ ],
             xkey      : 'y',
             ykeys     : [
-                'item1',
+                'item',
             ],
             labels    : [
                 'Jumlah item terjual',
@@ -160,7 +149,43 @@
             hideHover : 'auto'
            
         });
-        
-    });
+        $.ajax({
+            url: '<?php echo base_url('/admin/ambilDataChart'); ?>',
+            method: 'POST',
+            data: {
+                start_date: startDate.format('YYYY-MM-DD'),
+                end_date: endDate.format('YYYY-MM-DD')
+            },
+            dataType: 'json',
+            success: function(response) {
+                var chartData = response.map(function(item) {
+                    return {
+                        y: item.tanggal,
+                        item: item.item
+                    };
+                });
+                 area.setData(chartData);
+            }
+        });
+    }
+    $(document).ready(function() {
+            $('.daterange').daterangepicker({
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                },
+                startDate: moment().subtract(29, 'days'),
+                endDate: moment()
+            }, function(start, end) {
+                updateChartData(start, end);
+            });
+
+            // Initial load
+            updateChartData(moment().subtract(29, 'days'), moment());
+        });
 </script>
 <?= $this->endSection(); ?>

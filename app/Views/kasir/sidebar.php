@@ -2,12 +2,13 @@
     <section class="sidebar">
         <!-- Panel pengguna bilah sisi -->
         <div class="user-panel">
-            <?php $session= session();?>
+            <?php $session = session(); ?>
             <div class="pull-left image">
-                <img src="<?php echo base_url('assets/fotoUser/').$session->foto_user; ?>" class="img-circle" alt="User Image">
+                <img src="<?php echo base_url('assets/fotoUser/') . $session->foto_user; ?>" class="img-circle"
+                    alt="User Image">
             </div>
             <div class="pull-left info">
-                <p><?= $session->username;  ?></p>
+                <p><?= $session->username; ?></p>
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
         </div>
@@ -27,7 +28,7 @@
         <!-- Program Sidebar -->
         <ul class="sidebar-menu" data-widget="tree">
             <li class="treeview">
-                <a href="<?=site_url('home')?>">
+                <a href="<?= site_url('/kasir') ?>">
                     <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                 </a>
             </li>
@@ -38,7 +39,7 @@
                 </a>
             </li>
             <li class="<?= isset($page_title) && $page_title == 'Pos' ? 'active' : '' ?>">
-            <a href="<?= base_url('kasir/pos'); ?>">
+                <a href="<?= base_url('kasir/pos'); ?>">
                     <i class="fa fa-cube"></i> <span>Transaksi</span>
                 </a>
             </li>

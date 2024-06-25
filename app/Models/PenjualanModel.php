@@ -8,16 +8,17 @@ class PenjualanModel extends Model
 {
     protected $table = 'penjualan'; // Sesuaikan dengan nama tabel di database Anda
     protected $primaryKey = 'id_penjualan';
-    protected $allowedFields = ['no_faktur','tanggal','total_item','total_harga','diterima','kembalian','user_id']; // Kolom yang diizinkan untuk dimasukkan atau diperbarui
+    protected $allowedFields = ['no_faktur', 'tanggal', 'total_item', 'total_harga', 'diterima', 'kembalian', 'user_id']; // Kolom yang diizinkan untuk dimasukkan atau diperbarui
 
 
     protected $useTimestamps = true; // Mengaktifkan penggunaan kolom created_at dan updated_at
     protected $createdField = 'created_at'; // Nama kolom created_at di tabel
     protected $updatedField = 'updated_at'; // Nama kolom updated_at di tabel
-    public function cariData($keyword){
+    public function cariData($keyword)
+    {
         $query = $this->db->table('penjualan'); // Ganti 'nama_tabel' dengan nama tabel Anda
         $query->select('*'); // Ganti 'nama_kolom' dengan nama kolom yang ingin Anda cari
-        $query->where('no_faktur',$keyword); // Batasi hasil ke 1 baris
+        $query->where('no_faktur', $keyword); // Batasi hasil ke 1 baris
         $query->orderBy('no_faktur', 'ASC'); // Ganti 'nama_kolom_terurut' dengan nama kolom yang ingin Anda urutkan
         $result = $query->get()->getResultArray();
         return $result;
@@ -27,10 +28,11 @@ class PenjualanModel extends Model
         $query = $this->db->table('penjualan'); // Ganti 'nama_tabel' dengan nama tabel Anda
         $query->select('penjualan.*,users.username');
         $query->join('users', 'users.id_user = penjualan.user_id');
-        $result=$query->get()->getResultArray();
+        $result = $query->get()->getResultArray();
         return $result;
     }
-    public function laporanHarian($keyword){
+    public function laporanHarian($keyword)
+    {
         $query = $this->db->table('penjualan');
         $query->select('penjualan.*,users.username');
         $query->join('users', 'users.id_user = penjualan.user_id');
@@ -39,21 +41,26 @@ class PenjualanModel extends Model
         $result = $query->get()->getResultArray();
         return $result;
     }
-    public function jumlahItem($keyword){
+    public function jumlahItem($keyword)
+    {
         $query = $this->db->table('penjualan');
         $query->select('SUM(total_item) as item,SUM(total_harga) as harga,SUM(diterima) as diterima,SUM(kembalian) as kembalian');
         $query->where("DATE(created_at)", $keyword);
         $result = $query->get()->getResultArray();
         return $result;
     }
-    public function dataChart(){
+    public function dataChart($startDate, $endDate)
+    {
         $query = $this->db->table('penjualan');
         $query->select('DATE(created_at) as tanggal,SUM(total_item) as item,');
-        $query->groupBy('tanggal'); 
+        $query->where('created_at >=', $startDate);
+        $query->where('created_at <=', $endDate);
+        $query->groupBy('tanggal');
         $result = $query->get()->getResultArray();
-        return $result;  
+        return $result;
     }
-    public function laporan($start_date, $end_date) {
+    public function laporan($start_date, $end_date)
+    {
         $sql = "
             WITH RECURSIVE date_sequence AS (
                 SELECT DATE('$start_date') AS tanggal
@@ -96,21 +103,21 @@ class PenjualanModel extends Model
             ORDER BY 
                 ds.tanggal;
         ";
-    
+
         $query = $this->db->query($sql);
         $result = $query->getResultArray();
         return $result;
-    }
+    
     public function dataPenjualan($start_date, $end_date,$perPage = 10, $page = 1){
         $builder=$this->builder();
         $builder->select('penjualan.*,DATE(penjualan.created_at) as tanggal,users.username as user')
         ->join('users','users.id_user = penjualan.user_id')
         ->where('DATE(penjualan.created_at) >=', $start_date)
         ->where('DATE(penjualan.created_at) <=', $end_date);
+
         return [
             'penjualan' => $this->paginate($perPage, 'default', $page),
             'pager' => $this->pager,
         ];
     }
-
 }

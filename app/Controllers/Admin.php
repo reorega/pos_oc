@@ -23,8 +23,7 @@ class Admin extends BaseController
         $totalUser = $this->userModel->totalUser();
         $data['totalUser'] = $totalUser;
 
-        $penjualan = $this->penjualanModel->dataChart();
-        $data['penjualan'] = $penjualan;
+        
 
         $setting= $this->loadConfigData();
         $data['setting'] = $setting;

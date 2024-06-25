@@ -11,8 +11,10 @@ use App\Filters\Kasir;
 $routes->get('/', 'Home::index');
 $routes->post('/auth', 'Auth::process');
 $routes->get('/logout', 'Auth::logout');
+
 $routes->get('profile','User::profile');
 $routes->post('updateProfile','User::updateProfile');
+
 
 $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->get('/', 'Admin');
@@ -23,6 +25,7 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->post('editData', 'User::editData');
     $routes->get('hapusDataUser/(:num)', 'User::hapusData/$1');
     $routes->post('ambilDataUsers', 'User::ambilDataUsers');
+
 
     // Kategori
     $routes->get('kategori', 'Kategori');
@@ -50,7 +53,7 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->get('pengeluaran', 'Pengeluaran');
     $routes->get('downloadpdf', 'Pengeluaran::downloadPDF'); // tambahkan rute untuk download PDF
     $routes->get('pengeluaranpdf', 'Pengeluaran::pengeluaranpdf'); // tambahkan rute untuk download PDF
-   
+
     // Barang Masuk
     $routes->get('barangmasuk', 'BarangMasuk');
     $routes->post('tambahDataBarangMasuk', 'BarangMasuk::tambahDataBarangMasuk');
@@ -69,10 +72,12 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     //Laporan
     $routes->get('laporan', 'Laporan');
     $routes->post('ambilDataLaporan', 'Laporan::ambilData');
+    $routes->post('cetakLaporanPdf', 'Laporan::cetakPdf');
 
     //penjualan
     $routes->get('penjualan', 'Penjualan');
     $routes->post('ambilDataPenjualan', 'Penjualan::dataPenjualan'); 
+
 });
 
 $routes->group('kasir', ['filter' => 'kasir'], function ($routes) {
@@ -97,5 +102,8 @@ $routes->group('kasir', ['filter' => 'kasir'], function ($routes) {
     $routes->post('laporanHarianDetail', 'Penjualan::laporanHarianDetail');
     $routes->get('printPdf', 'Penjualan::printPdf');
     $routes->get('printPdf2', 'Penjualan::printPdf2');
+
+
+
 
 });
