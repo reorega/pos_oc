@@ -46,7 +46,7 @@
     <?php
     $style .= '
             html, body {
-                width: 70mm;
+                width: 60mm;
             }
             .btn-print {
                 display: none;
@@ -58,7 +58,7 @@
     <?= $style; ?>
 </head>
 
-<body onload="window.print()">
+<body onload="window.print(); window.close();">
     <?php  $session=session(); 
             $pj=$penjualan[0];
     ?>

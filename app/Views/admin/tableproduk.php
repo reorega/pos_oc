@@ -31,7 +31,7 @@
                 </button>
                 <button type="button" class="btn btn-info" data-toggle="modal"
                     data-target="#infoData<?= $pdk['id_produk'] ?>">
-                    <i class="fa fa-eye"></i> Info
+                    <i class="fa fa-eye"></i> Detail
                 </button>
                 <div class="modal fade" id="infoData<?= $pdk['id_produk'] ?>" tabindex="-1"
                     aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -41,7 +41,7 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
-                                <h4 class="modal-title" id="exampleModalLabel">Info Data</h4>
+                                <h4 class="modal-title" id="exampleModalLabel">Detail Data</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="form-group">
