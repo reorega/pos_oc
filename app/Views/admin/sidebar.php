@@ -49,11 +49,6 @@
                 </a>
             </li>
             <li class="header">TRANSAKSI</li>
-            <li class="<?= isset($page_title) && $page_title == 'Pengeluaran' ? 'active' : '' ?>">
-            <a href="<?= base_url('admin/pengeluaran'); ?>">
-                    <i class="fa fa-money"></i> <span>Pengeluaran</span>
-                </a>
-            </li>
             <li class="<?= isset($page_title) && $page_title == 'Barang_Masuk' ? 'active' : '' ?>">
             <a href="<?= base_url('admin/barangmasuk'); ?>">
                     <i class="fa fa-download"></i> <span>Barang Masuk</span>

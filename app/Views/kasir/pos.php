@@ -268,6 +268,13 @@
 
     }
     function simpanPenjualan() {
+        if($('#jumlahpembayaran').val()==""){
+            Swal.fire({
+                        title: "Error!",
+                        text: "Belum ada pembayaran!",
+                        icon: "info"
+                    });
+        }else{
         $.ajax({
             type: "post",
             url: "<?= site_url('kasir/simpanTransaksi') ?>",
@@ -287,6 +294,7 @@
             }
         });
     }
+    }
     function cetakNota(url, title) {
         console.log(url);
         console.log(title);
@@ -299,27 +307,28 @@
         var options = 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, width=' + width + ', height=' + height + ', top=' + top + ', left=' + left;
         window.open(url, title, options);
     }
-    function cekStok() {
-        $.ajax({
+    function cekStok2(id,kode,jumlah){
+    $.ajax({
             type: "post",
             url: "<?= site_url('kasir/cekStok') ?>",
             data: {
-                kodeProduk: $('#kodebarcode').val(),
-                jumlah: $('#jumlah').val(),
+                kodeProduk: kode,
+                jumlah: jumlah,
             },
             dataType: "json",
             success: function (response) {
                 if (response.status === 'error') {
-                    $('#cekstok').html('<div style="color: red;">' + response.message + '</div>').show();
+                    $('#cekstok2').html('<div style="color: red;">' + response.message + '</div>').show();
                 } else {
-                    $('#cekstok').html('<div style="color: green;">' + response.message + '</div>').show();
+                    $('#cekstok2').html('<div style="color: green;">' + response.message + '</div>').show();
+                    editSubtotal(id,kode,jumlah);
                 }
             },
             error: function (xhr, thrownError) {
                 alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
             }
         });
-    }
+  }
     function simpanTransaksiDetailScan() {
         $.ajax({
             type: "post",
@@ -359,9 +368,6 @@
             },
             dataType: "json",
             success: function (response) {
-                if (response.status == 'error') {
-                    $('#cekstok2').html('<div style="color: red;">' + response.message + '</div>').show();
-                }
                 ambilData();
                 ambilDataTotalHarga();
             },

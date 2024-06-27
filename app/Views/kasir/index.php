@@ -27,8 +27,7 @@
                     <div class="icon">
                         <i class="fa fa-cubes"></i>
                     </div>
-                    <a href="admin/kategori" class="small-box-footer">More info <i
-                            class="fa fa-arrow-circle-right"></i></a>
+                    
                 </div>
             </div>
             <!-- ./col -->
@@ -42,8 +41,7 @@
                     <div class="icon">
                         <i class="fa fa-cube"></i>
                     </div>
-                    <a href="admin/produk" class="small-box-footer">More info <i
-                            class="fa fa-arrow-circle-right"></i></a>
+                    
                 </div>
             </div>
             <!-- ./col -->
@@ -57,8 +55,7 @@
                     <div class="icon">
                         <i class="fa fa-truck"></i>
                     </div>
-                    <a href="admin/supplier" class="small-box-footer">More info <i
-                            class="fa fa-arrow-circle-right"></i></a>
+                    
                 </div>
             </div>
             <!-- ./col -->
@@ -72,8 +69,7 @@
                     <div class="icon">
                         <i class="fa fa-users"></i>
                     </div>
-                    <a href="admin/users" class="small-box-footer">More info <i
-                            class="fa fa-arrow-circle-right"></i></a>
+                    
                 </div>
             </div>
             <!-- ./col -->
@@ -121,7 +117,7 @@
                                 data-toggle="tooltip" title="Collapse" style="margin-right: 5px;">
                                 <i class="fa fa-minus"></i></button>
                         </div>
-                        <li class="pull-left header"><i class="fa fa-bar-chart"></i> Sales Graph</li>
+                        <li class="pull-left header"><i class="fa fa-bar-chart"></i>5 Produk Terlaris</li>
                     </ul>
                     <div class="tab-content no-padding">
                         <!-- Morris chart - Sales -->
@@ -238,8 +234,8 @@
         });
 
         // Initial load
-        updateChartData(moment().subtract(29, 'days'), moment());
-        updateDonut(moment().subtract(29, 'days'), moment());
+        updateChartData(moment().startOf('month'), moment().endOf('month'));
+        updateDonut(moment().startOf('month'), moment().endOf('month'));
         
     });
     

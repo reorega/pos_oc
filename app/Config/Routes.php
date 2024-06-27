@@ -78,6 +78,8 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->get('penjualan', 'Penjualan');
     $routes->post('ambilDataPenjualan', 'Penjualan::dataPenjualan');
     $routes->post('ambilDataChart', 'Penjualan::dataChart');
+    $routes->post('ambilDataDonut', 'Penjualan::dataDonut');
+
 
 
 });
