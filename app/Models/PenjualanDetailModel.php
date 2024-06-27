@@ -82,4 +82,20 @@ class PenjualanDetailModel extends Model
         $result = $query->get()->getResultArray();
         return $result;
     }
+    public function dataDonut($startDate, $endDate)
+    {
+        $query = $this->db->table('penjualan_detail');
+        $query->select('produk.nama_produk as produk, SUM(jumlah) as total_jumlah');
+        $query->join('produk', 'produk.id_produk = penjualan_detail.produk_id');
+        $query->where('penjualan_detail.created_at >=', $startDate);
+        $query->where('penjualan_detail.created_at <=', $endDate);
+        $query->groupBy('produk');
+        $query->orderBy('total_jumlah', 'DESC');
+        $query->limit(5);
+        $result = $query->get()->getResultArray();
+        return $result;
+                    
+                    
+                  
+    }
 }

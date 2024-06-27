@@ -91,17 +91,11 @@ class Pos extends BaseController
     {
         if ($this->request->isAJAX()) {
             $produk = $this->produkModel->where('stok !=', 0)->findAll();
-            if (!empty($produk)) {
-                $data['produk'] = $produk;
-                $msg = [
-                    'viewModal' => view('kasir/modalproduk', $data)
-                ];
-                echo json_encode($msg);
-            }
-            $response = [
-                'status' => 'error',
+            $data['produk'] = $produk;
+            $msg = [
+                'viewModal' => view('kasir/modalproduk', $data)
             ];
-            return $this->response->setJSON($response);
+            echo json_encode($msg);    
         }
 
     }

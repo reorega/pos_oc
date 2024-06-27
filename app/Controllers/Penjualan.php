@@ -69,6 +69,12 @@ class Penjualan extends BaseController
         $dataPenjualan = $this->penjualanModel->dataChart($startDate, $endDate);
         return $this->response->setJSON($dataPenjualan);
     }
+    public function dataDonut(){
+        $startDate = $this->request->getPost('start_date');
+        $endDate = $this->request->getPost('end_date');
+        $dataPenjualan = $this->penjualanDetailModel->dataDonut($startDate, $endDate);
+        return $this->response->setJSON($dataPenjualan);
+    }
     public function index(){
         $data['judul']="Halaman Penjualan";
         $data['page_title']="Penjualan";
