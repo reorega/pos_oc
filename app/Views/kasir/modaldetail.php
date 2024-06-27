@@ -27,7 +27,7 @@
                                 <td><?= $pdk['produk'] ?></td>
                                 <td><?= $pdk['diskon'] ?></td>
                                 <td>RP <?= number_format($pdk['harga_jual'],0,',','.') ?></td>
-                                <td>RP <?= $pdk['jumlah'] ?></td>
+                                <td><?= $pdk['jumlah'] ?></td>
                                 <td>RP <?= number_format($pdk['sub_total'],0,',','.') ?></td>
 
                             </tr>

@@ -20,6 +20,8 @@
             </div>
             
         </div>
+        <div class="box">
+        <div class="box-body">
     <table class="table table-hover mt-2 table-bordered">
   <thead class="table-dark">
     <tr>
@@ -50,6 +52,8 @@
     <?php endforeach; ?>
   </tbody>
 </table>
+</div>
+</div>
 <div class="viewmodaldatadetail" style="display:none;"></div>
 
 

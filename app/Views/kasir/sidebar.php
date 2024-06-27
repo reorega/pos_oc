@@ -27,18 +27,18 @@
 
         <!-- Program Sidebar -->
         <ul class="sidebar-menu" data-widget="tree">
-            <li class="treeview">
-                <a href="<?= site_url('/kasir') ?>">
+            <li class="<?= isset($page_title) && $page_title == 'Dashboard' ? 'active' : '' ?>">
+                <a href="<?= base_url('kasir'); ?>">
                     <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                 </a>
             </li>
             <li class="header">Aplikasi</li>
-            <li class="<?= isset($page_title) && $page_title == 'Kategori' ? 'active' : '' ?>">
+            <li class="<?= isset($page_title) && $page_title == 'Laporan' ? 'active' : '' ?>">
                 <a href="<?= base_url('kasir/laporanHarian'); ?>">
                     <i class="fa fa-cubes"></i> <span>Laporan Harian</span>
                 </a>
             </li>
-            <li class="<?= isset($page_title) && $page_title == 'Pos' ? 'active' : '' ?>">
+            <li class="<?= isset($page_title) && $page_title == 'POS' ? 'active' : '' ?>">
                 <a href="<?= base_url('kasir/pos'); ?>">
                     <i class="fa fa-cube"></i> <span>Transaksi</span>
                 </a>

@@ -20,6 +20,7 @@ class Kasir extends BaseController
 
         $totalUser = $this->userModel->totalUser();
         $data['totalUser'] = $totalUser;
+        $data['page_title'] = "Dashboard";
 
         $setting = $this->loadConfigData();
         $data['setting'] = $setting;

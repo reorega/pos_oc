@@ -21,7 +21,7 @@
                 <td>
                   <div class="row">
                       <div class="col-md-3">
-                        <input type="text" class="form-control form-control-sm" name="jumlahdetail" id="jumlahdetail" value="<?= $pdk['jumlah'] ?>" oninput="editSubtotal('<?= $pdk['id_penjualan_detail'] ?>','<?= $pdk['kode_produk'] ?>',this.value)">
+                        <input type="text" class="form-control form-control-sm" name="jumlahdetail" id="jumlahdetail" value="<?= $pdk['jumlah'] ?>" oninput="cekStok2('<?= $pdk['id_penjualan_detail'] ?>','<?= $pdk['kode_produk'] ?>',this.value)">
                         <div id="cekstok2" style="display:none;"></div>
                       </div>
                   </div>

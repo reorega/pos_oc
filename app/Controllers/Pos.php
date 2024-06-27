@@ -135,12 +135,6 @@ class Pos extends BaseController
                 'sub_total' => $this->subTotal($kode_produk, $jumlahbr),
             ];
             $this->penjualanDetailModel->update($dataitem['id_penjualan_detail'], $data);
-            $stokbaru = $query['stok'] - $jumlahbr;
-            $data = [
-                'id_produk' => $query['id_produk'], // id produk yang akan di-update
-                'stok' => $stokbaru
-            ];
-            $this->produkModel->update($query['id_produk'], $data);
         } else {
             $diskon = $query['diskon'];
             $subTotal = $this->subTotal($kode_produk, $jumlah);
@@ -156,12 +150,6 @@ class Pos extends BaseController
                 'sub_total' => $subTotal,
             ];
             $simpan = $this->penjualanDetailModel->insert($data);
-            $stokbaru = $query['stok'] - $jumlah;
-            $data = [
-                'id_produk' => $query['id_produk'], // id produk yang akan di-update
-                'stok' => $stokbaru
-            ];
-            $this->produkModel->update($query['id_produk'], $data);
         }
         $response = [
             'status' => 'success',
@@ -176,7 +164,7 @@ class Pos extends BaseController
         $data = $this->penjualanDetailModel->cariDataTerbesar();
         $dterbesar = $data[0];
         $hapus = $this->penjualanDetailModel->delete($id);
-        $tsementara = $dterbesar['total_sementara'] - $thargahapus;
+        $tsementara = $dterbesar['total_sementara'] - $thargahapus;       
         $data = [
             'total_sementara' => $tsementara,
         ];
@@ -196,6 +184,16 @@ class Pos extends BaseController
         $totalbayar = $this->request->getPost('totalbayar');
         $jumlahbayar = $this->request->getPost('jumlahbayar');
         $kembalian = $this->request->getPost('kembalian');
+        $cari=$this->penjualanDetailModel->where('no_faktur',$no_faktur)->findAll();
+        foreach ($cari as $cr) {
+            $produk=$this->produkModel->find($cr['produk_id']);
+            $stokbr = $produk['stok']-$cr['jumlah'];
+            $data2=[
+                'id_produk'=>$cr['produk_id'],
+                'stok'=>$stokbr,
+            ];
+            $this->produkModel->update($cr['produk_id'],$data2);
+        }
         $query = $this->penjualanDetailModel->jumlahItem($no_faktur);
         if ($query) {
             $jumlahitem = $query[0];
