@@ -136,7 +136,7 @@
                     $('.viewmodal').html(response.viewModal).show();
                     $('#modalProduk').modal('show');
                     $('#kodebarcode').val('');
-                    $('#kodebarcodelangsung').focus();
+                   
                 },
                 error: function (xhr, thrownError) {
                     alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
@@ -191,6 +191,8 @@
                 ambilData();
                 $('#kodebarcode').val('');
                 $('#modalProduk').modal('hide');
+                $('#kodebarcodelangsung').focus();
+
             },
             error: function (xhr, thrownError) {
                 alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
@@ -231,6 +233,8 @@
             dataType: "json",
             success: function (response) {
                 ambilData();
+                $('#kodebarcodelangsung').focus();
+
             },
             error: function (xhr, thrownError) {
                 alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
@@ -381,6 +385,8 @@
                 ambilDataTotalHarga();
                 $('#jumlahpembayaran').val('');
                 $('#kembalian').val(0)
+                $('#kodebarcodelangsung').focus();
+
             },
             error: function (xhr, thrownError) {
                 alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);

@@ -114,7 +114,7 @@
                     <!-- Tabs within a box -->
                     <ul class="nav nav-tabs pull-right">
                         <div class="pull-right box-tools">
-                            <button type="button" class="btn btn-primary btn-sm daterange pull-right"
+                            <button type="button" class="btn btn-primary btn-sm daterangu pull-right"
                                 data-toggle="tooltip" title="Date range">
                                 <i class="fa fa-calendar"></i></button>
                             <button type="button" class="btn btn-primary btn-sm pull-right" data-widget="collapse"
@@ -125,7 +125,7 @@
                     </ul>
                     <div class="tab-content no-padding">
                         <!-- Morris chart - Sales -->
-                        <div class="chart tab-pane active" id="revenue-chart"
+                        <div class="chart tab-pane active" id="sales-chart"
                             style="position: relative; height: 300px;"></div>
                     </div>
                 </div>
@@ -154,7 +154,7 @@
 
         });
         $.ajax({
-            url: '<?php echo base_url('/admin/ambilDataChart'); ?>',
+            url: '<?php echo base_url('/kasir/ambilDataChart'); ?>',
             method: 'POST',
             data: {
                 start_date: startDate.format('YYYY-MM-DD'),
@@ -162,6 +162,7 @@
             },
             dataType: 'json',
             success: function (response) {
+                console.log(response);
                 var chartData = response.map(function (item) {
                     return {
                         y: item.tanggal,
@@ -170,6 +171,40 @@
                 });
                 area.setData(chartData);
             }
+        });
+    }
+    function updateDonut(startDate, endDate){
+        
+        $.ajax({
+            url: '<?php echo base_url('/kasir/ambilDataDonut'); ?>',
+            method: 'POST',
+            data: {
+                start_date: startDate.format('YYYY-MM-DD'),
+                end_date: endDate.format('YYYY-MM-DD')
+            },
+            dataType: 'json',
+            success: function (response) {
+                console.log(response);
+                var chartData = response.map(function (item) {
+                    return {
+                        label: item.produk,
+                        value: parseInt(item.total_jumlah)
+                    };
+                });
+                console.log('Chart Data:', chartData);
+                var donut = new Morris.Donut({
+            element  : 'sales-chart',
+            resize   : true,
+            colors   : ['#3c8dbc', '#f56954', '#00a65a', '#f39c12', '#d2d6de'],
+            data     : chartData,
+            hideHover: 'auto',
+            
+        });
+                
+            },
+            error: function (xhr, thrownError) {
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                }
         });
     }
     $(document).ready(function () {
@@ -187,9 +222,27 @@
         }, function (start, end) {
             updateChartData(start, end);
         });
+        $('.daterangu').daterangepicker({
+            ranges: {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            },
+            startDate: moment().subtract(29, 'days'),
+            endDate: moment()
+        }, function (start, end) {
+            updateDonut(start, end);
+        });
 
         // Initial load
         updateChartData(moment().subtract(29, 'days'), moment());
+        updateDonut(moment().subtract(29, 'days'), moment());
+        
     });
+    
+   
 </script>
 <?= $this->endSection(); ?>

@@ -12,8 +12,8 @@ $routes->get('/', 'Home::index');
 $routes->post('/auth', 'Auth::process');
 $routes->get('/logout', 'Auth::logout');
 
-$routes->get('profile','User::profile');
-$routes->post('updateProfile','User::updateProfile');
+$routes->get('profile', 'User::profile');
+$routes->post('updateProfile', 'User::updateProfile');
 
 
 $routes->group('admin', ['filter' => 'admin'], function ($routes) {
@@ -76,7 +76,9 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
 
     //penjualan
     $routes->get('penjualan', 'Penjualan');
-    $routes->post('ambilDataPenjualan', 'Penjualan::dataPenjualan'); 
+    $routes->post('ambilDataPenjualan', 'Penjualan::dataPenjualan');
+    $routes->post('ambilDataChart', 'Penjualan::dataChart');
+
 
 });
 
@@ -102,6 +104,9 @@ $routes->group('kasir', ['filter' => 'kasir'], function ($routes) {
     $routes->post('laporanHarianDetail', 'Penjualan::laporanHarianDetail');
     $routes->get('printPdf', 'Penjualan::printPdf');
     $routes->get('printPdf2', 'Penjualan::printPdf2');
+    $routes->post('ambilDataChart', 'Penjualan::dataChart');
+    $routes->post('ambilDataDonut', 'Penjualan::dataDonut');
+
 
 
 
