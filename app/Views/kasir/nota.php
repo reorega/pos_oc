@@ -20,6 +20,10 @@
             display: block;
             margin: 3px;
             font-size: 10pt;
+            font-family: "Consolas", arial-bold;
+            font-height: 30px;
+            font-weight: bold;
+            color: black;
         }
         table td {
             font-size: 9pt;
@@ -84,12 +88,12 @@
         <?php foreach ($detail as $item) :  ?>
         <?php $dt = $item; ?>
         <tr>
-            <td colspan="3"><?= $dt['produk'] ?></td>
+            <td colspan="3"><p><?= $dt['produk'] ?></p></td>
         </tr>
         <tr>
-            <td><?= $dt['jumlah'] ?> x RP <?=number_format($dt['harga_jual'],0,",",".");?></td>
+            <td><p><?= $dt['jumlah'] ?> x RP <?=number_format($dt['harga_jual'],0,",",".");?></p></td>
             <td></td>
-            <td class="text-right">RP <?=number_format($dt['sub_total'],0,",",".");?></td>
+            <td class="text-right"><p>RP <?=number_format($dt['sub_total'],0,",",".");?></p></td>
         </tr>
         <?php $i++;  ?>
         <?php  endforeach;  ?>
@@ -98,20 +102,20 @@
 
     <table width="100%" style="border: 0;">
         <tr>
-            <td>Total Harga:</td>
-            <td class="text-right">RP <?=number_format($pj['total_harga'],0,",",".");?></td>
+            <td><p>Total Harga:</p></td>
+            <td class="text-right"><p>RP <?=number_format($pj['total_harga'],0,",",".");?></p></td>
         </tr>
         <tr>
-            <td>Total Item:</td>
-            <td class="text-right"><?=$pj['total_item'];?></td>
+            <td><p>Total Item:</p></td>
+            <td class="text-right"><p><?=$pj['total_item'];?></p></td>
         </tr>
         <tr>
-            <td>Diterima:</td>
-            <td class="text-right">RP <?=number_format($pj['diterima'],0,",",".");?></td>
+            <td><p>Diterima:</p></td>
+            <td class="text-right"><p>RP <?=number_format($pj['diterima'],0,",",".");?></p></td>
         </tr>
         <tr>
-            <td>Kembali:</td>
-            <td class="text-right"><?= $pj['kembalian'];   ?></td>
+            <td><p>Kembali:</p></td>
+            <td class="text-right"><p><?= $pj['kembalian'];   ?></p></td>
         </tr>
     </table>
 
