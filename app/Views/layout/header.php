@@ -22,7 +22,7 @@
           <?php $session = session(); ?>
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             <img src="<?php echo base_url('assets/fotoUser/').$session->foto_user;?>" class="user-image" alt="User Image">
-            <span class="hidden-xs"><?= $session->role; ?></span>
+            <span class="hidden-xs"><?= $session->username;  ?></span>
           </a>
           <ul class="dropdown-menu">
             <!-- User image -->
