@@ -49,17 +49,19 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->post('ambilDataProduk', 'Produk::ambilDataProduk');
 
 
-    // Pengeluaran
-    $routes->get('pengeluaran', 'Pengeluaran');
-    $routes->get('downloadpdf', 'Pengeluaran::downloadPDF'); // tambahkan rute untuk download PDF
-    $routes->get('pengeluaranpdf', 'Pengeluaran::pengeluaranpdf'); // tambahkan rute untuk download PDF
-
     // Barang Masuk
     $routes->get('barangmasuk', 'BarangMasuk');
     $routes->post('tambahDataBarangMasuk', 'BarangMasuk::tambahDataBarangMasuk');
     $routes->post('editDataBarangMasuk', 'BarangMasuk::editDataBarangMasuk');
     $routes->post('hapusDataBarangMasuk', 'BarangMasuk::hapusDataBarangMasuk');
     $routes->post('ambilDataBarangMasuk', 'BarangMasuk::ambilDataBarangMasuk');
+
+    //Retur Barang
+    $routes->get('returbarang', 'ReturBarang');
+    $routes->post('tambahDataReturBarang', 'ReturBarang::tambahDataReturBarang');
+    $routes->post('editDataReturBarang', 'ReturBarang::editDataReturBarang');
+    $routes->post('hapusDataReturBarang', 'ReturBarang::hapusDataReturBarang');
+    $routes->post('ambilDataReturBarang', 'ReturBarang::ambilDataReturBarang');
 
     // Cetak Barcode
     $routes->get('barcode/(:num)', 'Produk::barcode/$1'); // Rute untuk Barcode

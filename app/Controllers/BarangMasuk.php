@@ -50,8 +50,10 @@ class BarangMasuk extends BaseController
     public function tambahDataBarangMasuk()
     {
         // Retrieve input data from the form
-        $id_supplier = $this->request->getPost('supplier');
+       // $id_supplier = $this->request->getPost('supplier');
         $id_produk = $this->request->getPost('produk');
+        $cariProduk= $this->produkModel->find($id_produk);
+        $id_supplier = $cariProduk['suplier_id'];
         $total_item = (int) $this->request->getPost('totalitem');
 
         // Retrieve product data including the purchase price
@@ -101,14 +103,14 @@ class BarangMasuk extends BaseController
     {
         // Retrieve input data from the form
         $id_barang_masuk = $this->request->getPost('id');
-        $id_supplier = $this->request->getPost('supplier');
         $id_produk = $this->request->getPost('produk');
         $total_item = $this->request->getPost('totalitem');
 
-        // Retrieve product data including the purchase price
         $produkData = $this->produkModel->find($id_produk);
+        $id_supplier = $produkData['suplier_id'];
         $harga_beli = $produkData['harga_beli'];
         $total_bayar = $harga_beli * $total_item;
+
 
         // Prepare data for update
         $data = [

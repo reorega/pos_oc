@@ -35,12 +35,12 @@
             <li class="header">Aplikasi</li>
             <li class="<?= isset($page_title) && $page_title == 'Laporan' ? 'active' : '' ?>">
                 <a href="<?= base_url('kasir/laporanHarian'); ?>">
-                    <i class="fa fa-cubes"></i> <span>Laporan Harian</span>
+                    <i class="fa fa-file-pdf-o"></i> <span>Laporan Harian</span>
                 </a>
             </li>
             <li class="<?= isset($page_title) && $page_title == 'POS' ? 'active' : '' ?>">
                 <a href="<?= base_url('kasir/pos'); ?>">
-                    <i class="fa fa-cube"></i> <span>Transaksi</span>
+                    <i class="fa fa-shopping-cart"></i> <span>Transaksi</span>
                 </a>
             </li>
         </ul>

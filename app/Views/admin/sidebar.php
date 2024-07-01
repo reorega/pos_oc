@@ -54,9 +54,14 @@
                     <i class="fa fa-download"></i> <span>Barang Masuk</span>
                 </a>
             </li>
+            <li class="<?= isset($page_title) && $page_title == 'Retur_Barang' ? 'active' : '' ?>">
+            <a href="<?= base_url('admin/returbarang'); ?>">
+                    <i class="fa fa-recycle"></i> <span>Retur Barang</span>
+                </a>
+            </li>
             <li>
                 <a href="<?= base_url('admin/penjualan'); ?>">
-                    <i class="fa fa-upload"></i> <span>Penjualan</span>
+                    <i class="fa fa-money"></i> <span>Penjualan</span>
                 </a>
             </li>
             <li class="header">REPORT</li>
