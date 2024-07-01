@@ -2,7 +2,6 @@
 <?= $this->section('content') ?>
 <div class="content-wrapper">
     <section class="content">
-
         <div class="card card-default color-palette-box my-3">
             <div class="card-header">
                 <h3 class="card-title">
@@ -74,41 +73,39 @@
             <div class="viewmodal" style="display:none;"></div>
             <div class="viewmodalsimpanpenjualan" style="display:none;"></div>
         </div>
-
-
     </section>
 </div>
 <script src="<?= base_url('assets/js/jquery-3.7.1.min.js'); ?>"></script>
 <script src="<?= base_url('assets/js/sweetalert2.js'); ?>"></script>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         $('body').addClass('sidebar-collapse');
         ambilData();
         ambilDataTotalHarga();
-        $('#kodebarcode').keydown(function (e) {
+        $('#kodebarcode').keydown(function(e) {
             if (e.keyCode == 13) {
                 e.preventDefault();
                 cekKode();
             }
         });
-        $('#jumlahpembayaran').keydown(function () {
+        $('#jumlahpembayaran').keydown(function() {
             hitungKembalian();
             console.log("tombol");
-
         });
-        $('#btnSimpanPenjualan').on('click', function () {
+        $('#btnSimpanPenjualan').on('click', function() {
             simpanPenjualan();
         });
-        $('#jumlah').on('input', function () {
+        $('#jumlah').on('input', function() {
             cekStok();
         });
-        $('#kodebarcodelangsung').keydown(function () {
+        $('#kodebarcodelangsung').keydown(function() {
             simpanTransaksiDetailScan();
         });
-        $('#btnClearTransaksi').on('click', function () {
+        $('#btnClearTransaksi').on('click', function() {
             clearPenjualan();
         });
     });
+
     function ambilData() {
         $.ajax({
             type: "post",
@@ -117,7 +114,7 @@
                 nofaktur: $('#nofaktur').val(),
             },
             dataType: "json",
-            success: function (response) {
+            success: function(response) {
                 if (response.data) {
                     $('.dataDetailPenjualan').html(response.data);
                 }
@@ -125,6 +122,7 @@
             },
         });
     }
+
     function cekKode() {
         kode = $('#kodebarcode').val();
         if (kode.length == 0) {
@@ -132,13 +130,12 @@
                 type: "post",
                 url: "<?= site_url('kasir/cekKode') ?>",
                 dataType: "json",
-                success: function (response) {
+                success: function(response) {
                     $('.viewmodal').html(response.viewModal).show();
                     $('#modalProduk').modal('show');
                     $('#kodebarcode').val('');
-                   
                 },
-                error: function (xhr, thrownError) {
+                error: function(xhr, thrownError) {
                     alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
                 }
             });
@@ -150,7 +147,7 @@
                     kode: $('#kodebarcode').val(),
                 },
                 dataType: "json",
-                success: function (response) {
+                success: function(response) {
                     if (response.status == 'error') {
                         Swal.fire({
                             title: "Error!",
@@ -158,25 +155,23 @@
                             icon: "info"
                         });
                     }
-
                     $('.viewmodal').html(response.viewModal).show();
                     $('#modalProduk').modal('show');
-
                     $('#kodebarcode').val('');
                 },
-                error: function (xhr, thrownError) {
+                error: function(xhr, thrownError) {
                     alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
                 }
             });
         }
     }
+
     function pilihProduk(kode_produk, nama_produk) {
         $('#kodebarcode').val(kode_produk);
         $('#nama_produk').val(nama_produk);
-
         $('#modalProduk').modal('hide');
-
     }
+
     function simpanTransaksiDetail(kode) {
         $.ajax({
             type: "post",
@@ -187,24 +182,25 @@
                 jumlah: 1,
             },
             dataType: "json",
-            success: function (response) {
+            success: function(response) {
                 ambilData();
                 $('#kodebarcode').val('');
                 $('#modalProduk').modal('hide');
                 $('#kodebarcodelangsung').focus();
-
             },
-            error: function (xhr, thrownError) {
+            error: function(xhr, thrownError) {
                 alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
             }
         });
     }
+
     function hitungTotalHarga(nilai) {
         var hargaSementara = parseInt($('#sub_total' + nilai).val());
         var totalHarga = parseInt($('#totalbayar').val());
         totalHarga += hargaSementara;
         $('#totalbayar').val(totalHarga);
     }
+
     function ambilDataTotalHarga() {
         $.ajax({
             type: "post",
@@ -213,16 +209,16 @@
                 nofaktur: $('#nofaktur').val(),
             },
             dataType: "json",
-            success: function (response) {
+            success: function(response) {
                 if (response.totalharga != 0) {
                     $('#totalbayar').val(response.totalharga);
-                }
-                else {
+                } else {
                     $('#totalbayar').val(0);
                 }
             },
         });
     }
+
     function hapusDataDetail(id) {
         $.ajax({
             type: "post",
@@ -231,17 +227,16 @@
                 id_penjualan_detail: id,
             },
             dataType: "json",
-            success: function (response) {
+            success: function(response) {
                 ambilData();
                 $('#kodebarcodelangsung').focus();
-
             },
-            error: function (xhr, thrownError) {
+            error: function(xhr, thrownError) {
                 alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
             }
         });
-
     }
+
     function hitungKembalian() {
         $.ajax({
             type: "post",
@@ -251,64 +246,65 @@
                 jumlahbayar: $('#jumlahpembayaran').val(),
             },
             dataType: "json",
-            success: function (response) {
+            success: function(response) {
                 if (response.kembalian) {
                     $('#kembalian').val(response.kembalian);
                     console.log(response.totalbayar);
                     console.log(response.jumlahbayar);
-
-
-
                 }
             },
-            error: function (xhr, thrownError) {
+            error: function(xhr, thrownError) {
                 alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
             }
         });
+    }
 
-    }
     function simpanPenjualan() {
-        if($('#jumlahpembayaran').val()==""){
+        if ($('#jumlahpembayaran').val() == "") {
             Swal.fire({
-                        title: "Error!",
-                        text: "Belum ada pembayaran!",
-                        icon: "info"
-                    });
-        }else{
-        $.ajax({
-            type: "post",
-            url: "<?= site_url('kasir/simpanTransaksi') ?>",
-            data: {
-                nofaktur: $('#nofaktur').val(),
-                totalbayar: $('#totalbayar').val(),
-                jumlahbayar: $('#jumlahpembayaran').val(),
-                kembalian: $('#kembalian').val(),
-            },
-            dataType: "json",
-            success: function (response) {
-                $('.viewmodalsimpanpenjualan').html(response.viewModal).show();
-                $('#modalSimpanPenjualan').modal('show');
-            },
-            error: function (xhr, thrownError) {
-                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-            }
-        });
+                title: "Error!",
+                text: "Belum ada pembayaran!",
+                icon: "info"
+            });
+        } else {
+            $.ajax({
+                type: "post",
+                url: "<?= site_url('kasir/simpanTransaksi') ?>",
+                data: {
+                    nofaktur: $('#nofaktur').val(),
+                    totalbayar: $('#totalbayar').val(),
+                    jumlahbayar: $('#jumlahpembayaran').val(),
+                    kembalian: $('#kembalian').val(),
+                },
+                dataType: "json",
+                success: function(response) {
+                    $('.viewmodalsimpanpenjualan').html(response.viewModal).show();
+                    $('#modalSimpanPenjualan').modal('show');
+                },
+                error: function(xhr, thrownError) {
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                }
+            });
+        }
     }
-    }
+
     function cetakNota(url, title) {
         console.log(url);
         console.log(title);
-
         popupCenter(url, title, 625, 500);
     }
+
     function popupCenter(url, title, width, height) {
         var left = (screen.width - width) / 2;
         var top = (screen.height - height) / 2;
-        var options = 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, width=' + width + ', height=' + height + ', top=' + top + ', left=' + left;
+        var options =
+            'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, width=' +
+            width + ', height=' + height + ', top=' + top + ', left=' + left;
         window.open(url, title, options);
     }
-    function cekStok2(id,kode,jumlah){
-    $.ajax({
+
+    function cekStok2(id, kode, jumlah) {
+        $.ajax({
             type: "post",
             url: "<?= site_url('kasir/cekStok') ?>",
             data: {
@@ -316,19 +312,20 @@
                 jumlah: jumlah,
             },
             dataType: "json",
-            success: function (response) {
+            success: function(response) {
                 if (response.status === 'error') {
                     $('#cekstok2').html('<div style="color: red;">' + response.message + '</div>').show();
                 } else {
                     $('#cekstok2').html('<div style="color: green;">' + response.message + '</div>').show();
-                    editSubtotal(id,kode,jumlah);
+                    editSubtotal(id, kode, jumlah);
                 }
             },
-            error: function (xhr, thrownError) {
+            error: function(xhr, thrownError) {
                 alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
             }
         });
-  }
+    }
+
     function simpanTransaksiDetailScan() {
         $.ajax({
             type: "post",
@@ -339,7 +336,7 @@
                 jumlah: 1,
             },
             dataType: "json",
-            success: function (response) {
+            success: function(response) {
                 if (response.status == 'error') {
                     Swal.fire({
                         title: "Error!",
@@ -350,12 +347,11 @@
                 ambilData();
                 ambilDataTotalHarga();
                 $('#kodebarcodelangsung').val('')
-
             },
-            error: function (xhr, thrownError) {
-            }
+            error: function(xhr, thrownError) {}
         });
     }
+
     function editSubtotal(id, kd, jmlh) {
         $.ajax({
             type: "post",
@@ -364,37 +360,32 @@
                 id_penjualan_detail: id,
                 kode: kd,
                 jumlah: jmlh,
-
             },
             dataType: "json",
-            success: function (response) {
+            success: function(response) {
                 ambilData();
                 ambilDataTotalHarga();
             },
-            error: function (xhr, thrownError) {
-
-            }
+            error: function(xhr, thrownError) {}
         });
-
     }
+
     function clearPenjualan() {
         $.ajax({
             type: "post",
             url: "<?= site_url('kasir/clearPenjualan') ?>",
             data: {
                 nofaktur: $('#nofaktur').val(),
-
             },
             dataType: "json",
-            success: function (response) {
+            success: function(response) {
                 ambilData();
                 ambilDataTotalHarga();
                 $('#jumlahpembayaran').val('');
                 $('#kembalian').val(0)
                 $('#kodebarcodelangsung').focus();
-
             },
-            error: function (xhr, thrownError) {
+            error: function(xhr, thrownError) {
                 alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
             }
         });

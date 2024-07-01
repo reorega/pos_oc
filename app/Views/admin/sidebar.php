@@ -45,7 +45,7 @@
             </li>
             <li class="<?= isset($page_title) && $page_title == 'Suplier' ? 'active' : '' ?>">
             <a href="<?= base_url('admin/supplier'); ?>">
-                    <i class="fa fa-truck"></i> <span>Suplier</span>
+                    <i class="fa fa-truck"></i> <span>Supplier</span>
                 </a>
             </li>
             <li class="header">TRANSAKSI</li>
@@ -78,7 +78,7 @@
             </li>
             <li>
                 <a href="<?= base_url('admin/setting'); ?>">
-                    <i class="fa fa-cog"></i> <span>Settings</span>
+                    <i class="fa fa-cog"></i> <span>Pengaturan</span>
                 </a>
             </li>
         </ul>

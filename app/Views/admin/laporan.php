@@ -10,25 +10,24 @@
         <div class="box">
             <div class="box-body">
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-7">
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tambahData">
                             <i class="fa fa-plus-square"></i> Pilih Periode
                         </button>
                     </div>
-                    <div class="col-md-4 text-right">
-                        <button type="button" class="btn btn-primary" onclick="cetakPdf()">Cetak PDF</button>
+                    <div class="col-md-5">
+                        <div class="text-right">
+                            <button type="button" class="btn btn-primary" onclick="cetakPdf()">Cetak PDF</button>
+                        </div>
                     </div>
                 </div>
-                <hr>
+                <br>
                 <div class="dataLaporan">
-                    <!-- Konten laporan di sini -->
                 </div>
             </div>
         </div>
     </section>
 </div>
-
-
 <div class="modal fade" id="tambahData" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -108,5 +107,4 @@
         });
     }
 </script>
-
 <?= $this->endSection() ?>
