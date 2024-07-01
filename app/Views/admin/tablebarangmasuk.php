@@ -82,7 +82,7 @@
                             <div class="modal-body">
                                 <form action="" method="post" enctype="multipart/form-data">
                                     <input type="hidden" name="id_barang_masuk" value="<?= $brg['id_barang_masuk'] ?>">
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                         <label for="editSupplier<?= $brg['id_barang_masuk'] ?>" class="form-label">Nama
                                             Supplier</label>
                                         <select class="form-control selectpicker" aria-label="Default select example"
@@ -95,12 +95,12 @@
                                             </option>
                                             <?php endforeach; ?>
                                         </select>
-                                    </div>
+                                    </div> -->
                                     <div class="form-group">
                                         <label for="editProduk<?= $brg['id_barang_masuk'] ?>" class="form-label">Nama
                                             Produk</label>
                                         <select class="form-control selectpicker" aria-label="Default select example"
-                                            id="editProduk<?= $brg['id_barang_masuk'] ?>" data-live-search="true">
+                                            id="editProduk<?= $brg['id_barang_masuk'] ?>" data-live-search="true" disabled>
                                             <option selected disabled>Pilih Produk</option>
                                             <?php foreach ($produk as $product) : ?>
                                             <option value="<?= $product['id_produk']; ?>"

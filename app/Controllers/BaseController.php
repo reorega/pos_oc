@@ -17,7 +17,7 @@ use App\Models\PenjualanDetailModel;
 use App\Models\PenjualanModel;
 use App\Models\UserModel;
 use App\Models\BarangMasukModel;
-
+use App\Models\ReturBarangModel;
 
 /**
  * Class BaseController
@@ -77,6 +77,8 @@ abstract class BaseController extends Controller
         $this->penjualanModel =new PenjualanModel();
         $this->userModel = new UserModel();
         $this->barangmasukModel = new BarangMasukModel();
+        $this->returbarangModel = new ReturBarangModel();
+
 
 
 
