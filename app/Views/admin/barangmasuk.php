@@ -42,16 +42,6 @@
             <div class="modal-body">
                 <form action="" method="post" enctype="multipart/form-data">
                     <div class="form-group">
-                        <label for="inputSupplier" class="form-label">Nama Supplier</label>
-                        <select class="form-control selectpicker" aria-label="Default select example" name="id_supplier"
-                            id="supplier" data-live-search="true">
-                            <option selected disabled>Pilih Supplier</option>
-                            <?php foreach ($suppliers as $supplier) : ?>
-                            <option value="<?= $supplier['id_supplier']; ?>"><?= $supplier['nama'] ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    <div class="form-group">
                         <label for="inputProduk" class="form-label">Produk</label>
                         <select class="form-control selectpicker" aria-label="Default select example" name="produk_id"
                             id="produk" data-live-search="true">

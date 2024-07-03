@@ -12,12 +12,12 @@
     <table class="table table-hover mt-2 table-bordered">
         <thead class="thead-dark">
             <tr>
-                <th scope="col">No</th>
-                <th scope="col">Produk</th>
-                <th scope="col">Supplier</th>
-                <th scope="col">Jumlah</th>
-                <th scope="col">Keterangan</th>
-                <th scope="col">Aksi</th>
+                <th>No</th>
+                <th>Produk</th>
+                <th>Supplier</th>
+                <th>Jumlah</th>
+                <th>Keterangan</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -51,11 +51,11 @@
                                     <table class="table table-bordered">
                                         <thead class="thead-dark">
                                             <tr>
-                                                <th scope="col">No</th>
-                                                <th scope="col">Produk</th>
-                                                <th scope="col">Supplier</th>
-                                                <th scope="col">Jumlah</th>
-                                                <th scope="col">Keterangan</th>
+                                                <th>No</th>
+                                                <th>Produk</th>
+                                                <th>Supplier</th>
+                                                <th>Jumlah</th>
+                                                <th>Keterangan</th>
 
                                             </tr>
                                         </thead>
