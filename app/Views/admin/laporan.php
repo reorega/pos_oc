@@ -40,11 +40,11 @@
             <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <label for="tanggalmulai" class="form-label">Dari Tanggal : </label>
+                        <label for="tanggalmulai" class="form-label">Dari Tanggal</label>
                         <input type="text" class="form-control" id="tanggalmulai" name="tanggalmulai">
                     </div>
                     <div class="form-group">
-                        <label for="tanggalakhir" class="form-label">Sampai Tanggal : </label>
+                        <label for="tanggalakhir" class="form-label">Sampai Tanggal</label>
                         <input type="text" class="form-control" id="tanggalakhir" name="tanggalakhir">
                     </div>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>

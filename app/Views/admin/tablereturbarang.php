@@ -6,23 +6,31 @@
         top: 0;
         z-index: 1;
     }
+
+    .no {
+        width: 50px;
+    }
+
+    .table th {
+        text-align: center;
+    }
 </style>
 
 <div class="table-wrapper">
     <table class="table table-hover mt-2 table-bordered">
         <thead class="thead-dark">
             <tr>
-                <th>No</th>
-                <th>Produk</th>
-                <th>Supplier</th>
-                <th>Jumlah</th>
+                <th class="no">No</th>
+                <th>Nama Produk</th>
+                <th>Nama Supplier</th>
+                <th>Jumlah Retur</th>
                 <th>Keterangan</th>
                 <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($returbarang as $key => $rtb) : ?>
-            <tr>
+            <tr class="text-center">
                 <td><?= $key + 1 ?></td>
                 <td><?= $rtb['product_name'] ?></td>
                 <td><?= $rtb['supplier_name'] ?></td>
@@ -41,22 +49,22 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="infoDataLabel<?= $rtb['id_retur_barang'] ?>">Detail Data
-                                    </h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
+                                    <h4 class="modal-title text-left" id="infoDataLabel<?= $rtb['id_retur_barang'] ?>">
+                                        Detail Data
+                                    </h4>
                                 </div>
                                 <div class="modal-body">
                                     <table class="table table-bordered">
                                         <thead class="thead-dark">
                                             <tr>
                                                 <th>No</th>
-                                                <th>Produk</th>
-                                                <th>Supplier</th>
-                                                <th>Jumlah</th>
+                                                <th>Nama Produk</th>
+                                                <th>Nama Supplier</th>
+                                                <th>Jumlah Retur</th>
                                                 <th>Keterangan</th>
-
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -66,9 +74,6 @@
                                                 <td><?= $rtb['supplier_name'] ?></td>
                                                 <td><?= $rtb['jumlah'] ?></td>
                                                 <td><?= $rtb['keterangan'] ?></td>
-
-                                                <!-- Kosong karena ini hanya modal detail -->
-
                                             </tr>
                                         </tbody>
                                     </table>
@@ -85,16 +90,16 @@
                     </button>
 
                     <!-- Modal edit -->
-                    <div class="modal fade" id="editData<?= $rtb['id_retur_barang'] ?>" tabindex="-1"
+                    <div class="modal fade text-left" id="editData<?= $rtb['id_retur_barang'] ?>" tabindex="-1"
                         aria-labelledby="editDataLabel<?= $rtb['id_retur_barang'] ?>" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="editDataLabel<?= $rtb['id_retur_barang'] ?>">Edit Data
-                                    </h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
+                                    <h4 class="modal-title" id="editDataLabel<?= $rtb['id_retur_barang'] ?>">Edit Data
+                                    </h4>
                                 </div>
                                 <div class="modal-body">
                                     <form action="" method="post" enctype="multipart/form-data">
@@ -154,16 +159,16 @@
                     </button>
 
                     <!-- Modal hapus -->
-                    <div class="modal fade" id="hapusData<?= $rtb['id_retur_barang'] ?>" tabindex="-1"
+                    <div class="modal fade text-left" id="hapusData<?= $rtb['id_retur_barang'] ?>" tabindex="-1"
                         aria-labelledby="hapusDataLabel<?= $rtb['id_retur_barang'] ?>" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="hapusDataLabel<?= $rtb['id_retur_barang'] ?>">Konfirmasi
-                                        Hapus</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
+                                    <h4 class="modal-title" id="hapusDataLabel<?= $rtb['id_retur_barang'] ?>">Konfirmasi
+                                        Hapus</h4>
                                 </div>
                                 <div class="modal-body">
                                     <p>Anda Yakin Menghapus Data Retur Barang?</p>

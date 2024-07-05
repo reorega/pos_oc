@@ -26,7 +26,6 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->get('hapusDataUser/(:num)', 'User::hapusData/$1');
     $routes->post('ambilDataUsers', 'User::ambilDataUsers');
 
-
     // Kategori
     $routes->get('kategori', 'Kategori');
     $routes->post('tambahDataKategori', 'Kategori::tambahDataKategori');
@@ -47,7 +46,6 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->post('editDataProduk', 'Produk::editData');
     $routes->post('hapusDataProduk', 'Produk::hapusData');
     $routes->post('ambilDataProduk', 'Produk::ambilDataProduk');
-
 
     // Barang Masuk
     $routes->get('barangmasuk', 'BarangMasuk');
@@ -76,14 +74,11 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->post('ambilDataLaporan', 'Laporan::ambilData');
     $routes->post('cetakLaporanPdf', 'Laporan::cetakPdf');
 
-    //penjualan
+    //Penjualan
     $routes->get('penjualan', 'Penjualan');
     $routes->post('ambilDataPenjualan', 'Penjualan::dataPenjualan');
     $routes->post('ambilDataChart', 'Penjualan::dataChart');
     $routes->post('ambilDataDonut', 'Penjualan::dataDonut');
-
-
-
 });
 
 $routes->group('kasir', ['filter' => 'kasir'], function ($routes) {
@@ -110,9 +105,4 @@ $routes->group('kasir', ['filter' => 'kasir'], function ($routes) {
     $routes->get('printPdf2', 'Penjualan::printPdf2');
     $routes->post('ambilDataChart', 'Penjualan::dataChart');
     $routes->post('ambilDataDonut', 'Penjualan::dataDonut');
-
-
-
-
-
 });

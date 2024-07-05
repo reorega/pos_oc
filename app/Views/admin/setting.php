@@ -41,7 +41,6 @@
                                     <?php endif; ?>
                                 </div>
                             </div>
-
                             <div class="form-group row">
                                 <label for="alamat" class="col-lg-2 control-label">Alamat</label>
                                 <div class="col-lg-6">
@@ -60,7 +59,7 @@
                             </div>
                         </div>
                         <div class="box-footer text-right">
-                            <button type="submit" class="btn btn-success">Simpan</button>
+                            <button type="submit" class="btn btn-success">Simpan Perubahan</button>
                         </div>
                     </form>
                 </div>
@@ -95,5 +94,11 @@
             preview.src = "";
         }
     }
+
+        // Fungsi untuk mengubah nama perusahaan menjadi huruf kapital saat diketik
+        document.getElementById('nama_perusahaan').addEventListener('input', function() {
+        var input = this;
+        input.value = input.value.charAt(0).toUpperCase() + input.value.slice(1).toLowerCase();
+    });
 </script>
 <?= $this->endSection() ?>

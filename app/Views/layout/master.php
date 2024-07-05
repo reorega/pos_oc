@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Omah Cokelat Pacitan</title>
+  <title><?=$setting['nama_perusahaan'];?></title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -12,7 +12,7 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="<?php echo base_url('/AdminLTE-2/bower_components/font-awesome/css/font-awesome.min.css'); ?>">
   <!-- Ionicons -->
-  <link rel="icon" href="<?php echo base_url('/AdminLTE-2/dist/img/logo.png'); ?>" type="image/png">
+  <link rel="icon" href="<?= base_url().$setting['path_logo']; ?>" type="image/png">
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo base_url('/AdminLTE-2/dist/css/AdminLTE.min.css'); ?>">
   <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->

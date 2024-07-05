@@ -6,6 +6,14 @@
         top: 0;
         z-index: 1;
     }
+
+    .kode {
+        width: 105px;
+    }
+
+    .harga {
+        width: 90px;
+    }
 </style>
 
 <div class="modal fade" id="modalProduk" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -22,10 +30,10 @@
                     <table class="table table-hover mt-2 table-bordered">
                         <thead class="table-dark">
                             <tr>
-                                <th>Kode Produk</th>
+                                <th class="kode">Kode Produk</th>
                                 <th>Nama Produk</th>
                                 <th>Diskon</th>
-                                <th>Harga Jual</th>
+                                <th class="harga">Harga Jual</th>
                                 <th>Stok</th>
                                 <th>Aksi</th>
                             </tr>

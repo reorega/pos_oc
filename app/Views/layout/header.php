@@ -2,13 +2,21 @@
   <!-- Logo -->
   <a href="http://localhost:8080/admin" class="logo">
     <?php
-      $session = session();
+        $session = session();
+        $nama_perusahaan = $setting['nama_perusahaan'];
+        
+        // Mengambil inisial dari setiap kata
+        $words = explode(' ', $nama_perusahaan);
+        $inisial_perusahaan = '';
+        foreach ($words as $word) {
+            $inisial_perusahaan .= strtoupper($word[0]);
+        }
     ?>
     <!-- mini logo for sidebar mini 50x50 pixels -->
-    <span class="logo-mini"><b>OC</b></span>
+    <span class="logo-mini"><b><?= $inisial_perusahaan ?></b></span>
     <!-- logo for regular state and mobile devices -->
-    <span><b><?=$setting['nama_perusahaan'];?></b></span>
-  </a>
+    <span><b><?= $setting['nama_perusahaan'] ?></b></span>
+</a>
   <!-- Header Navbar: style can be found in header.less -->
   <nav class="navbar navbar-static-top">
     <!-- Sidebar toggle button-->

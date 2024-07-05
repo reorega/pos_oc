@@ -23,7 +23,7 @@
             <tr>
                 <th>No</th>
                 <th>Tanggal</th>
-                <th>Supplier</th>
+                <th>Nama Supplier</th>
                 <th>Produk</th>
                 <th>Total Item</th>
                 <th>Harga Beli</th>

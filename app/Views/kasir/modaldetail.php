@@ -33,7 +33,7 @@
                         <tbody>
                             <?php $nilai =1;?>
                             <?php foreach ($detail as $pdk) : ?>
-                            <tr>
+                            <tr class="text-center">
                                 <td><?= $pdk['kode_produk'] ?></td>
                                 <td><?= $pdk['produk'] ?></td>
                                 <td><?= $pdk['diskon'] ?></td>

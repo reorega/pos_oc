@@ -6,13 +6,21 @@
         top: 0;
         z-index: 1;
     }
+
+    .no {
+        width: 50px;
+    }
+
+    .table th {
+        text-align: center;
+    }
 </style>
 
 <div class="table-wrapper">
     <table class="table table-hover mt-2 table-bordered">
         <thead class="table">
             <tr>
-                <th>No</th>
+                <th class="no">No</th>
                 <th>Kode Produk</th>
                 <th>Nama Produk</th>
                 <th>Kategori</th>
@@ -26,7 +34,7 @@
         <tbody>
             <?php $nilai = $no ?? 1; ?>
             <?php foreach ($produk as $pdk) : ?>
-            <tr>
+            <tr class="text-center">
                 <td><?= $nilai ?></td>
                 <td><?= $pdk['kode_produk'] ?></td>
                 <td><?= $pdk['nama_produk'] ?></td>
@@ -50,10 +58,10 @@
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Detail Data</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
+                                    <h4 class="modal-title text-left" id="exampleModalLabel">Detail Data</h4>
                                 </div>
                                 <div class="modal-body">
                                     <table class="table table-bordered">
@@ -93,15 +101,15 @@
                         <i class="fa fa-pencil"></i> Edit
                     </button>
                     <!-- Edit Modal -->
-                    <div class="modal fade" id="editData<?= $pdk['id_produk'] ?>" tabindex="-1"
+                    <div class="modal fade text-left" id="editData<?= $pdk['id_produk'] ?>" tabindex="-1"
                         aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Edit Data Produk</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
+                                    <h4 class="modal-title" id="exampleModalLabel">Edit Data</h4>
                                 </div>
                                 <div class="modal-body">
                                     <form action="" enctype="multipart/form-data">
@@ -177,15 +185,15 @@
                         <i class="fa fa-trash"></i> Hapus
                     </button>
                     <!-- Delete Modal -->
-                    <div class="modal fade" id="hapusData<?= $pdk['id_produk'] ?>" tabindex="-1"
+                    <div class="modal fade text-left" id="hapusData<?= $pdk['id_produk'] ?>" tabindex="-1"
                         aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Hapus</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
+                                    <h4 class="modal-title" id="exampleModalLabel">Konfirmasi Hapus</h4>
                                 </div>
                                 <div class="modal-body">
                                     <p>Anda Yakin Menghapus Data Produk <?= $pdk['nama_produk'] ?>?</p>
