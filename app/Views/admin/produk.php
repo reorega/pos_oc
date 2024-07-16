@@ -51,7 +51,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="suplier_id" class="form-label">Nama Suplier</label>
+                        <label for="suplier_id" class="form-label">Nama Supplier</label>
                         <select class="form-control selectpicker" aria-label="Default select example" name="suplier_id" id="inputSuplier" data-live-search="true">
                             <option selected disabled>Pilih Suplier</option>
                             <?php foreach ($suplier as $sp) : ?>

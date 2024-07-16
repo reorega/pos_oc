@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,9 +43,9 @@
                 <tr>
                     <td><?= $nilai ?></td>
                     <td><?= $lp['tanggal'] ?></td>
-                    <td><?= $lp['pendapatan'] ?></td>
-                    <td><?= $lp['pengeluaran'] ?></td>
-                    <td><?= $lp['hasil'] ?></td>
+                    <td><?= 'Rp ' . number_format($lp['pendapatan'], 2, ',', '.') ?></td>
+                    <td><?= 'Rp ' . number_format($lp['pengeluaran'], 2, ',', '.') ?></td>
+                    <td><?= 'Rp ' . number_format($lp['hasil'], 2, ',', '.') ?></td>
                 </tr>
             <?php $nilai++; ?>
             <?php endforeach;?>

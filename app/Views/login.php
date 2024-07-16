@@ -10,12 +10,12 @@ $error = session('error');
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <link rel="icon" href="<?php echo base_url('/AdminLTE-2/dist/img/logo.png'); ?>" type="image/png">
+  <link rel="icon" href="<?= base_url().$setting['path_logo']; ?>" type="image/png">
   <link href="<?= base_url(); ?>login/css/bootstrap.min.css" rel="stylesheet">
   <link href="<?= base_url(); ?>login/css/font-awesome.min.css" rel="stylesheet">
   <link href="<?= base_url(); ?>login/css/style.css" rel="stylesheet">
 
-  <title>Omah Cokelat Pacitan</title>
+  <title><?=$setting['nama_perusahaan'];?></title>
 </head>
 
 <body>
@@ -26,7 +26,7 @@ $error = session('error');
           <div class="_lk_de">
             <div class="form-03-main">
               <div class="logo">
-                <img src="<?= base_url().$setting['path_logo']; ?>" alt="Logo" width="100" height="100">
+                <img src="<?= base_url().$setting['path_logo']; ?>" alt="Logo" width="120" height="120">
               </div>
               <!-- Tampilkan pesan kesalahan jika ada -->
               <?php if ($error) : ?>

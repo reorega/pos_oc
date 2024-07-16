@@ -6,13 +6,21 @@
         top: 0;
         z-index: 1;
     }
+
+    .no {
+        width: 50px;
+    }
+
+    .table th {
+        text-align: center;
+    }
 </style>
 
 <div class="table-wrapper">
     <table class="table table-hover mt-2 table-bordered">
         <thead class="table">
             <tr>
-                <th>No</th>
+                <th class="no">No</th>
                 <th>Username</th>
                 <th>Level</th>
                 <th>Foto User</th>
@@ -21,7 +29,7 @@
         </thead>
         <tbody>
             <?php foreach ($users as $key => $user) : ?>
-            <tr>
+            <tr class="text-center">
                 <td><?= $key + 1 ?></td>
                 <td><?= $user['username'] ?></td>
                 <?php
@@ -36,7 +44,7 @@
                         data-target="#editData<?= $user['id_user'] ?>">
                         <i class="fa fa-pencil"></i> Edit
                     </button>
-                    <div class="modal fade" id="editData<?= $user['id_user'] ?>" tabindex="-1"
+                    <div class="modal fade text-left" id="editData<?= $user['id_user'] ?>" tabindex="-1"
                         aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -90,7 +98,7 @@
                         data-target="#hapusData<?= $user['id_user'] ?>">
                         <i class="fa fa-trash"></i> Hapus
                     </button>
-                    <div class="modal fade " id="hapusData<?= $user['id_user'] ?>" tabindex="-1"
+                    <div class="modal fade text-left" id="hapusData<?= $user['id_user'] ?>" tabindex="-1"
                         aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">

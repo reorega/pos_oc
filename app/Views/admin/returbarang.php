@@ -52,7 +52,7 @@
                         </select>
                     </div> -->
                     <div class="form-group">
-                        <label for="inputProduk" class="form-label">Produk</label>
+                        <label for="inputProduk" class="form-label">Nama Produk</label>
                         <select class="form-control selectpicker" aria-label="Default select example" name="produk_id"
                             id="produk" data-live-search="true">
                             <option selected disabled>Pilih Produk</option>

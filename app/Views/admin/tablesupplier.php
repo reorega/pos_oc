@@ -6,13 +6,21 @@
         top: 0;
         z-index: 1;
     }
+
+    .no {
+        width: 50px;
+    }
+
+    .table th {
+        text-align: center;
+    }
 </style>
 
 <div class="table-wrapper">
     <table class="table table-hover mt-2 table-bordered">
         <thead class="table">
             <tr>
-                <th>No</th>
+                <th class="no">No</th>
                 <th>Kode Supplier</th>
                 <th>Nama Supplier</th>
                 <th>Alamat</th>
@@ -23,7 +31,7 @@
         <tbody>
             <?php $nilai =$no ?? 1;?>
             <?php foreach ($supplier as $sup) : ?>
-            <tr>
+            <tr class="text-center">
                 <td><?= $nilai ?></td>
                 <td><?= $sup['kode_supplier'] ?></td>
                 <td><?= $sup['nama'] ?></td>
@@ -35,7 +43,7 @@
                         data-target="#editData<?= $sup['id_supplier'] ?>">
                         <i class="fa fa-pencil"></i> Edit
                     </button>
-                    <div class="modal fade" id="editData<?= $sup['id_supplier'] ?>" tabindex="-1"
+                    <div class="modal fade text-left" id="editData<?= $sup['id_supplier'] ?>" tabindex="-1"
                         aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -69,7 +77,6 @@
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                                     <button type="button" class="btn btn-success"
                                         onclick="editData('<?= $sup['id_supplier'] ?>')">Simpan Perubahan</button>
-
                                 </div>
                             </div>
                         </div>
@@ -79,15 +86,15 @@
                         data-target="#hapusData<?= $sup['id_supplier'] ?>">
                         <i class="fa fa-trash"></i> Hapus
                     </button>
-                    <div class="modal fade" id="hapusData<?= $sup['id_supplier'] ?>" tabindex="-1"
+                    <div class="modal fade text-left" id="hapusData<?= $sup['id_supplier'] ?>" tabindex="-1"
                         aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Hapus</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
+                                    <h4 class="modal-title" id="exampleModalLabel">Konfirmasi Hapus</h4>
                                 </div>
                                 <div class="modal-body">
                                     <p class="">Anda Yakin Menghapus Data Supplier <?= $sup['nama']?>?</p>

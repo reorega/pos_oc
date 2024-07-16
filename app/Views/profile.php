@@ -2,7 +2,7 @@
 <?= $this->section('content') ?>
 <div class="content-wrapper">
     <section class="content">
-        <h2 class="active">Pengaturan Profile</h2>
+        <h2 class="active">Pengaturan Profil</h2>
         <div class="row">
             <div class="col-lg-12">
                 <div class="box">
@@ -40,7 +40,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="email" class="col-lg-2 control-label">email</label>
+                                <label for="email" class="col-lg-2 control-label">Email</label>
                                 <div class="col-lg-6">
                                     <input type="email" class="form-control" id="email" name="email"
                                         value="<?= $profile['email'] ?>" required>
@@ -58,7 +58,7 @@
                             <input type="hidden" name="id" value="<?= $profile['id_user'] ?>">
                         </div>
                         <div class="box-footer text-right">
-                            <button type="submit" class="btn btn-success">Simpan</button>
+                            <button type="submit" class="btn btn-success">Simpan Perubahan</button>
                         </div>
                     </form>
                 </div>
