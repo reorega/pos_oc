@@ -3,7 +3,7 @@ namespace App\Controllers;
 
 use \Dompdf\Dompdf;
 use CodeIgniter\Controller;
-
+use DateTime;
 
 class Penjualan extends BaseController
 {
@@ -64,15 +64,17 @@ class Penjualan extends BaseController
     }
     public function dataChart()
     {
-        $startDate = $this->request->getPost('start_date');
-        $endDate = $this->request->getPost('end_date');
-        $dataPenjualan = $this->penjualanModel->dataChart($startDate, $endDate);
+        $endDate = new DateTime();
+        $startDate = new DateTime();
+        $startDate->modify('-30 days');
+        $dataPenjualan = $this->penjualanModel->dataChart($startDate->format('Y-m-d'), $endDate->format('Y-m-d'));
         return $this->response->setJSON($dataPenjualan);
     }
     public function dataDonut(){
-        $startDate = $this->request->getPost('start_date');
-        $endDate = $this->request->getPost('end_date');
-        $dataPenjualan = $this->penjualanDetailModel->dataDonut($startDate, $endDate);
+        $endDate = new DateTime();
+        $startDate = new DateTime();
+        $startDate->modify('-30 days');
+        $dataPenjualan = $this->penjualanDetailModel->dataDonut($startDate->format('Y-m-d'), $endDate->format('Y-m-d'));
         return $this->response->setJSON($dataPenjualan);
     }
     public function index(){
