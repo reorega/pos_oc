@@ -2,6 +2,15 @@
 <?= $this->section('content')?>
 
 <style>
+    .laporan-harian {
+          max-height: 450px;
+          overflow-y: scroll;
+        }
+        .laporan-harian .table thead {
+          position: sticky;
+          top: 0;
+          z-index: 1;
+        }
     .table-wrapper thead th {
         background-color: #343a40;
         color: #ffffff;
@@ -51,7 +60,7 @@
             </div>
             <div class="box">
                 <div class="box-body">
-                    <div class="table-wrapper">
+                    <div class="table-wrapper laporan-harian">
                         <table class="table table-hover mt-2 table-bordered">
                             <thead class="table-dark">
                                 <tr>

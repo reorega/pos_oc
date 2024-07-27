@@ -84,19 +84,13 @@
                     <!-- Tabs within a box -->
                     <ul class="nav nav-tabs pull-right">
                         <div class="pull-right box-tools">
-                            <button type="button" class="btn btn-primary btn-sm daterange pull-right"
-                                data-toggle="tooltip" title="Date range">
-                                <i class="fa fa-calendar"></i></button>
-                            <button type="button" class="btn btn-primary btn-sm pull-right" data-widget="collapse"
-                                data-toggle="tooltip" title="Collapse" style="margin-right: 5px;">
-                                <i class="fa fa-minus"></i></button>
                         </div>
-                        <li class="pull-left header"><i class="fa fa-bar-chart"></i>Jumlah Item Terjual</li>
+                        <li class="pull-left header"><i class="fa fa-bar-chart"></i>Jumlah Item Terjual Dalam 30 Hari Terakhir</li>
                     </ul>
                     <div class="tab-content no-padding">
                         <!-- Morris chart - Sales -->
                         <div class="chart tab-pane active" id="revenue-chart"
-                            style="position: relative; height: 300px;"></div>
+                            style="position: relative; height: 150px;"></div>
                     </div>
                 </div>
                 <!-- /.nav-tabs-custom -->
@@ -104,25 +98,19 @@
             </section>
             <!-- /.Left col -->
             <!-- right col (We are only adding the ID to make the widgets sortable)-->
-            <section class="col-lg-6 connectedSortable">
+            <section class="col-lg-6 connectedSortable" id="coba2" >
                 <!-- Custom tabs (Charts with tabs)-->
                 <div class="nav-tabs-custom">
                     <!-- Tabs within a box -->
                     <ul class="nav nav-tabs pull-right">
                         <div class="pull-right box-tools">
-                            <button type="button" class="btn btn-primary btn-sm daterangu pull-right"
-                                data-toggle="tooltip" title="Date range">
-                                <i class="fa fa-calendar"></i></button>
-                            <button type="button" class="btn btn-primary btn-sm pull-right" data-widget="collapse"
-                                data-toggle="tooltip" title="Collapse" style="margin-right: 5px;">
-                                <i class="fa fa-minus"></i></button>
                         </div>
-                        <li class="pull-left header"><i class="fa fa-bar-chart"></i>5 Produk Terlaris</li>
+                        <li class="pull-left header"><i class="fa fa-bar-chart"></i>5 Produk Terlaris Dalam 30 Hari Terakhir</li>
                     </ul>
-                    <div class="tab-content no-padding">
+                    <div class="tab-content no-padding" id="coba" >
                         <!-- Morris chart - Sales -->
                         <div class="chart tab-pane active" id="sales-chart"
-                            style="position: relative; height: 300px;"></div>
+                            style="position: relative; max-height: 300px;"></div>
                     </div>
                 </div>
                 <!-- /.nav-tabs-custom -->
@@ -132,7 +120,20 @@
     </section>
 </div>
 <script src="<?= base_url('assets/js/jquery-3.7.1.min.js');?>"></script>
+<script src="<?= base_url('assets/js/apexcharts/dist/apexcharts.min.js');?>"></script>
+<script src="<?= base_url('assets/js/html2canvas.min.js');?>"></script>
 <script>
+    /*
+    function download(){
+        html2canvas($('#coba2')[0]).then(function(canvas) {
+                var a = document.createElement('a');
+                a.href = canvas.toDataURL('image/png');
+                a.download = 'chart.png';
+                a.click();
+            }).catch(function(error) {
+             console.error('Error capturing chart:', error);
+        });
+    }
     function updateChartData(startDate, endDate) {
         var area = new Morris.Area({
             element   : 'revenue-chart',
@@ -202,8 +203,9 @@
                 }
         });
     }
+    */
     $(document).ready(function() {
-            $('.daterange').daterangepicker({
+          /*  $('.daterange').daterangepicker({
                 ranges: {
                     'Today': [moment(), moment()],
                     'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
@@ -217,6 +219,7 @@
             }, function(start, end) {
                 updateChartData(start, end);
             });
+            
             $('.daterangu').daterangepicker({
             ranges: {
                 'Today': [moment(), moment()],
@@ -233,8 +236,94 @@
         });
 
         // Initial load
-        updateChartData(moment().startOf('month'), moment().endOf('month'));
+       // updateChartData(moment().startOf('month'), moment().endOf('month'));
         updateDonut(moment().startOf('month'), moment().endOf('month'));
+        /*
+        $('#download').on('click', function() {
+            html2canvas($('#coba2')[0]).then(function(canvas) {
+                var a = document.createElement('a');
+                a.href = canvas.toDataURL('image/png');
+                a.download = 'chart.png';
+                a.click();
+            }).catch(function(error) {
+             console.error('Error capturing chart:', error);
+            });
         });
+        */
+        ambilChart();
+        ambilDonut();
+    });
+    function ambilChart(){
+        $.ajax({
+                url: '<?php echo base_url('/admin/ambilDataChart'); ?>',
+                type: 'POST',
+                success: function(response) {
+                    const dates = response.map(item => item.tanggal);
+                    const items = response.map(item => item.item);
+
+                    var options = {
+                        chart: {
+                            type: 'line',
+                            height: 400,  // Tinggi chart
+                            width: '100%'
+                        },
+                        series: [{
+                            name: 'Total Items',
+                            data: items
+                        }],
+                        xaxis: {
+                            categories: dates
+                        }
+                    }
+
+                    var chart = new ApexCharts(document.querySelector("#revenue-chart"), options);
+
+                    chart.render();
+                },
+                error: function (xhr, thrownError) {
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                }
+        });
+    }
+    function ambilDonut(){
+        $.ajax({
+            url: '<?php echo base_url('/admin/ambilDataDonut'); ?>',
+            type: 'POST',
+            success: function(response) {
+                console.log(response);
+                const products = response.map(item => item.produk);
+                const totals = response.map(item => item.total_jumlah);
+                var options = {
+                        chart: {
+                            type: 'polarArea',
+                            height: 400,  // Tinggi chart
+                            width: '100%',
+                            toolbar: {
+                                show: true,
+                                tools: {
+                                    download: true // Menampilkan tombol unduh di toolbar
+                                },
+                                autoSelected: 'zoom' // Pilihan default untuk toolbar
+                            }
+                        },
+                        series: totals,
+                        labels: products,
+                        responsive: [{
+                            breakpoint: 200,
+                            options: {
+                                chart: {
+                                width: 200
+                                },
+                                legend: {
+                                position: 'bottom'
+                                }
+                            }
+                        }]
+                    };
+                var chart = new ApexCharts(document.querySelector("#sales-chart"), options);
+                chart.render();
+            }
+        });
+    }
 </script>
 <?= $this->endSection(); ?>

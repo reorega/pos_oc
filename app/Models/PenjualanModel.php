@@ -63,45 +63,65 @@ class PenjualanModel extends Model
     {
         $sql = "
             WITH RECURSIVE date_sequence AS (
-                SELECT DATE('$start_date') AS tanggal
-                UNION ALL
-                SELECT DATE_ADD(tanggal, INTERVAL 1 DAY)
-                FROM date_sequence
-                WHERE tanggal < '$end_date'
-            )
-            SELECT 
-                ds.tanggal,
-                COALESCE(SUM(p.pendapatan), 0) AS pendapatan,
-                COALESCE(SUM(bm.pengeluaran), 0) AS pengeluaran,
-                COALESCE(SUM(p.pendapatan), 0) - COALESCE(SUM(bm.pengeluaran), 0) AS hasil
-            FROM 
-                date_sequence ds
-            LEFT JOIN (
-                SELECT 
-                    DATE(created_at) AS tanggal, 
-                    SUM(total_harga) AS pendapatan 
-                FROM 
-                    penjualan
-                WHERE 
-                    DATE(created_at) BETWEEN '$start_date' AND '$end_date'
-                GROUP BY 
-                    tanggal
-            ) p ON ds.tanggal = p.tanggal
-            LEFT JOIN (
-                SELECT 
-                    DATE(created_at) AS tanggal, 
-                    SUM(total_bayar) AS pengeluaran
-                FROM 
-                    barang_masuk
-                WHERE 
-                    DATE(created_at) BETWEEN '$start_date' AND '$end_date'
-                GROUP BY 
-                    tanggal
-            ) bm ON ds.tanggal = bm.tanggal
-            GROUP BY 
-                ds.tanggal
-            ORDER BY 
-                ds.tanggal;
+    SELECT DATE('$start_date') AS tanggal
+    UNION ALL
+    SELECT DATE_ADD(tanggal, INTERVAL 1 DAY)
+    FROM date_sequence
+    WHERE tanggal < '$end_date'
+)
+SELECT 
+    ds.tanggal,
+    COALESCE(SUM(p.pendapatan), 0) AS pendapatan,
+    COALESCE(SUM(bm.pengeluaran), 0) AS pengeluaran,
+    COALESCE(SUM(rtr.retur),0) AS retur,
+    COALESCE(SUM(p.pendapatan), 0) - COALESCE(SUM(bm.pengeluaran), 0) + COALESCE(SUM(rtr.retur),0) AS hasil
+FROM 
+    date_sequence ds
+LEFT JOIN (
+    SELECT 
+        DATE(p.created_at) AS tanggal, 
+        SUM(p.total_harga) AS pendapatan 
+    FROM 
+        penjualan p
+    INNER JOIN 
+        penjualan_detail pd ON p.no_faktur = pd.no_faktur
+    INNER JOIN 
+        produk pr ON pd.produk_id = pr.id_produk
+    WHERE 
+        pr.suplier_id = 1 AND
+        DATE(p.created_at) BETWEEN '$start_date' AND '$end_date'
+    GROUP BY 
+        tanggal
+) p ON ds.tanggal = p.tanggal
+LEFT JOIN (
+    SELECT 
+        DATE(created_at) AS tanggal, 
+        SUM(total_bayar) AS pengeluaran
+    FROM 
+        barang_masuk
+    WHERE 
+        id_supplier = 1 AND
+        DATE(created_at) BETWEEN '$start_date' AND '$end_date'
+    GROUP BY 
+        tanggal
+) bm ON ds.tanggal = bm.tanggal
+ LEFT JOIN (
+    SELECT 
+        DATE(created_at) AS tanggal, 
+        SUM(harga_retur) AS retur
+    FROM 
+        retur_barang
+    WHERE 
+        supplier_id = 1 AND
+        DATE(created_at) BETWEEN '$start_date' AND '$end_date'
+    GROUP BY 
+        tanggal
+) rtr ON ds.tanggal = rtr.tanggal
+
+GROUP BY 
+    ds.tanggal
+ORDER BY 
+    ds.tanggal;
         ";
 
         $query = $this->db->query($sql);
@@ -120,5 +140,66 @@ class PenjualanModel extends Model
             'penjualan' => $this->paginate($perPage, 'default', $page),
             'pager' => $this->pager,
         ];
+    }
+    public function totalLaporan($start_date,$end_date){
+        $sql = "
+        WITH RECURSIVE date_sequence AS (
+            SELECT DATE('$start_date') AS tanggal
+            UNION ALL
+            SELECT DATE_ADD(tanggal, INTERVAL 1 DAY)
+            FROM date_sequence
+            WHERE tanggal < '$end_date'
+        )
+        SELECT 
+            COALESCE(SUM(p.pendapatan), 0) AS total_pendapatan,
+            COALESCE(SUM(bm.pengeluaran), 0) AS total_pengeluaran,
+            COALESCE(SUM(rtr.retur), 0) AS total_retur,
+            COALESCE(SUM(p.pendapatan), 0) - COALESCE(SUM(bm.pengeluaran), 0) + COALESCE(SUM(rtr.retur), 0) AS total_laba
+        FROM 
+            date_sequence ds
+        LEFT JOIN (
+            SELECT 
+                DATE(p.created_at) AS tanggal, 
+                SUM(p.total_harga) AS pendapatan 
+            FROM 
+                penjualan p
+            INNER JOIN 
+                penjualan_detail pd ON p.no_faktur = pd.no_faktur
+            INNER JOIN 
+                produk pr ON pd.produk_id = pr.id_produk
+            WHERE 
+                pr.suplier_id = 1 AND
+                DATE(p.created_at) BETWEEN '$start_date' AND '$end_date'
+            GROUP BY 
+                DATE(p.created_at)
+        ) p ON ds.tanggal = p.tanggal
+        LEFT JOIN (
+            SELECT 
+                DATE(created_at) AS tanggal, 
+                SUM(total_bayar) AS pengeluaran
+            FROM 
+                barang_masuk
+            WHERE 
+                id_supplier = 1 AND
+                DATE(created_at) BETWEEN '$start_date' AND '$end_date'
+            GROUP BY 
+                DATE(created_at)
+        ) bm ON ds.tanggal = bm.tanggal
+        LEFT JOIN (
+            SELECT 
+                DATE(created_at) AS tanggal, 
+                SUM(harga_retur) AS retur
+            FROM 
+                retur_barang
+            WHERE 
+                supplier_id = 1 AND
+                DATE(created_at) BETWEEN '$start_date' AND '$end_date'
+            GROUP BY 
+                DATE(created_at)
+        ) rtr ON ds.tanggal = rtr.tanggal;
+         ";
+        $query = $this->db->query($sql);
+        $result = $query->getResultArray();
+        return $result;
     }
 }

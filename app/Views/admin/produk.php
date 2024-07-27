@@ -12,7 +12,7 @@
             <div class="box-body">
                 <div class="row">
                     <div class="col-md-9">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tambahData">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" onclick="bukaModalTambah()">
                             <i class="fa fa-plus-square"></i> Tambah Data
                         </button>
                     </div>
@@ -40,7 +40,7 @@
                 <h4 class="modal-title" id="exampleModalLabel">Tambah Data</h4>
             </div>
             <div class="modal-body">
-                <form action="" enctype="multipart/form-data">
+                <form action="<?= site_url('/admin/tambahDataProduk') ?>" enctype="multipart/form-data" id="formTambahData" method="post">
                     <div class="form-group">
                         <label for="kategori_id" class="form-label">Nama Kategori</label>
                         <select class="form-control selectpicker" aria-label="Default select example" name="kategori_id" id="inputKategori" data-live-search="true">
@@ -49,6 +49,7 @@
                                 <option value="<?= $ktg['id_kategori']; ?>"><?= $ktg['nama_kategori'] ?></option>
                             <?php endforeach; ?>
                         </select>
+                        <p class="invalid-feedback text-danger"></p>
                     </div>
                     <div class="form-group">
                         <label for="suplier_id" class="form-label">Nama Supplier</label>
@@ -58,35 +59,36 @@
                                 <option value="<?= $sp['id_supplier']; ?>"><?= $sp['nama'] ?></option>
                             <?php endforeach; ?>
                         </select>
+                        <p class="invalid-feedback text-danger"></p>
                     </div>
                     <div class="form-group">
-                        <label for="nama_produk" class="form-label">Nama Produk</label>
+                        <label for="nama_produk" class="control-label">Nama Produk</label>
                         <input type="text" class="form-control" id="inputNamaProduk" name="nama_produk">
+                        <p class="invalid-feedback text-danger"></p>
                     </div>
                     <div class="form-group">
-                        <label for="harga_beli" class="form-label">Harga Beli</label>
+                        <label for="harga_beli" class="control-label">Harga Beli</label>
                         <input type="number" class="form-control" id="inputHargaBeli" name="harga_beli">
+                        <p class="invalid-feedback text-danger"></p>
                     </div>
                     <div class="form-group">
                         <label for="diskon" class="form-label">Diskon</label>
                         <input type="number" class="form-control" id="inputDiskon" name="diskon" step="0.01">
                     </div>
                     <div class="form-group">
-                        <label for="harga_jual" class="form-label">Harga Jual</label>
+                        <label for="harga_jual" class="control-label">Harga Jual</label>
                         <input type="number" class="form-control" id="inputHargaJual" name="harga_jual">
-                    </div>
-                    <div class="form-group">
-                        <label for="stok" class="form-label">Stok</label>
-                        <input type="number" class="form-control" id="inputStok" name="stok">
+                        <p class="invalid-feedback text-danger"></p>
                     </div>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                    <button type="button" class="btn btn-success" onclick="tambahData()">Simpan Data</button>
+                    <button type="submit" class="btn btn-success">Simpan Data</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
 <script src="<?= base_url('assets/js/jquery-3.7.1.min.js');?>"></script>
+<script src="<?= base_url('assets/js/sweetalert2.js'); ?>"></script>
 <script>
     $(document).ready(function(){
         var page=$('#page').val();
@@ -99,6 +101,41 @@
             event.preventDefault();
             page = $(this).attr('href').split('page=')[1];
             ambilData(page);
+        });
+        $('#formTambahData').on('submit', function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                type: 'POST',
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: function (response) {
+                    $('#responseMessage').empty();
+                    $('.invalid-feedback').empty();
+                    $('.is-invalid').removeClass('is-invalid');
+
+                    if (response.success) {
+                        $('#tambahData').modal('hide');
+                        ambilData($('#page').val());
+                        Swal.fire(
+                            'Tersimpan!',
+                            'Data berhasi ditambahkan.',
+                            'success'
+                        );
+                    } else {
+                        $.each(response.errors, function (field, message) {
+                            var element = $('[name=' + field + ']');
+                            element.closest('.form-group').addClass('has-error');
+                            element.closest('.form-group').addClass('has-feedback');
+                            element.next('.invalid-feedback').text(message);
+                            element.after('<span class="glyphicon glyphicon-warning-sign form-control-feedback text-danger"></span>');
+                        });
+                    }
+                },
+                error: function (xhr, thrownError) {
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                }
+            });
         });   
     });
     function ambilData(page = 1){
@@ -172,21 +209,46 @@
     }
     function hapusData(id_produk){
         idprod=id_produk
-        $.ajax({
-            type: "post",
-            url: "<?= site_url('/admin/hapusDataProduk') ?>",
-            data: {
-                id: idprod,
-            },
-            dataType: "json",
-            success: function(response) {
-                ambilData($('#page').val());
-                $('#hapusData'+idprod).modal('hide');
-            },
-            error: function(xhr, thrownError) {
-                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+        Swal.fire({
+            title: 'Apakah kamu yakin?',
+            text: "kamu tidak dapat mengembalikan datanya",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Ya, Hapus data!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "post",
+                    url: "<?= site_url('/admin/hapusDataProduk') ?>",
+                    data: {
+                        id: idprod,
+                    },
+                    dataType: "json",
+                    success: function (response) {
+                        Swal.fire(
+                            'Deleted!',
+                            'Your file has been deleted.',
+                            'success'
+                        );
+                        ambilData($('#page').val());
+                        $('#hapusData'+idprod).modal('hide');
+                    },
+                    error: function (xhr, thrownError) {
+                        alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                    }
+                });
             }
         });
+    }
+    function bukaModalTambah(){
+        $('#tambahData').modal('show');
+        $('.invalid-feedback').empty();
+        $('.form-group').removeClass('has-error');
+        $('.form-group').removeClass('has-feedback');
+        $('.form-group .glyphicon').remove();
     }
 </script>
 <?= $this->endSection()?>

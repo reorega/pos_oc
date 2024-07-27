@@ -133,112 +133,81 @@
 </div>
 <script src="<?= base_url('assets/js/jquery-3.7.1.min.js'); ?>"></script>
 <script>
-    function updateChartData(startDate, endDate) {
-        var area = new Morris.Area({
-            element: 'revenue-chart',
-            resize: true,
-            data: [],
-            xkey: 'y',
-            ykeys: [
-                'item',
-            ],
-            labels: [
-                'Jumlah item terjual',
-            ],
-            lineColors: ['#a0d0e0'],
-            hideHover: 'auto'
+    $(document).ready(function () {
+        ambilChart();
+        ambilDonut();
+    });
+    function ambilChart(){
+        $.ajax({
+                url: '<?php echo base_url('/kasir/ambilDataChart'); ?>',
+                type: 'POST',
+                success: function(response) {
+                    const dates = response.map(item => item.tanggal);
+                    const items = response.map(item => item.item);
 
-        });
-        $.ajax({
-            url: '<?php echo base_url('/kasir/ambilDataChart'); ?>',
-            method: 'POST',
-            data: {
-                start_date: startDate.format('YYYY-MM-DD'),
-                end_date: endDate.format('YYYY-MM-DD')
-            },
-            dataType: 'json',
-            success: function (response) {
-                console.log(response);
-                var chartData = response.map(function (item) {
-                    return {
-                        y: item.tanggal,
-                        item: item.item
-                    };
-                });
-                area.setData(chartData);
-            }
-        });
-    }
-    function updateDonut(startDate, endDate){
-        
-        $.ajax({
-            url: '<?php echo base_url('/kasir/ambilDataDonut'); ?>',
-            method: 'POST',
-            data: {
-                start_date: startDate.format('YYYY-MM-DD'),
-                end_date: endDate.format('YYYY-MM-DD')
-            },
-            dataType: 'json',
-            success: function (response) {
-                console.log(response);
-                var chartData = response.map(function (item) {
-                    return {
-                        label: item.produk,
-                        value: parseInt(item.total_jumlah)
-                    };
-                });
-                console.log('Chart Data:', chartData);
-                var donut = new Morris.Donut({
-            element  : 'sales-chart',
-            resize   : true,
-            colors   : ['#3c8dbc', '#f56954', '#00a65a', '#f39c12', '#d2d6de'],
-            data     : chartData,
-            hideHover: 'auto',
-            
-        });
-                
-            },
-            error: function (xhr, thrownError) {
+                    var options = {
+                        chart: {
+                            type: 'line',
+                            height: 400,  // Tinggi chart
+                            width: '100%'
+                        },
+                        series: [{
+                            name: 'Total Items',
+                            data: items
+                        }],
+                        xaxis: {
+                            categories: dates
+                        }
+                    }
+
+                    var chart = new ApexCharts(document.querySelector("#revenue-chart"), options);
+
+                    chart.render();
+                },
+                error: function (xhr, thrownError) {
                     alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
                 }
         });
     }
-    $(document).ready(function () {
-        $('.daterange').daterangepicker({
-            ranges: {
-                'Today': [moment(), moment()],
-                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                'This Month': [moment().startOf('month'), moment().endOf('month')],
-                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-            },
-            startDate: moment().subtract(29, 'days'),
-            endDate: moment()
-        }, function (start, end) {
-            updateChartData(start, end);
+    function ambilDonut(){
+        $.ajax({
+            url: '<?php echo base_url('/kasir/ambilDataDonut'); ?>',
+            type: 'POST',
+            success: function(response) {
+                console.log(response);
+                const products = response.map(item => item.produk);
+                const totals = response.map(item => item.total_jumlah);
+                var options = {
+                        chart: {
+                            type: 'polarArea',
+                            height: 400,  // Tinggi chart
+                            width: '100%',
+                            toolbar: {
+                                show: true,
+                                tools: {
+                                    download: true // Menampilkan tombol unduh di toolbar
+                                },
+                                autoSelected: 'zoom' // Pilihan default untuk toolbar
+                            }
+                        },
+                        series: totals,
+                        labels: products,
+                        responsive: [{
+                            breakpoint: 200,
+                            options: {
+                                chart: {
+                                width: 200
+                                },
+                                legend: {
+                                position: 'bottom'
+                                }
+                            }
+                        }]
+                    };
+                var chart = new ApexCharts(document.querySelector("#sales-chart"), options);
+                chart.render();
+            }
         });
-        $('.daterangu').daterangepicker({
-            ranges: {
-                'Today': [moment(), moment()],
-                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                'This Month': [moment().startOf('month'), moment().endOf('month')],
-                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-            },
-            startDate: moment().subtract(29, 'days'),
-            endDate: moment()
-        }, function (start, end) {
-            updateDonut(start, end);
-        });
-
-        // Initial load
-        updateChartData(moment().startOf('month'), moment().endOf('month'));
-        updateDonut(moment().startOf('month'), moment().endOf('month'));
-        
-    });
-    
-   
+    }
 </script>
 <?= $this->endSection(); ?>

@@ -96,8 +96,7 @@
                             </div>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-warning" data-toggle="modal"
-                        data-target="#editData<?= $pdk['id_produk'] ?>">
+                    <button type="button" class="btn btn-warning" onclick="bukaModalEdit('<?= $pdk['id_produk'] ?>')">
                         <i class="fa fa-pencil"></i> Edit
                     </button>
                     <!-- Edit Modal -->
@@ -112,11 +111,12 @@
                                     <h4 class="modal-title" id="exampleModalLabel">Edit Data</h4>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="" enctype="multipart/form-data">
+                                    <form action="<?= site_url('/admin/editDataProduk') ?>" enctype="multipart/form-data" class="formEditData">
                                         <div class="form-group">
-                                            <label for="kategori_id" class="form-label">Nama Kategori</label>
+                                            <label for="kategori_id" class="control-label">Nama Kategori</label>
                                             <select class="form-control selectpicker" name="kategori_id"
-                                                data-live-search="true" id="editKategori<?= $pdk['id_produk'] ?>">
+                                                data-live-search="true" id="editKategori<?= $pdk['id_produk'] ?>"
+                                                data-original-value="<?= $pdk['kategori_id'] ?>">
                                                 <option value="" <?= ($pdk['kategori_id'] == 0) ? 'selected' : ''; ?>>
                                                     Pilih Kategori Produk</option>
                                                 <?php foreach ($kategori as $ktg) : ?>
@@ -126,11 +126,13 @@
                                                 </option>
                                                 <?php endforeach; ?>
                                             </select>
+                                            <p class="invalid-feedback text-danger"></p>
                                         </div>
                                         <div class="form-group">
-                                            <label for="suplier_id" class="form-label">Nama Supplier</label>
+                                            <label for="suplier_id" class="control-label">Nama Supplier</label>
                                             <select class="form-control selectpicker" name="suplier_id"
-                                                data-live-search="true" id="editSuplier<?= $pdk['id_produk'] ?>">
+                                                data-live-search="true" id="editSuplier<?= $pdk['id_produk'] ?>"
+                                                data-original-value="<?= $pdk['suplier_id'] ?>">
                                                 <?php foreach ($suplier as $sp) : ?>
                                                 <option value="<?= $sp['id_supplier']; ?>"
                                                     <?= ($sp['id_supplier'] == $pdk['suplier_id']) ? 'selected' : ''; ?>>
@@ -138,74 +140,54 @@
                                                 </option>
                                                 <?php endforeach; ?>
                                             </select>
+                                            <p class="invalid-feedback text-danger"></p>
                                         </div>
                                         <div class="form-group">
-                                            <label for="nama_produk" class="form-label">Nama Produk</label>
+                                            <label for="nama_produk" class="control-label">Nama Produk</label>
                                             <input type="text" class="form-control"
                                                 id="editNamaProduk<?= $pdk['id_produk'] ?>" name="nama_produk"
-                                                value="<?= $pdk['nama_produk'] ?>">
+                                                value="<?= $pdk['nama_produk'] ?>"
+                                                data-original-value="<?= $pdk['nama_produk'] ?>">
+                                            <p class="invalid-feedback text-danger"></p>
                                         </div>
                                         <div class="form-group">
-                                            <label for="harga_beli" class="form-label">Harga Beli</label>
+                                            <label for="harga_beli" class="control-label">Harga Beli</label>
                                             <input type="number" class="form-control"
                                                 id="editHargaBeli<?= $pdk['id_produk'] ?>" name="harga_beli"
-                                                value="<?= $pdk['harga_beli'] ?>">
+                                                value="<?= $pdk['harga_beli'] ?>"
+                                                data-original-value="<?= $pdk['harga_beli'] ?>">
+                                            <p class="invalid-feedback text-danger"></p>       
                                         </div>
                                         <div class="form-group">
-                                            <label for="diskon" class="form-label">Diskon</label>
+                                            <label for="diskon" class="control-label">Diskon</label>
                                             <input type="number" class="form-control"
                                                 id="editDiskon<?= $pdk['id_produk'] ?>" name="diskon"
-                                                value="<?= $pdk['diskon'] ?>" step="0.01">
+                                                value="<?= $pdk['diskon'] ?>" step="0.01"
+                                                data-original-value="<?= $pdk['diskon'] ?>">
                                         </div>
                                         <div class="form-group">
-                                            <label for="harga_jual" class="form-label">Harga Jual</label>
+                                            <label for="harga_jual" class="control-label">Harga Jual</label>
                                             <input type="number" class="form-control"
                                                 id="editHargaJual<?= $pdk['id_produk'] ?>" name="harga_jual"
-                                                value="<?= $pdk['harga_jual'] ?>">
+                                                value="<?= $pdk['harga_jual'] ?>"
+                                                data-original-value="<?= $pdk['harga_jual'] ?>">
+                                            <p class="invalid-feedback text-danger"></p>                                            
                                         </div>
-                                        <div class="form-group">
-                                            <label for="stok" class="form-label">Stok</label>
-                                            <input type="number" class="form-control"
-                                                id="editStok<?= $pdk['id_produk'] ?>" name="stok"
-                                                value="<?= $pdk['stok'] ?>">
-                                        </div>
+                                        <input type="hidden" name="id" value="<?= $pdk['id_produk'] ?>" >
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
                                                 data-dismiss="modal">Batal</button>
-                                            <button type="button" class="btn btn-success"
-                                                onclick="editData('<?= $pdk['id_produk'] ?>')">Simpan Perubahan</button>
+                                            <button type="submit" class="btn btn-success">Simpan Perubahan</button>
                                         </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-danger" data-toggle="modal"
-                        data-target="#hapusData<?= $pdk['id_produk'] ?>">
+                    <button type="button" class="btn btn-danger" onclick="hapusData('<?= $pdk['id_produk'] ?>')">
                         <i class="fa fa-trash"></i> Hapus
                     </button>
                     <!-- Delete Modal -->
-                    <div class="modal fade text-left" id="hapusData<?= $pdk['id_produk'] ?>" tabindex="-1"
-                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    <h4 class="modal-title" id="exampleModalLabel">Konfirmasi Hapus</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <p>Anda Yakin Menghapus Data Produk <?= $pdk['nama_produk'] ?>?</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                                    <button type="button" class="btn btn-danger"
-                                        onclick="hapusData('<?= $pdk['id_produk'] ?>')">Hapus Data</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </td>
             </tr>
             <?php $nilai++; ?>
@@ -216,3 +198,52 @@
     <?= $pager->links(); ?>
     <?php endif; ?>
 </div>
+<script>
+    $(document).ready(function () {
+    $('.formEditData').on('submit', function (e) {
+      e.preventDefault();
+      $.ajax({
+        url: $(this).attr('action'),
+        type: 'POST',
+        data: $(this).serialize(),
+        dataType: 'json',
+        success: function (response) {
+          $('#responseMessage').empty();
+          $('.invalid-feedback').empty();
+          $('.is-invalid').removeClass('is-invalid');
+          if (response.success == true) {
+            $('.modal').modal('hide');
+            ambilData($('#page').val());
+            Swal.fire(
+              'Tersimpan!',
+              'Data berhasil diubah.',
+              'success'
+            );
+          } else {
+            $.each(response.errors, function (field, message) {
+                var element = $('[name=' + field + ']');
+                element.closest('.form-group').addClass('has-error');
+                element.closest('.form-group').addClass('has-feedback');
+                element.next('.invalid-feedback').text(message);
+                element.after('<span class="glyphicon glyphicon-warning-sign form-control-feedback text-danger"></span>');
+            });
+          }
+        },
+        error: function (xhr, thrownError) {
+          alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+        }
+      });
+    });
+  });
+  function bukaModalEdit(id){
+        $('#editData'+ id).modal('show');
+        $('.invalid-feedback').empty();
+        $('.form-group').removeClass('has-error');
+        $('.form-group').removeClass('has-feedback');
+        $('.form-group .glyphicon').remove();
+        $('#editData' + id + ' [data-original-value]').each(function() {
+            var originalValue = $(this).data('original-value');
+            $(this).val(originalValue);
+        });
+    }
+</script>

@@ -9,6 +9,40 @@ use Dompdf\Dompdf;
 
 class Produk extends BaseController
 {
+    protected $produkValidationRules = [
+        'kategori_id' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Kategori harus diisi',
+            ]
+        ],
+        'suplier_id' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Suplier harus diisi',
+            ]
+        ],
+        'nama_produk' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'nama produk harus diisi',
+            ]
+        ],
+        'harga_beli' => [
+            'rules' => 'required|numeric',
+            'errors' => [
+                'required' => 'Harga beli wajib diisi',
+                'numeric' => 'Harga beli harus berupa angka',
+            ]
+        ],
+        'harga_jual' => [
+            'rules' => 'required|numeric',
+            'errors' => [
+                'required' => 'Harga jual harus diisi',
+                'numeric' => 'Harga jual harus berupa angka',
+            ]
+        ]
+    ];
     public function index()
     {
         $data['judul'] = "Halaman Produk";
@@ -48,52 +82,67 @@ class Produk extends BaseController
     }
     public function tambahData()
     {
-        $kategori_id = $this->request->getPost('kategori');
-        $kode_produk = $this->createKode($kategori_id);
-        $data = [
-            'kategori_id' => $kategori_id,
-            'suplier_id' => $this->request->getPost('suplier'),
-            'kode_produk' => $kode_produk,
-            'nama_produk' => $this->request->getPost('produk'),
-            'harga_beli' => $this->request->getPost('hargabeli'),
-            'diskon' => $this->request->getPost('diskon'),
-            'harga_jual' => $this->request->getPost('hargajual'),
-            'stok' => $this->request->getPost('stok'),
-        ];
-        $this->produkModel->insert($data);
-        cache()->clean();
-        $response = [
-            'status' => 'success',
-        ];
-        return $this->response->setJSON($response);
+        $validation = \Config\Services::validation();
+        $valid = $this->validate($this->produkValidationRules);
+        if(!$valid){
+            $errors = [];
+            // Mengambil pesan kesalahan dari validator satu per satu
+            foreach ($validation->getErrors() as $field => $message) {
+                $errors[$field] = $message;
+            }
+            return $this->response->setJSON(['success' => false, 'errors' => $errors,]);
+        }
+        else{
+            $kategori_id = $this->request->getPost('kategori_id');
+            $kode_produk = $this->createKode($kategori_id);
+            $data = [
+                'kategori_id' => $kategori_id,
+                'suplier_id' => $this->request->getPost('suplier_id'),
+                'kode_produk' => $kode_produk,
+                'nama_produk' => $this->request->getPost('nama_produk'),
+                'harga_beli' => $this->request->getPost('harga_beli'),
+                'diskon' => $this->request->getPost('diskon'),
+                'harga_jual' => $this->request->getPost('harga_jual'),
+            ];
+            $this->produkModel->insert($data);
+            cache()->clean();
+            return $this->response->setJSON(['success' => true]);
+        }
     }
     public function editData()
     {
-        $id = $this->request->getPost('id');
-        $produkbyid = $this->produkModel->find($id);
-        $kategori_id = $this->request->getPost('kategori');
-        if ($kategori_id != $produkbyid['kategori_id']) {
-            $kode = $this->createKode($kategori_id);
+        $validation = \Config\Services::validation();
+        $valid = $this->validate($this->produkValidationRules);
+        if(!$valid){
+            $errors = [];
+            // Mengambil pesan kesalahan dari validator satu per satu
+            foreach ($validation->getErrors() as $field => $message) {
+                $errors[$field] = $message;
+            }
+            return $this->response->setJSON(['success' => false, 'errors' => $errors,]);
+        }else{
+            $id = $this->request->getPost('id');
+            $produkbyid = $this->produkModel->find($id);
+            $kategori_id = $this->request->getPost('kategori_id');
+            if ($kategori_id != $produkbyid['kategori_id']) {
+                $kode = $this->createKode($kategori_id);
 
-        } else {
-            $kode = $produkbyid['kode_produk'];
+            } else {
+                $kode = $produkbyid['kode_produk'];
+            }
+            $data = [
+                'kategori_id' => $kategori_id,
+                'suplier_id' => $this->request->getPost('suplier_id'),
+                'kode_produk' => $kode,
+                'nama_produk' => $this->request->getPost('nama_produk'),
+                'harga_beli' => $this->request->getPost('harga_beli'),
+                'diskon' => $this->request->getPost('diskon'),
+                'harga_jual' => $this->request->getPost('harga_jual'),
+            ];
+            $this->produkModel->update($id, $data);
+            cache()->clean();
+            return $this->response->setJSON(['success' => true]);
         }
-        $data = [
-            'kategori_id' => $kategori_id,
-            'suplier_id' => $this->request->getPost('suplier'),
-            'kode_produk' => $kode,
-            'nama_produk' => $this->request->getPost('produk'),
-            'harga_beli' => $this->request->getPost('hargabeli'),
-            'diskon' => $this->request->getPost('diskon'),
-            'harga_jual' => $this->request->getPost('hargajual'),
-            'stok' => $this->request->getPost('stok'),
-        ];
-        $this->produkModel->update($id, $data);
-        cache()->clean();
-        $response = [
-            'status' => 'success',
-        ];
-        return $this->response->setJSON($response);
     }
     public function hapusData()
     {

@@ -21,6 +21,7 @@ class Laporan extends BaseController
         if ($tanggalawal != "") {
             $data = [
                 'laporan' => $this->penjualanModel->laporan($tanggalawal, $tanggalakhir),
+                'total' => $this->penjualanModel->totalLaporan($tanggalawal,$tanggalakhir),
             ];
         } else {
             $tanggalakhir = date('Y-m-d'); // Mendapatkan tanggal hari ini dalam format 'Y-m-d'
@@ -29,6 +30,7 @@ class Laporan extends BaseController
             $tanggalawal = date('Y-m-d', $tanggalawal_unix);
             $data = [
                 'laporan' => $this->penjualanModel->laporan($tanggalawal, $tanggalakhir),
+                'total' => $this->penjualanModel->totalLaporan($tanggalawal,$tanggalakhir),
             ];
         }
         $table = view('admin/tablelaporan', $data);
@@ -42,6 +44,7 @@ class Laporan extends BaseController
         $data['tanggalawal'] = $tanggalawal;
         $data['tanggalakhir'] = $tanggalakhir;
         $data['data'] = $this->penjualanModel->laporan($tanggalawal, $tanggalakhir);
+        $data['total'] = $this->penjualanModel->totalLaporan($tanggalawal,$tanggalakhir);
         $html = view('admin/laporanpdf', $data);
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'Potrait');

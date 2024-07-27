@@ -18,6 +18,7 @@ $routes->post('updateProfile', 'User::updateProfile');
 
 $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->get('/', 'Admin');
+    $routes->get('downloadChart', 'Admin::downloadChart');
 
     // Users
     $routes->get('users', 'User');
