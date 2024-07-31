@@ -28,9 +28,11 @@
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($users as $key => $user) : ?>
+            <?php $nilai = $no ?? 1;?>
+            <?php foreach ($users as $user) : ?>
+            <?php if ($user['level_users'] != 1): ?>
             <tr class="text-center">
-                <td><?= $key + 1 ?></td>
+                <td><?= $nilai ?></td>
                 <td><?= $user['username'] ?></td>
                 <?php
              if($user['level_users']==2){
@@ -123,7 +125,14 @@
                         </div>
                 </td>
             </tr>
+            <?php $nilai++ ;?>
+            <?php endif; ?>
             <?php endforeach; ?>
         </tbody>
     </table>
+    <?php
+    if($search=="no"){
+        echo $pager->links();
+    }
+?>
 </div>
