@@ -31,8 +31,10 @@ class User extends BaseController
     {
         $data['judul'] = "Halaman User";
         $data['users'] = $this->userModel->findAll();
-        $data['setting'] = $this->loadConfigData();
-        return view('admin/user', $data);
+        $setting= $this->loadConfigData();
+        $data['setting'] = $setting;
+        $data['page_title'] = "User";
+        return view('/admin/user',$data);
     }
 
     public function getUserData()

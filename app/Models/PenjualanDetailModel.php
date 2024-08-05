@@ -12,7 +12,6 @@ class PenjualanDetailModel extends Model
     protected $allowedFields = ['penjualan_id','no_faktur','produk_id','kode_produk','harga_jual','jumlah','diskon','sub_total','total_sementara']; // Kolom yang diizinkan untuk dimasukkan atau diperbarui
 
     protected $useTimestamps = true; // Mengaktifkan penggunaan kolom created_at dan updated_at
-
     protected $createdField = 'created_at'; // Nama kolom created_at di tabel
     protected $updatedField = 'updated_at'; // Nama kolom updated_at di tabel
     public function cariData($keyword){

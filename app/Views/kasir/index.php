@@ -12,7 +12,6 @@
           <li class="active">Dashboard</li>
         </ol> -->
     </section>
-
     <!-- Isi utama dashboard -->
     <section class="content">
         <!-- Small boxes (Stat box) -->
@@ -21,8 +20,8 @@
                 <!-- small box -->
                 <div class="small-box bg-aqua">
                     <div class="inner">
-                        <h3><?= $totalKategori ?></h3>
-                        <p><b>TOTAL KATEGORI</b></p>
+                        <h3><?= $dashboard['tanggal'] ?></h3>
+                        <p><b>Tanggal</b></p>
                     </div>
                     <div class="icon">
                         <i class="fa fa-cubes"></i>
@@ -35,8 +34,8 @@
                 <!-- small box -->
                 <div class="small-box bg-green">
                     <div class="inner">
-                        <h3><?= $totalProduk ?></h3>
-                        <p><b>TOTAL PRODUK</b></p>
+                        <h3><?= $dashboard['jumlah_transaksi'] ?></h3>
+                        <p><b>Total Transaksi Hari Ini</b></p>
                     </div>
                     <div class="icon">
                         <i class="fa fa-cube"></i>
@@ -49,8 +48,8 @@
                 <!-- small box -->
                 <div class="small-box bg-yellow">
                     <div class="inner">
-                        <h3><?= $totalSupplier ?></h3>
-                        <p><b>TOTAL SUPPLIER</b></p>
+                        <h3><?= $dashboard['item'] ?></h3>
+                        <p><b>Total Item Terjual Hari Ini</b></p>
                     </div>
                     <div class="icon">
                         <i class="fa fa-truck"></i>
@@ -63,8 +62,8 @@
                 <!-- small box -->
                 <div class="small-box bg-red">
                     <div class="inner">
-                        <h3><?= $totalUser ?></h3>
-                        <p><b>TOTAL USERS</b></p>
+                        <h3>Rp <?= number_format($dashboard['omset'],0,",",".")  ?></h3>
+                        <p><b>Total Omset Hari Ini</b></p>
                     </div>
                     <div class="icon">
                         <i class="fa fa-users"></i>
@@ -84,14 +83,8 @@
                     <!-- Tabs within a box -->
                     <ul class="nav nav-tabs pull-right">
                         <div class="pull-right box-tools">
-                            <button type="button" class="btn btn-primary btn-sm daterange pull-right"
-                                data-toggle="tooltip" title="Date range">
-                                <i class="fa fa-calendar"></i></button>
-                            <button type="button" class="btn btn-primary btn-sm pull-right" data-widget="collapse"
-                                data-toggle="tooltip" title="Collapse" style="margin-right: 5px;">
-                                <i class="fa fa-minus"></i></button>
                         </div>
-                        <li class="pull-left header"><i class="fa fa-bar-chart"></i>Jumlah Item Terjual</li>
+                        <li class="pull-left header"><i class="fa fa-bar-chart"></i>Jumlah Item Terjual Dalam 30 Hari Terakhir</li>
                     </ul>
                     <div class="tab-content no-padding">
                         <!-- Morris chart - Sales -->
@@ -110,14 +103,8 @@
                     <!-- Tabs within a box -->
                     <ul class="nav nav-tabs pull-right">
                         <div class="pull-right box-tools">
-                            <button type="button" class="btn btn-primary btn-sm daterangu pull-right"
-                                data-toggle="tooltip" title="Date range">
-                                <i class="fa fa-calendar"></i></button>
-                            <button type="button" class="btn btn-primary btn-sm pull-right" data-widget="collapse"
-                                data-toggle="tooltip" title="Collapse" style="margin-right: 5px;">
-                                <i class="fa fa-minus"></i></button>
                         </div>
-                        <li class="pull-left header"><i class="fa fa-bar-chart"></i>5 Produk Terlaris</li>
+                        <li class="pull-left header"><i class="fa fa-bar-chart"></i>5 Produk Terlaris Dalam 30 Hari Terakhir</li>
                     </ul>
                     <div class="tab-content no-padding">
                         <!-- Morris chart - Sales -->

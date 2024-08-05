@@ -61,6 +61,17 @@ class ProdukModel extends Model
         $result = $query->get()->getResultArray();
         return $result;
     }
+    public function cariKode3($keyword)
+    {
+        $query = $this->db->table('produk');
+        $query->select();
+        $query->where('kode_produk', $keyword);
+        $result = $query->get()->getResultArray();
+        if (empty($result)) {
+            return 'kosong';
+        }
+        return $result;
+    }
     public function totalProduk()
     {
         return $this->countAll();

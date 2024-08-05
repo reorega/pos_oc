@@ -26,7 +26,8 @@
 </head>
 <body>
 <div id="main">
-<h4>Laporan Laba Rugi Periode : <?= $tanggalawal ?> - <?= $tanggalakhir ?></h4>
+<h4>Laporan Laba Rugi <?= $jenis ?></h4>
+<h4>Periode : <?= $tanggalawal ?> - <?= $tanggalakhir ?></h4>
     <table class="table table-hover mt-2 table-bordered">
         <thead class="table-dark">
             <tr>

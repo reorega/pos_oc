@@ -119,6 +119,13 @@ class Pos extends BaseController
         $jumlah = $this->request->getPost('jumlah');
         $no_faktur = $this->request->getPost('no_faktur');
         $cekstok = $this->produkModel->cekStok($kode_produk);
+        /*$cariProduk= $this->produkModel->cariKode3($kode_produk);
+        if($cariProduk=="kosong"){
+            $response = [
+                'status' => 'kosong',
+            ];
+            return $this->response->setJSON($response);
+        }*/
         if ($cekstok == 0) {
             $response = [
                 'status' => 'error',

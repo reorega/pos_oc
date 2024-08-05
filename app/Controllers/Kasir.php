@@ -24,6 +24,9 @@ class Kasir extends BaseController
 
         $setting = $this->loadConfigData();
         $data['setting'] = $setting;
+        $isi = $this->penjualanModel->dashboardKasir();
+        $isi2 = $isi[0];
+        $data['dashboard'] = $isi2;
         return view('kasir/index', $data);
     }
 }

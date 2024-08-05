@@ -12,6 +12,7 @@ class Setting extends BaseController
         $setting= $this->loadConfigData();
         $data['pengaturans'] = $this->settingModel->findAll();
         $data['setting'] = $setting;
+        $data['page_title'] = "Setting";
         return view('admin/setting', $data);
     }
 

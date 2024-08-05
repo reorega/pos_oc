@@ -12,7 +12,7 @@
             <div class="box-body">
                 <div class="row">
                     <div class="col-md-9">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tambahData">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" onclick="bukaModalTambah()">
                             <i class="fa fa-plus-square"></i> Tambah Data
                         </button>
                     </div>
@@ -29,7 +29,8 @@
         </div>
     </section>
 </div>
-<!-- Modal Tambah Barang Masuk -->
+
+<!-- Modal Tambah Data Retur Barang -->
 <div class="modal fade" id="tambahData" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -40,46 +41,37 @@
                 <h4 class="modal-title" id="exampleModalLabel">Tambah Data</h4>
             </div>
             <div class="modal-body">
-                <form action="" method="post" enctype="multipart/form-data">
-                    <!-- <div class="form-group">
-                        <label for="inputSupplier" class="form-label">Nama Supplier</label>
-                        <select class="form-control selectpicker" aria-label="Default select example" name="id_supplier"
-                            id="supplier" data-live-search="true">
-                            <option selected disabled>Pilih Supplier</option>
-                            <?php foreach ($suppliers as $supplier) : ?>
-                            <option value="<?= $supplier['id_supplier']; ?>"><?= $supplier['nama'] ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div> -->
+                <form action="<?= site_url('admin/tambahDataReturBarang') ?>" method="post" id="formTambahData">
                     <div class="form-group">
-                        <label for="inputProduk" class="form-label">Nama Produk</label>
-                        <select class="form-control selectpicker" aria-label="Default select example" name="produk_id"
-                            id="produk" data-live-search="true">
+                        <label for="produk_id" class="form-label">Nama Produk</label>
+                        <select class="form-control selectpicker" name="produk_id" id="produk" data-live-search="true">
                             <option selected disabled>Pilih Produk</option>
                             <?php foreach ($produk as $pdk) : ?>
-                            <option value="<?= $pdk['id_produk']; ?>"><?= $pdk['nama_produk']; ?></option>
+                                <option value="<?= $pdk['id_produk']; ?>"><?= $pdk['nama_produk'] ?></option>
                             <?php endforeach; ?>
                         </select>
+                        <p class="invalid-feedback text-danger"></p>
                     </div>
                     <div class="form-group">
                         <label for="inputJumlah" class="form-label">Jumlah Retur</label>
                         <input type="text" class="form-control" id="inputJumlah" name="jumlah">
+                        <p class="invalid-feedback text-danger"></p>
                     </div>
                     <div class="form-group">
                         <label for="inputKeterangan" class="form-label">Keterangan</label>
                         <input type="text" class="form-control" id="inputKeterangan" name="keterangan">
+                        <p class="invalid-feedback text-danger"></p>
                     </div>
-                    <input type="hidden" name="tanggal" value="<?= date('Y-m-d') ?>">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                    <button type="button" class="btn btn-success" onclick="tambahData()">Simpan Data</button>
+                    <button type="submit" class="btn btn-success">Simpan Data</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
-<!-- Pastikan jQuery dan Bootstrap dimuat -->
-<script src="<?= base_url('assets/js/jquery-3.7.1.min.js');?>"></script>
-<script src="<?= base_url('assets/bootstrap/js/bootstrap.min.js');?>"></script>
+
+<script src="<?= base_url('assets/js/jquery-3.7.1.min.js'); ?>"></script>
+<script src="<?= base_url('assets/js/sweetalert2.js'); ?>"></script>
 <script>
     $(document).ready(function() {
         var page = $('#page').val();
@@ -91,6 +83,40 @@
             event.preventDefault();
             page = $(this).attr('href').split('page=')[1];
             ambilData(page);
+        });
+
+        $('#formTambahData').on('submit', function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                type: 'POST',
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: function (response) {
+                    $('#responseMessage').empty();
+                    $('.invalid-feedback').empty();
+                    $('.is-invalid').removeClass('is-invalid');
+
+                    if (response.success) {
+                        $('#tambahData').modal('hide');
+                        ambilData($('#page').val());
+                        Swal.fire(
+                            'Tersimpan!',
+                            'Data berhasil ditambahkan.',
+                            'success'
+                        );
+                    } else {
+                        $.each(response.errors, function (field, message) {
+                            var element = $('[name=' + field + ']');
+                            element.addClass('is-invalid');
+                            element.next('.invalid-feedback').text(message);
+                        });
+                    }
+                },
+                error: function (xhr, thrownError) {
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                }
+            });
         });
     });
 
@@ -110,9 +136,8 @@
                     $('.selectpicker').selectpicker();
                 }
             },
-            error: function(xhr, thrownError) {
-                console.error(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-                alert("Error: " + xhr.responseText);
+            error: function (xhr, thrownError) {
+                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
             }
         });
     }
@@ -122,22 +147,17 @@
             type: "post",
             url: "<?= site_url('/admin/tambahDataReturBarang') ?>",
             data: {
-                produk_id: $('#produk').val(), // perbaikan nama input
+                produk_id: $('#produk').val(), 
                 total_item: $('#inputJumlah').val(),
-                keterangan: $('#inputKeterangan').val(), // perbaikan nama input
+                keterangan: $('#inputKeterangan').val(), 
             },
             dataType: "json",
-            success: function(response) {
-                if (response.status == 'success') {
-                    ambilData($('#page').val());
-                    $('#tambahData').modal('hide');
-                } else {
-                    alert('Gagal menambahkan data!');
-                }
+            success: function (response) {
+                ambilData($('#page').val());
+                $('#tambahData').modal('hide');
             },
-            error: function(xhr, thrownError) {
-                console.error(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-                alert("Error: " + xhr.responseText);
+            error: function (xhr, thrownError) {
+                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
             }
         });
     }
@@ -148,27 +168,33 @@
             url: "<?= site_url('/admin/editDataReturBarang') ?>",
             data: {
                 id_retur_barang: id_retur_barang,
-                produk_id: $('#editProduk' + id_retur_barang).val(), // perbaikan nama input
+                produk_id: $('#editProduk' + id_retur_barang).val(),
                 jumlah: $('#editJumlah' + id_retur_barang).val(),
-                keterangan: $('#editKeterangan' + id_retur_barang).val(), // perbaikan nama input
+                keterangan: $('#editKeterangan' + id_retur_barang).val(),
             },
             dataType: "json",
-            success: function(response) {
-                if (response.status == 'success') {
-                    ambilData($('#page').val());
-                    $('#editData' + id_retur_barang).modal('hide');
-                } else {
-                    alert('Gagal mengedit data!');
-                }
+            success: function (response) {
+                ambilData($('#page').val());
+                $('#editData' + id_retur_barang).modal('hide');
             },
-            error: function(xhr, thrownError) {
-                console.error(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-                alert("Error: " + xhr.responseText);
+            error: function (xhr, thrownError) {
+                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
             }
         });
     }
 
     function hapusData(id_retur_barang) {
+        Swal.fire({
+            title: 'Apakah kamu yakin?',
+            text: "kamu tidak dapat mengembalikan datanya",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Ya, Hapus data!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
         $.ajax({
             type: "post",
             url: "<?= site_url('/admin/hapusDataReturBarang') ?>",
@@ -176,19 +202,27 @@
                 id: id_retur_barang,
             },
             dataType: "json",
-            success: function(response) {
-                if (response.status == 'success') {
-                    ambilData($('#page').val());
-                    $('#hapusData' + id_retur_barang).modal('hide');
-                } else {
-                    alert('Gagal menghapus data!');
-                }
-            },
-            error: function(xhr, thrownError) {
-                console.error(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-                alert("Error: " + xhr.responseText);
+                    success: function (response) {
+                        Swal.fire(
+                            'Deleted!',
+                            'Your file has been deleted.',
+                            'success'
+                        );
+                        ambilData($('#page').val());
+                        $('#hapusData' + id_retur_barang).modal('hide');
+                    },
+                    error: function (xhr, thrownError) {
+                        alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                    }
+                });
             }
         });
     }
+
+    function bukaModalTambah() {
+        $('#tambahData').modal('show');
+        $('.invalid-feedback').empty();
+        $('.is-invalid').removeClass('is-invalid');
+    }
 </script>
-<?= $this->endSection()?>
+<?= $this->endSection() ?>

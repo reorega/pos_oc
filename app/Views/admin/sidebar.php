@@ -59,24 +59,29 @@
                     <i class="fa fa-recycle"></i> <span>Retur Barang</span>
                 </a>
             </li>
-            <li>
+            <li class="<?= isset($page_title) && $page_title == 'Penjualan' ? 'active' : '' ?>">
                 <a href="<?= base_url('admin/penjualan'); ?>">
                     <i class="fa fa-money"></i> <span>Penjualan</span>
                 </a>
             </li>
             <li class="header">REPORT</li>
-            <li>
+            <li class="<?= isset($page_title) && $page_title == 'Laporan' ? 'active' : '' ?>">
                 <a href="<?= base_url('admin/laporan'); ?>">
                     <i class="fa fa-file-pdf-o"></i> <span>Laporan</span>
                 </a>
             </li>
+            <li class="<?= isset($page_title) && $page_title == 'Laporan2' ? 'active' : '' ?>">
+                <a href="<?= base_url('admin/laporan2'); ?>">
+                    <i class="fa fa-file-pdf-o"></i> <span>Laporan Supplier</span>
+                </a>
+            </li>
             <li class="header">SISTEM</li>
-            <li>
+            <li class="<?= isset($page_title) && $page_title == 'User' ? 'active' : '' ?>">
                 <a href="<?= base_url('admin/users'); ?>">
                     <i class="fa fa-users"></i> <span>User</span>
                 </a>
             </li>
-            <li>
+            <li class="<?= isset($page_title) && $page_title == 'Setting' ? 'active' : '' ?>">
                 <a href="<?= base_url('admin/setting'); ?>">
                     <i class="fa fa-cog"></i> <span>Pengaturan</span>
                 </a>

@@ -3,8 +3,15 @@
 <div class="content-wrapper">
     <section class="content-header">
         <h1>
-            Tabel Laporan
+            Tabel Laporan Produk <?= $judul; ?>
         </h1>
+        <?php
+            if($judul=="Omah Cokelat"){
+                $mode=1;
+            }else{
+                $mode=2;
+            }
+        ?>
     </section>
     <section class="content">
         <div class="box">
@@ -47,6 +54,7 @@
                         <label for="tanggalakhir" class="form-label">Sampai Tanggal</label>
                         <input type="text" class="form-control" id="tanggalakhir" name="tanggalakhir">
                     </div>
+                    <input type="hidden" id="mode" value="<?= $mode ?>">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                     <button type="button" class="btn btn-success" id="btnTerapkan">Terapkan</button>
                 </form>
@@ -55,6 +63,7 @@
     </div>
 </div>
 <script src="<?= base_url('assets/js/jquery-3.7.1.min.js'); ?>"></script>
+<script src="<?= base_url('assets/js/sweetalert2.js'); ?>"></script>
 <script>
     $(document).ready(function() {
         $('#tanggalmulai').datepicker({
@@ -73,7 +82,13 @@
         console.log($('#tanggalmulai').val())
         $.ajax({
             type: "post",
-            url: "<?= site_url('admin/ambilDataLaporan') ?>",
+            url: "<?php
+                if($judul=="Omah Cokelat"){
+                    echo site_url('admin/ambilDataLaporan');
+                }else{
+                    echo site_url('admin/ambilDataLaporan2');
+                }
+            ?>",
             data: {
                 tanggalmulai: $('#tanggalmulai').val(),
                 tanggalakhir: $('#tanggalakhir').val(),
@@ -92,17 +107,25 @@
     }
 
     function cetakPdf() {
+        if($('#tanggalakhir').val()==""){
+            Swal.fire({
+                title: "Error!",
+                text: "Pilih Periode Terlebih Dahulu!",
+                icon: "info"
+            });
+        }
         $.ajax({
             type: "post",
             url: "<?= site_url('admin/cetakLaporanPdf') ?>",
             data: {
                 tanggalmulai: $('#tanggalmulai').val(),
                 tanggalakhir: $('#tanggalakhir').val(),
+                mode: $('#mode').val(),
             },
             dataType: "json",
             success: function(response) {},
             error: function(xhr, thrownError) {
-                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                
             }
         });
     }

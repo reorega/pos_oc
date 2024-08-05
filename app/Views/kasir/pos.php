@@ -344,11 +344,20 @@
                         icon: "info"
                     });
                 }
+                if (response.status == 'kosong') {
+                    Swal.fire({
+                        title: "Error!",
+                        text: "Produk Tidak Ditemukan",
+                        icon: "info"
+                    });
+                }
                 ambilData();
                 ambilDataTotalHarga();
                 $('#kodebarcodelangsung').val('')
             },
-            error: function(xhr, thrownError) {}
+            error: function(xhr, thrownError) {
+            
+            }
         });
     }
 
