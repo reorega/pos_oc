@@ -26,6 +26,7 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->post('editData', 'User::editData');
     $routes->get('hapusDataUser/(:num)', 'User::hapusData/$1');
     $routes->post('ambilDataUsers', 'User::ambilDataUsers');
+    $routes->post('getUserData', 'User::getUserData');
 
     // Kategori
     $routes->get('kategori', 'Kategori');
