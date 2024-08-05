@@ -72,7 +72,9 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
 
     //Laporan
     $routes->get('laporan', 'Laporan');
+    $routes->get('laporan2', 'Laporan::laporanSupplier');
     $routes->post('ambilDataLaporan', 'Laporan::ambilData');
+    $routes->post('ambilDataLaporan2', 'Laporan::ambilData2');
     $routes->post('cetakLaporanPdf', 'Laporan::cetakPdf');
 
     //Penjualan

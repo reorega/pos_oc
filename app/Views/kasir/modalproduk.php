@@ -6,7 +6,10 @@
         top: 0;
         z-index: 1;
     }
-
+    .batas{
+        max-height: 450px;
+        overflow-y: scroll;
+    }
     .kode {
         width: 105px;
     }
@@ -26,7 +29,8 @@
                 <h4 class="modal-title" id="exampleModalLabel">Data Produk</h4>
             </div>
             <div class="modal-body">
-                <div class="table-wrapper">
+                <div class="table-wrapper batas">
+                <?php if($produk != null): ?>
                     <table class="table table-hover mt-2 table-bordered">
                         <thead class="table-dark">
                             <tr>
@@ -53,6 +57,9 @@
                             <?php endforeach; ?>
                         </tbody>
                     </table>
+                <?php else : ?>                               
+                    <h3 class="text-danger text-center">Produk Tidak Ditemukan</h3>                         
+                <?php endif; ?>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

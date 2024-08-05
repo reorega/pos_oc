@@ -14,6 +14,7 @@ class User extends BaseController
         $data['users'] = $this->userModel->viewUser();
         $setting= $this->loadConfigData();
         $data['setting'] = $setting;
+        $data['page_title'] = "User";
         return view('/admin/user',$data);
     }
 

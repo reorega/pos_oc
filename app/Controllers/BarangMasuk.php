@@ -9,7 +9,7 @@ class BarangMasuk extends BaseController
     public function index()
     {
         $data['judul'] = "Halaman BarangMasuk";
-        $data['page_title'] = "BarangMasuk";
+        $data['page_title'] = "Barang_Masuk";
         $data['suppliers'] = $this->supplierModel->findAll(); // Ambil semua data supplier
         $data['produk'] = $this->produkModel->findAll(); // Ambil semua data produk
         $setting= $this->loadConfigData();
