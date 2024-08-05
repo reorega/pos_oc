@@ -31,7 +31,7 @@ class ReturBarang extends BaseController
     public function index()
     {
         $data['judul'] = "Halaman Retur Barang";
-        $data['page_title'] = "Retur Barang";
+        $data['page_title'] = "Retur_Barang";
         $data['suppliers'] = $this->supplierModel->findAll(); // Ambil semua data supplier
         $data['produk'] = $this->produkModel->findAll(); // Ambil semua data produk
         $data['setting'] = $this->loadConfigData(); // Load data konfigurasi
