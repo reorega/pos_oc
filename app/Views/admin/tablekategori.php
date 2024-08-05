@@ -32,12 +32,10 @@
                 <td><?= $nilai ?></td>
                 <td><?= $kat['nama_kategori'] ?></td>
                 <td>
-                    <button type="button" class="btn btn-warning" data-toggle="modal"
-                        data-target="#editData<?= $kat['id_kategori'] ?>">
+                    <button type="button" class="btn btn-warning" onclick="bukaModalEdit('<?= $kat['id_kategori'] ?>')">
                         <i class="fa fa-pencil"></i> Edit
                     </button>
-                    <div class="modal fade text-left" id="editData<?= $kat['id_kategori'] ?>" tabindex="-1"
-                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade text-left" id="editData<?= $kat['id_kategori'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -47,60 +45,79 @@
                                     <h4 class="modal-title" id="exampleModalLabel">Edit Data</h4>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="" method="" enctype="multipart/form-data">
+                                    <form action="<?= site_url('/admin/editDataKategori') ?>" enctype="multipart/form-data" method="post" class="formEditData">
+                                        <?= csrf_field() ?>
                                         <div class="form-group">
-                                            <label for="editNamaKategori" class="form-label">Nama Kategori
-                                            </label>
-                                            <input type="text" class="form-control"
-                                                id="editNamaKategori<?= $kat['id_kategori'] ?>"
-                                                name="edit_nama_kategori" value="<?= $kat['nama_kategori'] ?>">
+                                            <label for="editNamaKategori<?= $kat['id_kategori'] ?>" class="control-label">Nama Kategori</label>
+                                            <input type="text" class="form-control" id="editNamaKategori<?= $kat['id_kategori'] ?>" name="nama_kategori" value="<?= $kat['nama_kategori'] ?>" data-original-value="<?= $kat['nama_kategori'] ?>">
+                                            <p class="invalid-feedback text-danger"></p>
                                         </div>
-                                        <button type="button" class="btn btn-secondary"
-                                            data-dismiss="modal">Batal</button>
-                                        <button type="button" class="btn btn-success"
-                                            onclick="editData('<?= $kat['id_kategori'] ?>')">Simpan Perubahan</button>
+                                        <input type="hidden" name="id" value="<?= $kat['id_kategori'] ?>">
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                            <button type="submit" class="btn btn-success">Simpan Perubahan</button>
+                                        </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-danger" data-toggle="modal"
-                        data-target="#hapusData<?= $kat['id_kategori'] ?>">
+                    <button type="button" class="btn btn-danger" onclick="hapusData('<?= $kat['id_kategori'] ?>')">
                         <i class="fa fa-trash"></i> Hapus
                     </button>
-                    <div class="modal fade text-left" id="hapusData<?= $kat['id_kategori'] ?>" tabindex="-1"
-                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    <h4 class="modal-title" id="exampleModalLabel">Konfirmasi Hapus</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <p class="">Anda Yakin Menghapus Data Kategori <?= $kat['nama_kategori']?>?</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <form id="formHapus<?= $kat['id_kategori'] ?>" action="" method="">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-dismiss="modal">Batal</button>
-                                        <button type="button" class="btn btn-danger"
-                                            onclick="hapusData('<?= $kat['id_kategori'] ?>')">Hapus Data</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </td>
             </tr>
             <?php $nilai++ ;?>
             <?php endforeach; ?>
         </tbody>
     </table>
-    <?php
-    if($search=="no"){
-        echo $pager->links();
-    }
-?>
+    <?php if ($search == "no") : ?>
+    <?= $pager->links(); ?>
+    <?php endif; ?>
 </div>
+<script>
+    $(document).ready(function () {
+        $('.formEditData').on('submit', function (e) {
+            e.preventDefault();
+            var form = $(this);
+            $.ajax({
+                url: form.attr('action'),
+                type: 'POST',
+                data: form.serialize(),
+                dataType: 'json',
+                success: function (response) {
+                    $('.invalid-feedback').empty();
+                    $('.form-group').removeClass('has-error has-feedback');
+                    $('.form-group .glyphicon').remove();
+
+                    if (response.success) {
+                        $('.modal').modal('hide');
+                        ambilData($('#page').val());
+                        Swal.fire('Tersimpan!', 'Data berhasil diubah.', 'success');
+                    } else {
+                        $.each(response.errors, function (field, message) {
+                            var element = $('[name=' + field + ']');
+                            element.closest('.form-group').addClass('has-error has-feedback');
+                            element.next('.invalid-feedback').text(message);
+                            element.after('<span class="glyphicon glyphicon-warning-sign form-control-feedback text-danger"></span>');
+                        });
+                    }
+                },
+                error: function (xhr, thrownError) {
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                }
+            });
+        });
+    });
+
+    function bukaModalEdit(id) {
+        $('#editData' + id).modal('show');
+        $('.invalid-feedback').empty();
+        $('.form-group').removeClass('has-error has-feedback');
+        $('.form-group .glyphicon').remove();
+        $('#editData' + id + ' [data-original-value]').each(function() {
+            var originalValue = $(this).data('original-value');
+            $(this).val(originalValue);
+        });
+    }
+</script>

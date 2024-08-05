@@ -66,30 +66,100 @@
     </div>
   </div>
 </div>
-</section>
-</div>
 <script src="<?= base_url('assets/js/jquery-3.7.1.min.js');?>"></script>
 <script>
   $(document).ready(function() {
+    var page = $('#page').val();
     ambilData();
     $('#search').keyup(function() {
       console.log($('#search').val())
       ambilData();
     });
+    $(document).on('click', '.pagination a', function(event) {
+      event.preventDefault();
+      page = $(this).attr('href').split('page=')[1];
+      ambilData(page);
+    });
+    console.log(page);
   });
 
-  function ambilData() {
+  function ambilData(page = 1) {
     $.ajax({
       type: "post",
       url: "<?= site_url('admin/ambilDataUsers') ?>",
       data: {
         search: $('#search').val(),
+        page: page,
       },
       dataType: "json",
       success: function(response) {
         if (response.table) {
           $('.dataUsers').html(response.table);
+          $('#page').val(page);
         }
+      },
+      error: function(xhr, thrownError) {
+        alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+      }
+    });
+  }
+
+  function tambahData() {
+    $.ajax({
+      type: "post",
+      url: "<?= site_url('/admin/tambahData') ?>",
+      data: {
+        username: $('#inputUserName').val(),
+        email: $('#inputEmail').val(),
+        password: $('#inputPassword').val(),
+        foto_user: $('#formFile').val(),
+      },
+      dataType: "json",
+      success: function(response) {
+        ambilData($('#page').val());
+        $('#tambahData').modal('hide');
+      },
+      error: function(xhr, thrownError) {
+        alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+      }
+    });
+  }
+
+  function editData(id_user) {
+    iduser = id_user
+    $.ajax({
+      type: "post",
+      url: "<?= site_url('/admin/editDataKategori') ?>",
+      data: {
+        id: iduser,
+        username: $('#inputUserName' + iduser).val(),
+        email: $('#inputEmail' + iduser).val(),
+        password: $('#inputPassword' + iduser).val(),
+        foto_user: $('#formFile' + iduser).val(),
+      },
+      dataType: "json",
+      success: function(response) {
+        ambilData($('#page').val());
+        $('#editData' + iduser).modal('hide');
+      },
+      error: function(xhr, thrownError) {
+        alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+      }
+    });
+  }
+
+  function hapusData(id_user) {
+    iduser = id_user
+    $.ajax({
+      type: "post",
+      url: "<?= site_url('/admin/hapusData') ?>",
+      data: {
+        id: iduser,
+      },
+      dataType: "json",
+      success: function(response) {
+        ambilData($('#page').val());
+        $('#hapusData' + iduser).modal('hide');
       },
       error: function(xhr, thrownError) {
         alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
@@ -99,14 +169,12 @@
 
   function previewTambahFoto(input, idPreview) {
     if (input.files && input.files[0]) {
-        var reader = new FileReader();
-
-        reader.onload = function (e) {
-            $('#' + idPreview).attr('src', e.target.result).show();
-        }
-
-        reader.readAsDataURL(input.files[0]);
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        $('#' + idPreview).attr('src', e.target.result).show();
+      }
+      reader.readAsDataURL(input.files[0]);
     }
-}
+  }
 </script>
 <?= $this->endSection()?>

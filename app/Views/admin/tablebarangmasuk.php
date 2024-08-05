@@ -31,8 +31,8 @@
         </thead>
         <tbody>
             <?php $nilai = $no ?? 1; ?>
-            <?php foreach ($barangmasuk as $key => $brg) : ?>
-            <tr>
+            <?php foreach ($barangmasuk as $brg) : ?>
+            <tr class="text-center">
                 <td><?= $nilai ?></td>
                 <td><?= $brg['supplier_name'] ?></td>
                 <td><?= $brg['product_name'] ?></td>
@@ -40,14 +40,14 @@
                 <td><?= 'Rp ' . number_format($brg['harga_beli'], 0, ',', '.') ?></td>
                 <td><?= 'Rp ' . number_format($brg['total_bayar'], 0, ',', '.') ?></td>
                 <td>
-                    <!-- Modal Previews -->
                     <button type="button" class="btn btn-info" data-toggle="modal"
                         data-target="#infoData<?= $brg['id_barang_masuk'] ?>">
                         <i class="fa fa-eye"></i> Detail
                     </button>
+                    <!-- Detail Modal -->
                     <div class="modal fade" id="infoData<?= $brg['id_barang_masuk'] ?>" tabindex="-1"
                         aria-labelledby="infoDataLabel<?= $brg['id_barang_masuk'] ?>" aria-hidden="true">
-                        <div class="modal-dialog">
+                        <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -83,113 +83,51 @@
                             </div>
                         </div>
                     </div>
-                    <!-- End Previews -->
-                    <button type="button" class="btn btn-warning" data-toggle="modal"
-                        data-target="#editData<?= $brg['id_barang_masuk'] ?>">
+                    <button type="button" class="btn btn-warning" onclick="bukaModalEdit('<?= $brg['id_barang_masuk'] ?>')">
                         <i class="fa fa-pencil"></i> Edit
                     </button>
-                    <!-- Modal Edit -->
+                    <!-- Edit Modal -->
                     <div class="modal fade text-left" id="editData<?= $brg['id_barang_masuk'] ?>" tabindex="-1"
-                        role="dialog" aria-labelledby="editDataLabel<?= $brg['id_barang_masuk'] ?>" aria-hidden="true">
+                        aria-labelledby="editDataLabel<?= $brg['id_barang_masuk'] ?>" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
-                                    <h4 class="modal-title" id="editDataLabel<?= $brg['id_barang_masuk'] ?>">Edit Data
-                                    </h4>
+                                    <h4 class="modal-title" id="editDataLabel<?= $brg['id_barang_masuk'] ?>">Edit Data</h4>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="" method="post" enctype="multipart/form-data">
-                                        <input type="hidden" name="id_barang_masuk"
-                                            value="<?= $brg['id_barang_masuk'] ?>">
-                                        <!-- <div class="form-group">
-                                        <label for="editSupplier<?= $brg['id_barang_masuk'] ?>" class="form-label">Nama
-                                            Supplier</label>
-                                        <select class="form-control selectpicker" aria-label="Default select example"
-                                            id="editSupplier<?= $brg['id_barang_masuk'] ?>" data-live-search="true">
-                                            <option selected disabled>Pilih Supplier</option>
-                                            <?php foreach ($suppliers as $supplier) : ?>
-                                            <option value="<?= $supplier['id_supplier']; ?>"
-                                                <?= ($brg['id_supplier'] == $supplier['id_supplier']) ? 'selected' : ''; ?>>
-                                                <?= $supplier['nama'] ?>
-                                            </option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </div> -->
+                                    <form action="<?= site_url('/admin/editDataBarangMasuk') ?>" enctype="multipart/form-data" class="formEditData">
                                         <div class="form-group">
-                                            <label for="editProduk<?= $brg['id_barang_masuk'] ?>"
-                                                class="form-label">Nama
-                                                Produk</label>
-                                            <select class="form-control selectpicker"
-                                                aria-label="Default select example"
-                                                id="editProduk<?= $brg['id_barang_masuk'] ?>" data-live-search="true"
-                                                disabled>
-                                                <option selected disabled>Pilih Produk</option>
-                                                <?php foreach ($produk as $product) : ?>
-                                                <option value="<?= $product['id_produk']; ?>"
-                                                    <?= ($brg['id_produk'] == $product['id_produk']) ? 'selected' : ''; ?>>
-                                                    <?= $product['nama_produk'] ?>
-                                                </option>
+                                            <label for="editProduk<?= $brg['id_barang_masuk'] ?>" class="form-label">Nama Produk</label>
+                                            <select class="form-control selectpicker" name="product_id" data-live-search="true" id="editProduk<?= $brg['id_barang_masuk'] ?>" data-original-value="<?= $brg['id_produk'] ?>">
+                                                <option value="" <?= ($brg['id_produk'] == 0) ? 'selected' : ''; ?>>Pilih Produk</option>
+                                                <?php foreach ($produk as $pdk) : ?>
+                                                <option value="<?= $pdk['id_produk']; ?>" <?= ($brg['id_produk'] == $pdk['id_produk']) ? 'selected' : ''; ?>><?= $pdk['nama_produk'] ?></option>
                                                 <?php endforeach; ?>
                                             </select>
+                                            <p class="invalid-feedback text-danger"></p>
                                         </div>
                                         <div class="form-group">
-                                            <label for="editTotalItem<?= $brg['id_barang_masuk'] ?>"
-                                                class="form-label">Total
-                                                Item</label>
-                                            <input type="text" class="form-control"
-                                                id="editTotalItem<?= $brg['id_barang_masuk'] ?>" name="total_item"
-                                                value="<?= $brg['total_item'] ?>">
+                                            <label for="editTotalItem<?= $brg['id_barang_masuk'] ?>" class="form-label">Total Item</label>
+                                            <input type="text" class="form-control" id="editTotalItem<?= $brg['id_barang_masuk'] ?>" name="total_item" value="<?= $brg['total_item'] ?>">
+                                            <p class="invalid-feedback text-danger"></p>
                                         </div>
-                                        <!-- Hidden input for the current date -->
-                                        <input type="hidden" name="tanggal" value="<?= date('Y-m-d') ?>">
-                                        <!-- End of hidden input -->
+                                        <input type="hidden" name="id" value="<?= $brg['id_barang_masuk'] ?>">
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-dismiss="modal">Batal</button>
-                                            <button type="button" class="btn btn-success"
-                                                onclick="editData('<?= $brg['id_barang_masuk'] ?>')">Simpan
-                                                Perubahan</button>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                            <button type="submit" class="btn btn-success">Simpan Perubahan</button>
                                         </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- End Modal Edit -->
-                    <!-- Modal Hapus -->
-                    <button type="button" class="btn btn-danger" data-toggle="modal"
-                        data-target="#hapusData<?= $brg['id_barang_masuk'] ?>">
+                    <button type="button" class="btn btn-danger" onclick="hapusData('<?= $brg['id_barang_masuk'] ?>')">
                         <i class="fa fa-trash"></i> Hapus
                     </button>
-                    <div class="modal fade text-left" id="hapusData<?= $brg['id_barang_masuk'] ?>" tabindex="-1"
-                        aria-labelledby="hapusDataLabel<?= $brg['id_barang_masuk'] ?>" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    <h4 class="modal-title" id="hapusDataLabel<?= $brg['id_barang_masuk'] ?>">Konfirmasi
-                                        Hapus</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <p>Anda Yakin Menghapus Data Barang Masuk?</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <form id="formHapus<?= $brg['id_barang_masuk'] ?>" action="" method="">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-dismiss="modal">Batal</button>
-                                        <button type="button" class="btn btn-danger"
-                                            onclick="hapusData('<?= $brg['id_barang_masuk'] ?>')">Hapus Data</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Modal Hapus -->
+                    <!-- Delete Modal -->
                 </td>
             </tr>
             <?php $nilai++; ?>
@@ -199,3 +137,55 @@
     <?php if ($search == "no") : ?>
     <?= $pager->links(); ?>
     <?php endif; ?>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.formEditData').on('submit', function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                type: 'POST',
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: function (response) {
+                    $('#responseMessage').empty();
+                    $('.invalid-feedback').empty();
+                    $('.is-invalid').removeClass('is-invalid');
+                    if (response.success == true) {
+                        $('.modal').modal('hide');
+                        ambilData($('#page').val());
+                        Swal.fire(
+                            'Tersimpan!',
+                            'Data berhasil diubah.',
+                            'success'
+                        );
+                    } else {
+                        $.each(response.errors, function (field, message) {
+                            var element = $('[name=' + field + ']');
+                            element.closest('.form-group').addClass('has-error');
+                            element.closest('.form-group').addClass('has-feedback');
+                            element.next('.invalid-feedback').text(message);
+                            element.after('<span class="glyphicon glyphicon-warning-sign form-control-feedback text-danger"></span>');
+                        });
+                    }
+                },
+                error: function (xhr, thrownError) {
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                }
+            });
+        });
+    });
+
+    function bukaModalEdit(id){
+        $('#editData' + id).modal('show');
+        $('.invalid-feedback').empty();
+        $('.form-group').removeClass('has-error');
+        $('.form-group').removeClass('has-feedback');
+        $('.form-group .glyphicon').remove();
+        $('#editData' + id + ' [data-original-value]').each(function() {
+            var originalValue = $(this).data('original-value');
+            $(this).val(originalValue);
+        });
+    }
+</script>

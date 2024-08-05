@@ -8,6 +8,14 @@ use CodeIgniter\Controller;
 
 class Kategori extends BaseController
 {
+    protected $kategoriValidationRules = [
+        'nama_kategori' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Kategori harus diisi',
+            ]
+        ],
+    ];
     public function index()
     {
         $data['page_title'] = "Kategori";
@@ -44,29 +52,45 @@ class Kategori extends BaseController
     
     public function tambahDataKategori()
     {
-        $data = [
-            'nama_kategori' => $this->request->getPost('nama_kategori')
-        ];
-        $this->kategoriModel->insert($data);
-        cache()->clean();
-        $response = [
-            'status' => 'success',              
-        ];
-        return $this->response->setJSON($response); 
+        $validation = \Config\Services::validation();
+        $valid = $this->validate($this->kategoriValidationRules);
+        if(!$valid){
+            $errors = [];
+            // Mengambil pesan kesalahan dari validator satu per satu
+            foreach ($validation->getErrors() as $field => $message) {
+                $errors[$field] = $message;
+            }
+            return $this->response->setJSON(['success' => false, 'errors' => $errors,]);
+        }
+        else{
+            $data = [
+                'nama_kategori' => $this->request->getPost('nama_kategori')
+            ];
+            $this->kategoriModel->insert($data);
+            cache()->clean();
+            return $this->response->setJSON(['success' => true]);
+        }
     }
-
     public function editDataKategori()
     {
-        $id = $this->request->getPost('id');
-        $data = [
-            'nama_kategori' => $this->request->getPost('edit_nama_kategori')
-        ];
-        $this->kategoriModel->update($id, $data);
-        cache()->clean();
-        $response = [
-            'status' => 'success',              
-        ];
-        return $this->response->setJSON($response); 
+        $validation = \Config\Services::validation();
+        $valid = $this->validate($this->kategoriValidationRules);
+        if(!$valid){
+            $errors = [];
+            // Mengambil pesan kesalahan dari validator satu per satu
+            foreach ($validation->getErrors() as $field => $message) {
+                $errors[$field] = $message;
+            }
+            return $this->response->setJSON(['success' => false, 'errors' => $errors,]);
+        }else{
+            $id = $this->request->getPost('id');
+            $data = [
+                'nama_kategori' => $this->request->getPost('nama_kategori')
+            ];
+            $this->kategoriModel->update($id, $data);
+            cache()->clean();
+            return $this->response->setJSON(['success' => true]);
+        }
     }
 
     public function hapusDataKategori()

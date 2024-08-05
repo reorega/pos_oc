@@ -4,10 +4,29 @@ namespace App\Controllers;
 
 use CodeIgniter\Controller;
 
-
-
 class Supplier extends BaseController
 {
+    protected $supplierValidationRules = [
+        'nama' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Nama supplier harus diisi',
+            ]
+        ],
+        'alamat' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Alamat harus diisi',
+            ]
+        ],
+        'telepon' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'No telepon harus diisi',
+            ]
+        ]
+    ];
+    
     public function index()
     {
         $data['page_title']="Suplier";
@@ -23,7 +42,6 @@ class Supplier extends BaseController
         $jumlahpagination = 5;
         $no = $page * $jumlahpagination - ($jumlahpagination - 1);
         $cacheKey = "supplier_data_{$search}_{$page}";
-
         if ($cachedData = cache($cacheKey)) {
             $data = $cachedData;
         } else {
@@ -44,48 +62,71 @@ class Supplier extends BaseController
     }
 
     public function tambahDataSupplier(){
-        $alamat = $this->request->getPost('alamat');
-        $existingCount = $this->supplierModel->like('alamat', $alamat)->countAllResults();
-        $kodeSupplier = strtoupper(substr($alamat, 0, 3)) . sprintf('%03d', $existingCount + 1);
-        
-        $data = [
-            'kode_supplier' => $kodeSupplier,
-            'nama' => $this->request->getPost('suplier'),
-            'alamat' => $alamat,
-            'telepon' => $this->request->getPost('telepon')
-        ];
-        $this->supplierModel->insert($data);
-        cache()->clean();
-        $response = [
-            'status' => 'success',              
-        ];
-        return $this->response->setJSON($response); 
-    }
-
-    public function editDataSupplier(){
-        $id = $this->request->getPost('id');
-        $alamat = $this->request->getPost('alamat');
-        $cari=$this->supplierModel->find($id);
-        if($alamat != $cari['alamat']){
-            $existingCount = $this->supplierModel->where('alamat', $alamat)->countAllResults();
-            $kodeSupplier = strtoupper(substr($alamat, 0, 3)) . sprintf('%03d', $existingCount + 1);
+        $validation = \Config\Services::validation();
+        $valid = $this->validate($this->supplierValidationRules);
+        if(!$valid){
+            $errors = [];
+            foreach ($validation->getErrors() as $field => $message) {
+                $errors[$field] = $message;
+            }
+            return $this->response->setJSON(['success' => false, 'errors' => $errors,]);
         }else{
-            $kodeSupplier=$cari['kode_supplier'];
+            try {
+                $alamat = $this->request->getPost('alamat');
+                $existingCount = $this->supplierModel->like('alamat', $alamat)->countAllResults();
+                $kodeSupplier = strtoupper(substr($alamat, 0, 3)) . sprintf('%03d', $existingCount + 1);
+    
+                $data = [
+                    'kode_supplier' => $kodeSupplier,
+                    'nama' => $this->request->getPost('nama'),
+                    'alamat' => $alamat,
+                    'telepon' => $this->request->getPost('telepon')
+                ];
+                $this->supplierModel->insert($data);
+                cache()->clean();
+                $response = ['success' => true];
+            } catch (\Exception $e) {
+                $response = ['status' => 'error', 'message' => $e->getMessage()];
+            }
+            return $this->response->setJSON($response);
         }
+    }
+    
+    public function editDataSupplier(){
+        $validation = \Config\Services::validation();
+        $valid = $this->validate($this->supplierValidationRules);
+        if(!$valid){
+            $errors = [];
+            // Mengambil pesan kesalahan dari validator satu per satu
+            foreach ($validation->getErrors() as $field => $message) {
+                $errors[$field] = $message;
+            }
+            return $this->response->setJSON(['success' => false, 'errors' => $errors,]);
+        }else{
+            $id = $this->request->getPost('id_supplier');
+            $alamat = $this->request->getPost('alamat');
+            $cari=$this->supplierModel->find($id);
+            if($alamat != $cari['alamat']){
+                $existingCount = $this->supplierModel->where('alamat', $alamat)->countAllResults();
+                $kodeSupplier = strtoupper(substr($alamat, 0, 3)) . sprintf('%03d', $existingCount + 1);
+            }else{
+                $kodeSupplier=$cari['kode_supplier'];
+            }
         
-        $data = [
-            'kode_supplier' => $kodeSupplier,
-            'nama' => $this->request->getPost('suplier'),
-            'alamat' => $alamat,
-            'telepon' => $this->request->getPost('telepon')
-        ];
-        $this->supplierModel->update($id, $data);
-        cache()->clean();
-        $response = [
-            'status' => 'success',
-            'id' => $id,              
-        ];
-        return $this->response->setJSON($response); 
+            $data = [
+                'kode_supplier' => $kodeSupplier,
+                'nama' => $this->request->getPost('nama'),
+                'alamat' => $alamat,
+                'telepon' => $this->request->getPost('telepon')
+            ];
+            $this->supplierModel->update($id, $data);
+            cache()->clean();
+            $response = [
+                'success' => true,
+                'id' => $id,              
+            ];
+            return $this->response->setJSON($response);
+        }
     }
 
     public function hapusDataSupplier()

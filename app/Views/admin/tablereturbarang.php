@@ -29,9 +29,10 @@
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($returbarang as $key => $rtb) : ?>
+            <?php $nilai = $no ?? 1; ?>
+            <?php foreach ($returbarang as $rtb) : ?>
             <tr class="text-center">
-                <td><?= $key + 1 ?></td>
+                <td><?= $nilai ?></td>
                 <td><?= $rtb['product_name'] ?></td>
                 <td><?= $rtb['supplier_name'] ?></td>
                 <td><?= $rtb['jumlah'] ?></td>
@@ -69,7 +70,7 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td><?= $key + 1 ?></td>
+                                                <td><?= $nilai ?></td>
                                                 <td><?= $rtb['product_name'] ?></td>
                                                 <td><?= $rtb['supplier_name'] ?></td>
                                                 <td><?= $rtb['jumlah'] ?></td>
@@ -84,11 +85,9 @@
                     <!-- End Modal detail -->
 
                     <!-- Button edit -->
-                    <button type="button" class="btn btn-warning" data-toggle="modal"
-                        data-target="#editData<?= $rtb['id_retur_barang'] ?>">
+                    <button type="button" class="btn btn-warning" onclick="bukaModalEdit('<?= $rtb['id_retur_barang'] ?>')">
                         <i class="fa fa-pencil"></i> Edit
                     </button>
-
                     <!-- Modal edit -->
                     <div class="modal fade text-left" id="editData<?= $rtb['id_retur_barang'] ?>" tabindex="-1"
                         aria-labelledby="editDataLabel<?= $rtb['id_retur_barang'] ?>" aria-hidden="true">
@@ -98,52 +97,35 @@
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
-                                    <h4 class="modal-title" id="editDataLabel<?= $rtb['id_retur_barang'] ?>">Edit Data
-                                    </h4>
+                                    <h4 class="modal-title" id="editDataLabel<?= $rtb['id_retur_barang'] ?>">Edit Data</h4>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="" method="post" enctype="multipart/form-data">
-                                        <input type="hidden" name="id_retur_barang"
-                                            value="<?= $rtb['id_retur_barang'] ?>">
+                                    <form action="<?= site_url('/admin/editDataReturBarang') ?>" enctype="multipart/form-data" class="formEditData">
                                         <div class="form-group">
-                                            <label for="editProduk<?= $rtb['id_retur_barang'] ?>"
-                                                class="form-label">Nama Produk</label>
-                                            <select class="form-control selectpicker"
-                                                aria-label="Default select example"
-                                                id="editProduk<?= $rtb['id_retur_barang'] ?>" data-live-search="true"
-                                                disabled>
-                                                <option selected disabled>Pilih Produk</option>
-                                                <?php foreach ($produk as $product) : ?>
-                                                <option value="<?= $product['id_produk']; ?>"
-                                                    <?= ($rtb['produk_id'] == $product['id_produk']) ? 'selected' : ''; ?>>
-                                                    <?= $product['nama_produk'] ?>
-                                                </option>
+                                            <label for="editProduk<?= $rtb['id_retur_barang'] ?>" class="form-label">Nama Produk</label>
+                                            <select class="form-control selectpicker" name="produk_id" data-live-search="true" id="editProduk<?= $rtb['id_retur_barang'] ?>" data-original-value="<?= $rtb['produk_id'] ?>">
+                                                <option value="" <?= ($rtb['produk_id'] == 0) ? 'selected' : ''; ?>>Pilih Produk</option>
+                                                <?php foreach ($produk as $pdk) : ?>
+                                                <option value="<?= $pdk['id_produk']; ?>" <?= ($rtb['produk_id'] == $pdk['id_produk']) ? 'selected' : ''; ?>><?= $pdk['nama_produk'] ?></option>
                                                 <?php endforeach; ?>
                                             </select>
+                                            <p class="invalid-feedback text-danger"></p>
                                         </div>
                                         <div class="form-group">
-                                            <label for="editJumlah<?= $rtb['id_retur_barang'] ?>"
-                                                class="form-label">Jumlah Retur</label>
-                                            <input type="text" class="form-control"
-                                                id="editJumlah<?= $rtb['id_retur_barang'] ?>" name="jumlah"
-                                                value="<?= $rtb['jumlah'] ?>">
+                                            <label for="editJumlah<?= $rtb['id_retur_barang'] ?>" class="form-label">Jumlah Retur</label>
+                                            <input type="text" class="form-control" id="editJumlah<?= $rtb['id_retur_barang'] ?>" name="jumlah" value="<?= $rtb['jumlah'] ?>">
+                                            <p class="invalid-feedback text-danger"></p>
                                         </div>
                                         <div class="form-group">
-                                            <label for="editKeterangan<?= $rtb['id_retur_barang'] ?>"
-                                                class="form-label">Keterangan</label>
-                                            <input type="text" class="form-control"
-                                                id="editKeterangan<?= $rtb['id_retur_barang'] ?>" name="keterangan"
-                                                value="<?= $rtb['keterangan'] ?>">
+                                            <label for="editKeterangan<?= $rtb['id_retur_barang'] ?>" class="form-label">Keterangan</label>
+                                            <input type="text" class="form-control" id="editKeterangan<?= $rtb['id_retur_barang'] ?>" name="keterangan" value="<?= $rtb['keterangan'] ?>">
+                                            <p class="invalid-feedback text-danger"></p>
                                         </div>
-                                        <!-- Hidden input for the current date -->
-                                        <input type="hidden" name="tanggal" value="<?= date('Y-m-d') ?>">
-                                        <!-- End of hidden input -->
+                                        <!-- Hidden input for the ID -->
+                                        <input type="hidden" name="id" value="<?= $rtb['id_retur_barang'] ?>">
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-dismiss="modal">Batal</button>
-                                            <button type="button" class="btn btn-success"
-                                                onclick="editData('<?= $rtb['id_retur_barang'] ?>')">Simpan
-                                                Perubahan</button>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                            <button type="submit" class="btn btn-success">Simpan Perubahan</button>
                                         </div>
                                     </form>
                                 </div>
@@ -153,45 +135,67 @@
                     <!-- End Modal edit -->
 
                     <!-- Button hapus -->
-                    <button type="button" class="btn btn-danger" data-toggle="modal"
-                        data-target="#hapusData<?= $rtb['id_retur_barang'] ?>">
+                    <button type="button" class="btn btn-danger" onclick="hapusData('<?= $rtb['id_retur_barang'] ?>')">
                         <i class="fa fa-trash"></i> Hapus
                     </button>
-
-                    <!-- Modal hapus -->
-                    <div class="modal fade text-left" id="hapusData<?= $rtb['id_retur_barang'] ?>" tabindex="-1"
-                        aria-labelledby="hapusDataLabel<?= $rtb['id_retur_barang'] ?>" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    <h4 class="modal-title" id="hapusDataLabel<?= $rtb['id_retur_barang'] ?>">Konfirmasi
-                                        Hapus</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <p>Anda Yakin Menghapus Data Retur Barang?</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <form id="formHapus<?= $rtb['id_retur_barang'] ?>" action="" method="">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-dismiss="modal">Batal</button>
-                                        <button type="button" class="btn btn-danger"
-                                            onclick="hapusData('<?= $rtb['id_retur_barang'] ?>')">Hapus Data</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Modal hapus -->
                 </td>
             </tr>
+            <?php $nilai++; ?>
             <?php endforeach; ?>
         </tbody>
     </table>
+    <?php if ($search == "no") : ?>
+    <?= $pager->links() ?>
+    <?php endif; ?>
 </div>
 
-<?php if ($search == "no") : ?>
-<?= $pager->links() ?>
-<?php endif; ?>
+<script>
+    $(document).ready(function () {
+        $('.formEditData').on('submit', function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                type: 'POST',
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: function (response) {
+                    $('#responseMessage').empty();
+                    $('.invalid-feedback').empty();
+                    $('.is-invalid').removeClass('is-invalid');
+                    if (response.success == true) {
+                        $('.modal').modal('hide');
+                        ambilData($('#page').val());
+                        Swal.fire(
+                            'Tersimpan!',
+                            'Data berhasil diubah.',
+                            'success'
+                        );
+                    } else {
+                        $.each(response.errors, function (field, message) {
+                            var element = $('[name=' + field + ']');
+                            element.closest('.form-group').addClass('has-error');
+                            element.closest('.form-group').addClass('has-feedback');
+                            element.next('.invalid-feedback').text(message);
+                            element.after('<span class="glyphicon glyphicon-warning-sign form-control-feedback text-danger"></span>');
+                        });
+                    }
+                },
+                error: function (xhr, thrownError) {
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                }
+            });
+        });
+    });
+
+    function bukaModalEdit(id){
+        $('#editData' + id).modal('show');
+        $('.invalid-feedback').empty();
+        $('.form-group').removeClass('has-error');
+        $('.form-group').removeClass('has-feedback');
+        $('.form-group .glyphicon').remove();
+        $('#editData' + id + ' [data-original-value]').each(function() {
+            var originalValue = $(this).data('original-value');
+            $(this).val(originalValue);
+        });
+    }
+</script>
