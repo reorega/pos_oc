@@ -26,6 +26,7 @@
                 <th>Jumlah Item Dijual</th>
                 <th>Total Harga</th>
                 <th>Kasir</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -38,6 +39,12 @@
                 <td><?= $pj['total_item'] ?></td>
                 <td><?= $pj['total_harga'] ?></td>
                 <td><?= $pj['user'] ?></td>
+                <td>
+                    <button type="button" class="btn btn-info"
+                        onclick="dataDetail('<?= $pj['no_faktur'] ?>')">
+                        <i class="fa fa-eye"></i> Detail
+                    </button>
+                </td>
             </tr>
             <?php $nilai++; ?>
             <?php endforeach; ?>
@@ -45,3 +52,23 @@
     </table>
     <?=  $pager->links(); ?>
 </div>
+<div class="viewmodaldatadetail"></div>
+<script>
+    function dataDetail(id) {
+        $.ajax({
+            type: "post",
+            url: "<?= site_url('admin/penjualanDetail') ?>",
+            data: {
+                nofaktur: id,
+            },
+            dataType: "json",
+            success: function(response) {
+                $('.viewmodaldatadetail').html(response.viewModal).show();
+                $('#modalDataDetail').modal('show');
+            },
+            error: function(xhr, thrownError) {
+                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+            }
+        });
+    }
+</script>

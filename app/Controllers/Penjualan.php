@@ -28,6 +28,15 @@ class Penjualan extends BaseController
         ];
         echo json_encode($msg);
     }
+    public function detailPenjualan()
+    {
+        $no_faktur = $this->request->getpost('nofaktur');
+        $data['detail'] = $this->penjualanDetailModel->join($no_faktur);
+        $msg = [
+            'viewModal' => view('admin/modalpenjualandetail', $data)
+        ];
+        echo json_encode($msg);
+    }
     public function printPdf()
     {
         $dompdf = new Dompdf();

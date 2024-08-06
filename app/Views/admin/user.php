@@ -165,7 +165,7 @@
     if (result.isConfirmed) {
       $.ajax({
         type: "POST",
-        url: "<?= site_url('/admin/hapusData') ?>",
+        url: "<?= site_url('/admin/hapusDataUser') ?>",
         data: { id: id_user },
         dataType: "json",
         success: function(response) {

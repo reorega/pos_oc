@@ -83,7 +83,7 @@ class User extends BaseController
         }
 
         $foto_user = $this->request->getFile('foto_user');
-        $nama_file = $foto_user->isValid() ? $foto_user->getRandomName() : "user.jpg";
+        $nama_file = $foto_user->isValid() ? $foto_user->getlientName() : "user.jpg";
 
         if ($foto_user->isValid()) {
             $foto_user->move(ROOTPATH . 'public/assets/fotoUser', $nama_file);
@@ -119,9 +119,11 @@ class User extends BaseController
 
         if ($foto_user->isValid()) {
             if ($user['foto_user'] != "user.jpg") {
-                unlink(ROOTPATH . 'public/assets/fotoUser/' . $user['foto_user']);
+                if(file_exists(ROOTPATH . 'public/assets/fotoUser/' . $user['foto_user'])){
+                    unlink(ROOTPATH . 'public/assets/fotoUser/' . $user['foto_user']);
+                }
             }
-            $nama_file = $foto_user->getRandomName();
+            $nama_file = $foto_user->getClientName();
             $foto_user->move(ROOTPATH . 'public/assets/fotoUser', $nama_file);
         }
 
@@ -138,8 +140,9 @@ class User extends BaseController
         return $this->response->setJSON(['success' => true]);
     }
 
-    public function hapusData($id = null)
+    public function hapusData()
     {
+        $id = $this->request->getPost('id');
         if ($id) {
             $user = $this->userModel->find($id);
             if ($user) {
@@ -176,7 +179,7 @@ class User extends BaseController
             if ($user['foto_user'] != "user.jpg") {
                 unlink(ROOTPATH . 'public/assets/fotoUser/' . $user['foto_user']);
             }
-            $nama_file = $foto_user->getRandomName();
+            $nama_file = $foto_user->getClientName();
             $foto_user->move(ROOTPATH . 'public/assets/fotoUser', $nama_file);
         }
 
