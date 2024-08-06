@@ -98,8 +98,11 @@
         $('#jumlah').on('input', function() {
             cekStok();
         });
-        $('#kodebarcodelangsung').keydown(function() {
+        $('#kodebarcodelangsung').keydown(function(e) {
+            if (e.keyCode == 13) {
+            e.preventDefault();
             simpanTransaksiDetailScan();
+            }
         });
         $('#btnClearTransaksi').on('click', function() {
             clearPenjualan();

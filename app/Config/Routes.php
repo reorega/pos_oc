@@ -24,7 +24,7 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->get('users', 'User');
     $routes->post('tambahData', 'User::tambahData');
     $routes->post('editData', 'User::editData');
-    $routes->get('hapusDataUser/(:num)', 'User::hapusData/$1');
+    $routes->post('hapusDataUser', 'User::hapusData');
     $routes->post('ambilDataUsers', 'User::ambilDataUsers');
     $routes->post('getUserData', 'User::getUserData');
 
@@ -80,6 +80,7 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
 
     //Penjualan
     $routes->get('penjualan', 'Penjualan');
+    $routes->post('penjualanDetail', 'Penjualan::detailPenjualan');
     $routes->post('ambilDataPenjualan', 'Penjualan::dataPenjualan');
     $routes->post('ambilDataChart', 'Penjualan::dataChart');
     $routes->post('ambilDataDonut', 'Penjualan::dataDonut');

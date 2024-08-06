@@ -118,7 +118,7 @@ class Pos extends BaseController
         $kode_produk = $this->request->getPost('kode_produk');
         $jumlah = $this->request->getPost('jumlah');
         $no_faktur = $this->request->getPost('no_faktur');
-        $cekstok = $this->produkModel->cekStok($kode_produk);
+        log_message('info', 'Data diterima: kode_produk = ' . $kode_produk . ', jumlah = ' . $jumlah . ', no_faktur = ' . $no_faktur);
         /*$cariProduk= $this->produkModel->cariKode3($kode_produk);
         if($cariProduk=="kosong"){
             $response = [
@@ -126,6 +126,20 @@ class Pos extends BaseController
             ];
             return $this->response->setJSON($response);
         }*/
+        $cariProduk = $this->produkModel->findAll();
+        $status ="kosong";
+        foreach ($cariProduk as $pdk) {
+            if($pdk['kode_produk']==$kode_produk){
+                $status="ada";
+                $cekstok = $this->produkModel->cekStok($kode_produk);
+            }
+        }
+        if($status=="kosong"){
+            $response = [
+                'status' => 'kosong',
+            ];
+            return $this->response->setJSON($response);
+        }
         if ($cekstok == 0) {
             $response = [
                 'status' => 'error',
