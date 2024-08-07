@@ -24,7 +24,7 @@
                         <p><b>Tanggal</b></p>
                     </div>
                     <div class="icon">
-                        <i class="fa fa-cubes"></i>
+                        <i class="fa fa-calendar-o"></i>
                     </div>
                     
                 </div>
@@ -38,7 +38,7 @@
                         <p><b>Total Transaksi Hari Ini</b></p>
                     </div>
                     <div class="icon">
-                        <i class="fa fa-cube"></i>
+                        <i class="fa fa-shopping-cart"></i>
                     </div>
                     
                 </div>
@@ -66,7 +66,7 @@
                         <p><b>Total Omset Hari Ini</b></p>
                     </div>
                     <div class="icon">
-                        <i class="fa fa-users"></i>
+                        <i class="fa fa-line-chart"></i>
                     </div>
                     
                 </div>
