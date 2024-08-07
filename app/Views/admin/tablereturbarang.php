@@ -101,16 +101,8 @@
                                 </div>
                                 <div class="modal-body">
                                     <form action="<?= site_url('/admin/editDataReturBarang') ?>" enctype="multipart/form-data" class="formEditData">
-                                        <div class="form-group">
-                                            <label for="editProduk<?= $rtb['id_retur_barang'] ?>" class="form-label">Nama Produk</label>
-                                            <select class="form-control selectpicker" name="produk_id" data-live-search="true" id="editProduk<?= $rtb['id_retur_barang'] ?>" data-original-value="<?= $rtb['produk_id'] ?>">
-                                                <option value="" <?= ($rtb['produk_id'] == 0) ? 'selected' : ''; ?>>Pilih Produk</option>
-                                                <?php foreach ($produk as $pdk) : ?>
-                                                <option value="<?= $pdk['id_produk']; ?>" <?= ($rtb['produk_id'] == $pdk['id_produk']) ? 'selected' : ''; ?>><?= $pdk['nama_produk'] ?></option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                            <p class="invalid-feedback text-danger"></p>
-                                        </div>
+                                    <input type="hidden" name="id" value="<?= $rtb['id_retur_barang'] ?>">
+                                    <input type="hidden" name="produk_id" value="<?= $rtb['produk_id'] ?>">
                                         <div class="form-group">
                                             <label for="editJumlah<?= $rtb['id_retur_barang'] ?>" class="form-label">Jumlah Retur</label>
                                             <input type="text" class="form-control" id="editJumlah<?= $rtb['id_retur_barang'] ?>" name="jumlah" value="<?= $rtb['jumlah'] ?>">
