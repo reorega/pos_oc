@@ -100,21 +100,13 @@
                                 <div class="modal-body">
                                     <form action="<?= site_url('/admin/editDataBarangMasuk') ?>" enctype="multipart/form-data" class="formEditData">
                                         <div class="form-group">
-                                            <label for="editProduk<?= $brg['id_barang_masuk'] ?>" class="form-label">Nama Produk</label>
-                                            <select class="form-control selectpicker" name="product_id" data-live-search="true" id="editProduk<?= $brg['id_barang_masuk'] ?>" data-original-value="<?= $brg['id_produk'] ?>">
-                                                <option value="" <?= ($brg['id_produk'] == 0) ? 'selected' : ''; ?>>Pilih Produk</option>
-                                                <?php foreach ($produk as $pdk) : ?>
-                                                <option value="<?= $pdk['id_produk']; ?>" <?= ($brg['id_produk'] == $pdk['id_produk']) ? 'selected' : ''; ?>><?= $pdk['nama_produk'] ?></option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                            <p class="invalid-feedback text-danger"></p>
-                                        </div>
-                                        <div class="form-group">
                                             <label for="editTotalItem<?= $brg['id_barang_masuk'] ?>" class="form-label">Total Item</label>
                                             <input type="text" class="form-control" id="editTotalItem<?= $brg['id_barang_masuk'] ?>" name="total_item" value="<?= $brg['total_item'] ?>">
                                             <p class="invalid-feedback text-danger"></p>
                                         </div>
                                         <input type="hidden" name="id" value="<?= $brg['id_barang_masuk'] ?>">
+                                        <input type="hidden" name="product_id" value="<?= $brg['id_produk'] ?>">
+
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                                             <button type="submit" class="btn btn-success">Simpan Perubahan</button>
