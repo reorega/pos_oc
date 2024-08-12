@@ -73,18 +73,17 @@
 <script src="<?= base_url('assets/js/jquery-3.7.1.min.js'); ?>"></script>
 <script src="<?= base_url('assets/js/sweetalert2.js'); ?>"></script>
 <script>
-    $(document).ready(function() {
+ $(document).ready(function () {
         var page = $('#page').val();
         ambilData();
-        $('#search').keyup(function() {
+        $('#search').keyup(function () {
             ambilData();
         });
-        $(document).on('click', '.pagination a', function(event) {
+        $(document).on('click', '.pagination a', function (event) {
             event.preventDefault();
             page = $(this).attr('href').split('page=')[1];
             ambilData(page);
         });
-
         $('#formTambahData').on('submit', function (e) {
             e.preventDefault();
             $.ajax({
@@ -108,8 +107,10 @@
                     } else {
                         $.each(response.errors, function (field, message) {
                             var element = $('[name=' + field + ']');
-                            element.addClass('is-invalid');
+                            element.closest('.form-group').addClass('has-error');
+                            element.closest('.form-group').addClass('has-feedback');
                             element.next('.invalid-feedback').text(message);
+                            element.after('<span class="glyphicon glyphicon-warning-sign form-control-feedback text-danger"></span>');
                         });
                     }
                 },
@@ -119,7 +120,6 @@
             });
         });
     });
-
     function ambilData(page = 1) {
         $.ajax({
             type: "post",
