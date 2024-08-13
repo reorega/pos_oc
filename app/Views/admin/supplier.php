@@ -219,6 +219,11 @@
                     success: function(response) {
                         ambilData($('#page').val());
                         $('#hapusData' + idsup).modal('hide');
+                        Swal.fire(
+                            'Berhasil!',
+                            'Data berhasil dihapus',
+                            'success'
+                        );
                     },
                     error: function(xhr, thrownError) {
                         alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);

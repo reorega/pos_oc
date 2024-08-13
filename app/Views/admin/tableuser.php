@@ -73,13 +73,6 @@
                                             <p class="invalid-feedback text-danger"></p>
                                         </div>
                                         <div class="form-group">
-                                            <label for="inputPassword<?= $user['id_user'] ?>">Password</label>
-                                            <input type="password" class="form-control"
-                                                id="inputPassword<?= $user['id_user'] ?>" name="password"
-                                                value="<?= $user['password'] ?>">
-                                            <p class="invalid-feedback text-danger"></p>
-                                        </div>
-                                        <div class="form-group">
                                             <label for="formFile<?= $user['id_user'] ?>">Foto User</label>
                                             <input class="form-control" type="file" id="formFile<?= $user['id_user'] ?>"
                                                 name="foto_user"
@@ -121,6 +114,8 @@ function bukaModalEdit(id_user) {
         data: { id: id_user },
         dataType: "json",
         success: function(response) {
+            $('.invalid-feedback').empty();
+            $('.form-group').removeClass('has-error has-feedback');
             $('#inputUserName' + id_user).val(response.user.username);
             $('#inputEmail' + id_user).val(response.user.email);
             $('#inputPassword' + id_user).val(response.user.password);

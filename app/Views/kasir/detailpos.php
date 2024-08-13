@@ -35,7 +35,7 @@
               <input type="text" class="form-control form-control-sm" name="jumlahdetail" id="jumlahdetail"
                 value="<?= $pdk['jumlah'] ?>"
                 oninput="cekStok2('<?= $pdk['id_penjualan_detail'] ?>','<?= $pdk['kode_produk'] ?>',this.value)">
-              <div id="cekstok2" style="display:none;"></div>
+              <div id="cekstok2<?= $pdk['kode_produk'] ?>" style="display:none;"></div>
             </div>
           </div>
         </td>

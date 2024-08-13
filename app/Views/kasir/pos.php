@@ -317,9 +317,9 @@
             dataType: "json",
             success: function(response) {
                 if (response.status === 'error') {
-                    $('#cekstok2').html('<div style="color: red;">' + response.message + '</div>').show();
+                    $('#cekstok2'+kode).html('<div style="color: red;">' + response.message + '</div>').show();
                 } else {
-                    $('#cekstok2').html('<div style="color: green;">' + response.message + '</div>').show();
+                    $('#cekstok2'+kode).html('<div style="color: green;">' + response.message + '</div>').show();
                     editSubtotal(id, kode, jumlah);
                 }
             },
