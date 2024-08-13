@@ -19,12 +19,6 @@ class User extends BaseController
                 'required' => 'Email harus diisi',
             ]
         ],
-        'password' => [
-            'rules' => 'required',
-            'errors' => [
-                'required' => 'Password harus diisi',
-            ]
-        ]
     ];
 
     public function index()
@@ -74,6 +68,8 @@ class User extends BaseController
 
     public function tambahData()
     {
+        $this->userValidationRules['password']['rules'] = 'required';
+        $this->userValidationRules['password']['errors']['required'] = 'Password harus diisi';
         $validation = \Config\Services::validation();
         if (!$this->validate($this->userValidationRules)) {
             return $this->response->setJSON([
@@ -83,7 +79,7 @@ class User extends BaseController
         }
 
         $foto_user = $this->request->getFile('foto_user');
-        $nama_file = $foto_user->isValid() ? $foto_user->getlientName() : "user.jpg";
+        $nama_file = $foto_user->isValid() ? $foto_user->getClientName() : "user.jpg";
 
         if ($foto_user->isValid()) {
             $foto_user->move(ROOTPATH . 'public/assets/fotoUser', $nama_file);
@@ -130,7 +126,6 @@ class User extends BaseController
         $data = [
             'username' => $this->request->getPost('username'),
             'email' => $this->request->getPost('email'),
-            'password' => $this->request->getPost('password'),
             'foto_user' => $nama_file,
         ];
 

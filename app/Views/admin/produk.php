@@ -229,8 +229,8 @@
                     dataType: "json",
                     success: function (response) {
                         Swal.fire(
-                            'Deleted!',
-                            'Your file has been deleted.',
+                            'Berhasil!',
+                            'Data berhasil dihapus',
                             'success'
                         );
                         ambilData($('#page').val());

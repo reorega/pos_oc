@@ -163,6 +163,6 @@ class ReturBarang extends BaseController
 
         cache()->clean();
 
-        return $this->response->setJSON(['status' => 'success']);
+        return $this->response->setJSON(['success' => true]);
     }
 }

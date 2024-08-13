@@ -108,8 +108,10 @@
                     } else {
                         $.each(response.errors, function (field, message) {
                             var element = $('[name=' + field + ']');
-                            element.addClass('is-invalid');
+                            element.closest('.form-group').addClass('has-error');
+                            element.closest('.form-group').addClass('has-feedback');
                             element.next('.invalid-feedback').text(message);
+                            element.after('<span class="glyphicon glyphicon-warning-sign form-control-feedback text-danger"></span>');
                         });
                     }
                 },
@@ -203,13 +205,15 @@
             },
             dataType: "json",
                     success: function (response) {
-                        Swal.fire(
-                            'Deleted!',
-                            'Your file has been deleted.',
+                        if(response.success){
+                            Swal.fire(
+                            'Berhasil!',
+                            'Data berhasil dihapus',
                             'success'
                         );
                         ambilData($('#page').val());
                         $('#hapusData' + id_retur_barang).modal('hide');
+                        }
                     },
                     error: function (xhr, thrownError) {
                         alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
