@@ -1,5 +1,11 @@
 <?= $this->extend('layout/master'); ?>
 <?= $this->section('content'); ?>
+<style>
+#sales-chart {
+    width: 100%; /* Adjust width as needed */
+    max-width: 600px; /* Adjust max-width as needed */
+}
+</style>
 <div class="content-wrapper">
     <!-- Header Konten (Header halaman) -->
     <section class="content-header">
@@ -109,9 +115,19 @@
                     </ul>
                     <div class="tab-content no-padding" id="coba" >
                         <!-- Morris chart - Sales -->
-                        <div class="chart tab-pane active" id="sales-chart"
-                            style="position: relative; max-height: 300px;"></div>
+                        <a href="" id="gaya">
+                         <div class="flip-card" id="flip-card">
+                            <div class="flip-card-front">
+                                <div class="chart tab-pane active" id="sales-chart" style="position: relative; max-height: 300px;"></div>
+                            </div>
+                            <div class="flip-card-back">
+                                 Percobaan
+                            </div>
+                        </div>
+                        </a>
+                         
                     </div>
+
                 </div>
                 <!-- /.nav-tabs-custom -->
 
@@ -119,9 +135,9 @@
         </div>
     </section>
 </div>
-<script src="<?= base_url('assets/js/jquery-3.7.1.min.js');?>"></script>
-<script src="<?= base_url('assets/js/apexcharts/dist/apexcharts.min.js');?>"></script>
-<script src="<?= base_url('assets/js/html2canvas.min.js');?>"></script>
+<script src="<?= base_url('assets/js/jquery-3.7.1.min.js'); ?>"></script>
+<script src="<?= base_url('assets/js/apexcharts/dist/apexcharts.min.js'); ?>"></script>
+<script src="<?= base_url('assets/js/html2canvas.min.js'); ?>"></script>
 <script>
     /*
     function download(){
@@ -205,6 +221,10 @@
     }
     */
     $(document).ready(function() {
+        $('#gaya').on('click', function(event) {
+            event.preventDefault(); // Mencegah link melakukan aksi default
+            $('#flip-card').toggleClass('flipped'); // Menambah/menghapus kelas 'flipped' untuk memicu efek flip
+        });
           /*  $('.daterange').daterangepicker({
                 ranges: {
                     'Today': [moment(), moment()],
@@ -251,7 +271,7 @@
         });
         */
         ambilChart();
-        ambilDonut();
+        ambilRadar();
     });
     function ambilChart(){
         $.ajax({
@@ -285,45 +305,50 @@
                 }
         });
     }
-    function ambilDonut(){
-        $.ajax({
-            url: '<?php echo base_url('/admin/ambilDataDonut'); ?>',
-            type: 'POST',
-            success: function(response) {
-                console.log(response);
-                const products = response.map(item => item.produk);
-                const totals = response.map(item => item.total_jumlah);
-                var options = {
-                        chart: {
-                            type: 'polarArea',
-                            height: 400,  // Tinggi chart
-                            width: '100%',
-                            toolbar: {
-                                show: true,
-                                tools: {
-                                    download: true // Menampilkan tombol unduh di toolbar
-                                },
-                                autoSelected: 'zoom' // Pilihan default untuk toolbar
-                            }
-                        },
-                        series: totals,
-                        labels: products,
-                        responsive: [{
-                            breakpoint: 200,
-                            options: {
-                                chart: {
-                                width: 200
-                                },
-                                legend: {
-                                position: 'bottom'
-                                }
-                            }
-                        }]
-                    };
-                var chart = new ApexCharts(document.querySelector("#sales-chart"), options);
-                chart.render();
-            }
-        });
-    }
+    function ambilRadar(){
+    $.ajax({
+        url: '<?= base_url('/admin/ambilDataDonut'); ?>',
+        type: 'POST',
+        success: function(response) {
+            const products = response.map(item => item.produk);
+            const totals = response.map(item => item.total_jumlah);
+
+            var options = {
+                chart: {
+                    type: 'radar',
+                    height: 550,
+                    width: '100%',
+                    toolbar: {
+                        show: true,
+                        tools: {
+                            download: true
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Total Quantity',
+                    data: totals
+                }],
+                labels: products,
+                markers: {
+                    size: 4
+                },
+                radar: {
+                    size: 900,
+                    polygons: {
+                        strokeColors: '#e9e9e9',
+                        fillColors: '#f7f7f7'
+                    }
+                }
+            };
+
+            var chart = new ApexCharts(document.querySelector("#sales-chart"), options);
+            chart.render();
+        },
+        error: function (xhr, thrownError) {
+            console.error('Error fetching radar chart data:', xhr, thrownError);
+        }
+    });
+}
 </script>
 <?= $this->endSection(); ?>

@@ -75,6 +75,7 @@ class Penjualan extends BaseController
     {
         $endDate = new DateTime();
         $startDate = new DateTime();
+        $endDate->modify('+1 days');
         $startDate->modify('-30 days');
         $dataPenjualan = $this->penjualanModel->dataChart($startDate->format('Y-m-d'), $endDate->format('Y-m-d'));
         return $this->response->setJSON($dataPenjualan);
@@ -82,6 +83,7 @@ class Penjualan extends BaseController
     public function dataDonut(){
         $endDate = new DateTime();
         $startDate = new DateTime();
+        $endDate->modify('+1 days');
         $startDate->modify('-30 days');
         $dataPenjualan = $this->penjualanDetailModel->dataDonut($startDate->format('Y-m-d'), $endDate->format('Y-m-d'));
         return $this->response->setJSON($dataPenjualan);
