@@ -47,6 +47,49 @@
           top: 0;
           z-index: 1;
         }
+        #sales-chart {
+        width: 100%;
+        max-width: 600px;
+        position: relative;
+        perspective: 1000px; /* Memberikan perspektif 3D */
+    }
+
+    /* Wrapper untuk kartu yang dibalik */
+    .flip-card {
+        position: relative;
+        width: 100%;
+        height: 500px;
+        transition: transform 0.6s;
+        transform-style: preserve-3d; /* Menyimpan perspektif 3D */
+    }
+
+    /* Saat elemen ini memiliki kelas 'flipped', kartu akan berputar */
+    .flipped {
+        transform: rotateY(180deg);
+    }
+
+    /* Depan kartu (chart) */
+    .flip-card-front, .flip-card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden; /* Menyembunyikan sisi belakang saat tidak terlihat */
+    }
+
+    .flip-card-front {
+        background-color: #fff;
+        z-index: 2;
+    }
+
+    /* Belakang kartu (teks Percobaan) */
+    .flip-card-back {
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transform: rotateY(180deg); /* Memutar sisi belakang kartu */
+    }
     </style>
 </head>
 

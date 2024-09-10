@@ -122,7 +122,7 @@
 <script>
     $(document).ready(function () {
         ambilChart();
-        ambilDonut();
+        ambilRadar();
     });
     function ambilChart(){
         $.ajax({
@@ -156,45 +156,50 @@
                 }
         });
     }
-    function ambilDonut(){
-        $.ajax({
-            url: '<?php echo base_url('/kasir/ambilDataDonut'); ?>',
-            type: 'POST',
-            success: function(response) {
-                console.log(response);
-                const products = response.map(item => item.produk);
-                const totals = response.map(item => item.total_jumlah);
-                var options = {
-                        chart: {
-                            type: 'polarArea',
-                            height: 400,  // Tinggi chart
-                            width: '100%',
-                            toolbar: {
-                                show: true,
-                                tools: {
-                                    download: true // Menampilkan tombol unduh di toolbar
-                                },
-                                autoSelected: 'zoom' // Pilihan default untuk toolbar
-                            }
-                        },
-                        series: totals,
-                        labels: products,
-                        responsive: [{
-                            breakpoint: 200,
-                            options: {
-                                chart: {
-                                width: 200
-                                },
-                                legend: {
-                                position: 'bottom'
-                                }
-                            }
-                        }]
-                    };
-                var chart = new ApexCharts(document.querySelector("#sales-chart"), options);
-                chart.render();
-            }
-        });
-    }
+    function ambilRadar(){
+    $.ajax({
+        url: '<?= base_url('/kasir/ambilDataDonut'); ?>',
+        type: 'POST',
+        success: function(response) {
+            const products = response.map(item => item.produk);
+            const totals = response.map(item => item.total_jumlah);
+
+            var options = {
+                chart: {
+                    type: 'radar',
+                    height: 550,
+                    width: '100%',
+                    toolbar: {
+                        show: true,
+                        tools: {
+                            download: true
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Total Quantity',
+                    data: totals
+                }],
+                labels: products,
+                markers: {
+                    size: 4
+                },
+                radar: {
+                    size: 900,
+                    polygons: {
+                        strokeColors: '#e9e9e9',
+                        fillColors: '#f7f7f7'
+                    }
+                }
+            };
+
+            var chart = new ApexCharts(document.querySelector("#sales-chart"), options);
+            chart.render();
+        },
+        error: function (xhr, thrownError) {
+            console.error('Error fetching radar chart data:', xhr, thrownError);
+        }
+    });
+}
 </script>
 <?= $this->endSection(); ?>

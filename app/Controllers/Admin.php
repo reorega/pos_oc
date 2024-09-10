@@ -22,8 +22,12 @@ class Admin extends BaseController
 
         $totalUser = $this->userModel->totalUser();
         $data['totalUser'] = $totalUser;
-
-        
+        $endDate = new DateTime();
+        $startDate = new DateTime();
+        $endDate->modify('+1 days');
+        $startDate->modify('-30 days');
+        $dataPenjualan = $this->penjualanDetailModel->dataDonut($startDate->format('Y-m-d'), $endDate->format('Y-m-d'));
+        $data['gaya'] = $dataPenjualan;
 
         $setting= $this->loadConfigData();
         $data['setting'] = $setting;
