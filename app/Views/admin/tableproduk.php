@@ -39,9 +39,9 @@
                 <td><?= $pdk['kode_produk'] ?></td>
                 <td><?= $pdk['nama_produk'] ?></td>
                 <td><?= $pdk['kategori'] ?></td>
-                <td><?= $pdk['harga_beli'] ?></td>
+                <td><?= 'Rp ' . number_format($pdk['harga_beli'], 0, ',', '.') ?></td>
                 <td><?= $pdk['diskon'] ?></td>
-                <td><?= $pdk['harga_jual'] ?></td>
+                <td><?= 'Rp ' . number_format($pdk['harga_jual'], 0, ',', '.') ?></td>
                 <td><?= $pdk['stok'] ?></td>
                 <td>
                     <button type="button" class="btn btn-success"
@@ -85,9 +85,9 @@
                                                 <td><?= $pdk['kategori'] ?></td>
                                                 <td><?= $pdk['suplier'] ?></td>
                                                 <td><?= $pdk['nama_produk'] ?></td>
-                                                <td><?= $pdk['harga_beli'] ?></td>
+                                                <td><?= 'Rp ' . number_format($pdk['harga_beli'], 0, ',', '.') ?></td>
                                                 <td><?= $pdk['diskon'] ?></td>
-                                                <td><?= $pdk['harga_jual'] ?></td>
+                                                <td><?= 'Rp ' . number_format($pdk['harga_jual'], 0, ',', '.') ?></td>
                                                 <td><?= $pdk['stok'] ?></td>
                                             </tr>
                                         </tbody>
