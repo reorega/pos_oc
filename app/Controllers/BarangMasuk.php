@@ -129,6 +129,21 @@ class BarangMasuk extends BaseController
         }
     }
 
+    public function getProductStock()
+    {
+        $productId = $this->request->getPost('product_id');
+        
+        if ($productId) {
+            $product = $this->produkModel->find($productId);
+            
+            if ($product) {
+                return $this->response->setJSON(['stok_sebelumnya' => $product['stok']]);
+            }
+        }
+        
+        return $this->response->setJSON(['stok_sebelumnya' => 0]);
+    }    
+
     public function hapusDataBarangMasuk()
     {
         $id_barang_masuk = $this->request->getPost('id');

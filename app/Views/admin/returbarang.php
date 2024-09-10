@@ -53,6 +53,10 @@
                         <p class="invalid-feedback text-danger"></p>
                     </div>
                     <div class="form-group">
+                        <label for="stok_sebelumnya" class="form-label">Stok Sebelumnya</label>
+                        <input type="text" class="form-control" id="stok_sebelumnya" name="stok_sebelumnya" readonly>
+                    </div>
+                    <div class="form-group">
                         <label for="inputJumlah" class="form-label">Jumlah Retur</label>
                         <input type="text" class="form-control" id="inputJumlah" name="jumlah">
                         <p class="invalid-feedback text-danger"></p>
@@ -76,27 +80,28 @@
     $(document).ready(function() {
         var page = $('#page').val();
         ambilData();
+        
         $('#search').keyup(function() {
             ambilData();
         });
+        
         $(document).on('click', '.pagination a', function(event) {
             event.preventDefault();
             page = $(this).attr('href').split('page=')[1];
             ambilData(page);
         });
 
-        $('#formTambahData').on('submit', function (e) {
+        $('#formTambahData').on('submit', function(e) {
             e.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
                 type: 'POST',
                 data: $(this).serialize(),
                 dataType: 'json',
-                success: function (response) {
+                success: function(response) {
                     $('#responseMessage').empty();
                     $('.invalid-feedback').empty();
                     $('.is-invalid').removeClass('is-invalid');
-
                     if (response.success) {
                         $('#tambahData').modal('hide');
                         ambilData($('#page').val());
@@ -106,19 +111,41 @@
                             'success'
                         );
                     } else {
-                        $.each(response.errors, function (field, message) {
+                        $.each(response.errors, function(field, message) {
                             var element = $('[name=' + field + ']');
                             element.closest('.form-group').addClass('has-error');
-                            element.closest('.form-group').addClass('has-feedback');
                             element.next('.invalid-feedback').text(message);
+                            element.closest('.form-group').addClass('has-feedback');
                             element.after('<span class="glyphicon glyphicon-warning-sign form-control-feedback text-danger"></span>');
+                            element.next('.invalid-feedback').text(message);
                         });
                     }
                 },
-                error: function (xhr, thrownError) {
+                error: function(xhr, thrownError) {
                     alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
                 }
             });
+        });
+
+        // Ketika produk dipilih, ambil stok sebelumnya
+        $('#produk').change(function() {
+            var productId = $(this).val();
+            if (productId) {
+                $.ajax({
+                    url: '<?= site_url('/admin/getProductStock') ?>',
+                    type: 'POST',
+                    data: { product_id: productId },
+                    dataType: 'json',
+                    success: function(response) {
+                        $('#stok_sebelumnya').val(response.stok_sebelumnya);
+                    },
+                    error: function(xhr, thrownError) {
+                        alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                    }
+                });
+            } else {
+                $('#stok_sebelumnya').val('');
+            }
         });
     });
 

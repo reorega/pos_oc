@@ -145,6 +145,21 @@ class ReturBarang extends BaseController
         }
     }
 
+public function getProductStock()
+{
+    $productId = $this->request->getPost('product_id');
+    
+    if ($productId) {
+        $product = $this->produkModel->find($productId);
+        
+        if ($product) {
+            return $this->response->setJSON(['stok_sebelumnya' => $product['stok']]);
+        }
+    }
+    
+    return $this->response->setJSON(['stok_sebelumnya' => 0]);
+}
+
     public function hapusDataReturBarang()
     {
         // Retrieve data of the retur barang to get id_produk and jumlah

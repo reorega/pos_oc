@@ -37,7 +37,7 @@
                 <td><?= $pj['tanggal'] ?></td>
                 <td><?= $pj['no_faktur'] ?></td>
                 <td><?= $pj['total_item'] ?></td>
-                <td><?= $pj['total_harga'] ?></td>
+                <td><?= 'Rp ' . number_format($pj['total_harga'], 0, ',', '.') ?></td>
                 <td><?= $pj['user'] ?></td>
                 <td>
                     <button type="button" class="btn btn-info"

@@ -41,17 +41,24 @@
                 <h4 class="modal-title" id="exampleModalLabel">Tambah Data</h4>
             </div>
             <div class="modal-body">
-                <form action="<?= site_url('/admin/tambahDataBarangMasuk') ?>" enctype="multipart/form-data" id="formTambahData" method="post">
+                <form action="<?= site_url('/admin/tambahDataBarangMasuk') ?>" enctype="multipart/form-data"
+                    id="formTambahData" method="post">
                     <div class="form-group">
                         <label for="product_id" class="form-label">Nama Produk</label>
-                        <select class="form-control selectpicker" name="product_id" id="inputProduct" data-live-search="true">
+                        <select class="form-control selectpicker" name="product_id" id="inputProduct"
+                            data-live-search="true">
                             <option selected disabled>Pilih Produk</option>
                             <?php foreach ($produk as $pdk) : ?>
-                                <option value="<?= $pdk['id_produk']; ?>"><?= $pdk['nama_produk'] ?></option>
+                            <option value="<?= $pdk['id_produk']; ?>"><?= $pdk['nama_produk'] ?></option>
                             <?php endforeach; ?>
                         </select>
                         <p class="invalid-feedback text-danger"></p>
                     </div>
+                    <div class="form-group">
+                        <label for="stok_sebelumnya" class="form-label">Stok Sebelumnya</label>
+                        <input type="text" class="form-control" id="stok_sebelumnya" name="stok_sebelumnya" readonly>
+                    </div>
+
                     <div class="form-group">
                         <label for="total_item" class="control-label">Total Item</label>
                         <input type="number" class="form-control" id="inputTotalItem" name="total_item">
@@ -68,29 +75,28 @@
 <script src="<?= base_url('assets/js/jquery-3.7.1.min.js'); ?>"></script>
 <script src="<?= base_url('assets/js/sweetalert2.js'); ?>"></script>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         var page = $('#page').val();
         ambilData();
-        $('#search').keyup(function () {
+        $('#search').keyup(function() {
             ambilData();
         });
-        $(document).on('click', '.pagination a', function (event) {
+        $(document).on('click', '.pagination a', function(event) {
             event.preventDefault();
             page = $(this).attr('href').split('page=')[1];
             ambilData(page);
         });
-        $('#formTambahData').on('submit', function (e) {
+        $('#formTambahData').on('submit', function(e) {
             e.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
                 type: 'POST',
                 data: $(this).serialize(),
                 dataType: 'json',
-                success: function (response) {
+                success: function(response) {
                     $('#responseMessage').empty();
                     $('.invalid-feedback').empty();
                     $('.is-invalid').removeClass('is-invalid');
-
                     if (response.success) {
                         $('#tambahData').modal('hide');
                         ambilData($('#page').val());
@@ -100,21 +106,44 @@
                             'success'
                         );
                     } else {
-                        $.each(response.errors, function (field, message) {
+                        $.each(response.errors, function(field, message) {
                             var element = $('[name=' + field + ']');
                             element.closest('.form-group').addClass('has-error');
-                            element.closest('.form-group').addClass('has-feedback');
                             element.next('.invalid-feedback').text(message);
+                            element.closest('.form-group').addClass('has-feedback');
                             element.after('<span class="glyphicon glyphicon-warning-sign form-control-feedback text-danger"></span>');
+                            element.next('.invalid-feedback').text(message);
                         });
                     }
                 },
-                error: function (xhr, thrownError) {
+                error: function(xhr, thrownError) {
                     alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
                 }
             });
         });
     });
+    $(document).ready(function () {
+    $('#inputProduct').change(function () {
+        var productId = $(this).val();
+        if (productId) {
+            $.ajax({
+                url: '<?= site_url('/admin/getProductStock') ?>',
+                type: 'POST',
+                data: { product_id: productId },
+                dataType: 'json',
+                success: function (response) {
+                    console.log(response); // Debugging line
+                    $('#stok_sebelumnya').val(response.stok_sebelumnya);
+                },
+                error: function (xhr, thrownError) {
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                }
+            });
+        } else {
+            $('#stok_sebelumnya').val('');
+        }
+    });
+});
 
     function ambilData(page = 1) {
         $.ajax({
@@ -125,14 +154,14 @@
                 page: page,
             },
             dataType: "json",
-            success: function (response) {
+            success: function(response) {
                 if (response.table) {
                     $('.dataBarangMasuk').html(response.table);
                     $('#page').val(page);
                     $('.selectpicker').selectpicker();
                 }
             },
-            error: function (xhr, thrownError) {
+            error: function(xhr, thrownError) {
                 alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
             }
         });
@@ -149,11 +178,11 @@
                 harga_beli: $('#inputHargaBeli').val()
             },
             dataType: "json",
-            success: function (response) {
+            success: function(response) {
                 ambilData($('#page').val());
                 $('#tambahData').modal('hide');
             },
-            error: function (xhr, thrownError) {
+            error: function(xhr, thrownError) {
                 alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
             }
         });
@@ -171,11 +200,11 @@
                 harga_beli: $('#editHargaBeli' + id_barang_masuk).val()
             },
             dataType: "json",
-            success: function (response) {
+            success: function(response) {
                 ambilData($('#page').val());
                 $('#editData' + id_barang_masuk).modal('hide');
             },
-            error: function (xhr, thrownError) {
+            error: function(xhr, thrownError) {
                 alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
             }
         });
@@ -200,7 +229,7 @@
                         id: id_barang_masuk,
                     },
                     dataType: "json",
-                    success: function (response) {
+                    success: function(response) {
                         Swal.fire(
                             'Berhasil!',
                             'Data berhasil dihapus',
@@ -209,7 +238,7 @@
                         ambilData($('#page').val());
                         $('#hapusData' + id_barang_masuk).modal('hide');
                     },
-                    error: function (xhr, thrownError) {
+                    error: function(xhr, thrownError) {
                         alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
                     }
                 });
