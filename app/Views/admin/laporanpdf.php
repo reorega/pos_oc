@@ -57,10 +57,10 @@
                 <?php $ttl = $total[0]; ?>
                 <tr>
                     <td colspan="2">Total</td>
-                    <td>RP <?= number_format($ttl['total_pendapatan'],2,',','.') ?></td>
-                    <td>RP <?= number_format($ttl['total_pengeluaran'],2,',','.') ?></td>
-                    <td>RP <?= number_format($ttl['total_retur'],2,',','.') ?></td>
-                    <td>RP <?= number_format($ttl['total_laba'],2,',','.') ?></td>
+                    <td>Rp <?= number_format($ttl['total_pendapatan'],2,',','.') ?></td>
+                    <td>Rp <?= number_format($ttl['total_pengeluaran'],2,',','.') ?></td>
+                    <td>Rp <?= number_format($ttl['total_retur'],2,',','.') ?></td>
+                    <td>Rp <?= number_format($ttl['total_laba'],2,',','.') ?></td>
                 </tr>
             </tfoot>
     </table>
