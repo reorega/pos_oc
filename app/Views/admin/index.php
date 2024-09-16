@@ -114,23 +114,21 @@
                         <li class="pull-left header"><i class="fa fa-bar-chart"></i>5 Produk Terlaris Dalam 30 Hari Terakhir</li>
                     </ul>
                     <div class="tab-content no-padding" id="coba" >
-                        <!-- Morris chart - Sales -->
                         <a href="" id="gaya">
                          <div class="flip-card" id="flip-card">
                             <div class="flip-card-front">
                                 <div class="chart tab-pane active" id="sales-chart" style="position: relative; max-height: 300px;"></div>
                             </div>
                             <div class="flip-card-back">
-                                 Percobaan
+                                <div id="top-products-details">
+                                    <h3>Detail 5 Produk Terlaris</h3>
+                                        <ul id="top-products-list"></ul>
+                                </div>
                             </div>
                         </div>
                         </a>
-                         
                     </div>
-
                 </div>
-                <!-- /.nav-tabs-custom -->
-
             </section>
         </div>
     </section>
@@ -305,7 +303,7 @@
                 }
         });
     }
-    function ambilRadar(){
+    function ambilRadar() {
     $.ajax({
         url: '<?= base_url('/admin/ambilDataDonut'); ?>',
         type: 'POST',
@@ -313,6 +311,7 @@
             const products = response.map(item => item.produk);
             const totals = response.map(item => item.total_jumlah);
 
+            // Update radar chart
             var options = {
                 chart: {
                     type: 'radar',
@@ -344,10 +343,28 @@
 
             var chart = new ApexCharts(document.querySelector("#sales-chart"), options);
             chart.render();
+
+            // Update top products details
+            updateTopProductsDetails(response);
         },
-        error: function (xhr, thrownError) {
+        error: function(xhr, thrownError) {
             console.error('Error fetching radar chart data:', xhr, thrownError);
         }
+    });
+}
+
+function updateTopProductsDetails(data) {
+    // Sort products by total quantity in descending order and take the top 5
+    data.sort((a, b) => b.total_jumlah - a.total_jumlah);
+    const top5Products = data.slice(0, 5);
+
+    // Populate the list
+    const listContainer = $('#top-products-list');
+    listContainer.empty(); // Clear existing items
+
+    top5Products.forEach(item => {
+        const listItem = `<li>${item.produk} ${item.total_jumlah}</li>`;
+        listContainer.append(listItem);
     });
 }
 </script>
