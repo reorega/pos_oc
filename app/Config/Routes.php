@@ -65,6 +65,8 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->post('hapusDataReturBarang', 'ReturBarang::hapusDataReturBarang');
     $routes->post('ambilDataReturBarang', 'ReturBarang::ambilDataReturBarang');
     $routes->post('getProductStock', 'ReturBarang::getProductStock');
+    $routes->post('cekStokReturBarang', 'ReturBarang::cekStok');
+    $routes->post('cekStokEditReturBarang', 'ReturBarang::cekStokEdit');
 
     // Cetak Barcode
     $routes->get('barcode/(:num)', 'Produk::barcode/$1'); // Rute untuk Barcode

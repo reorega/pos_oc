@@ -17,7 +17,7 @@ class ReturBarangModel extends Model
     public function searchReturBarang($keyword)
     {
         $query = $this->db->table($this->table); // Tabel retur_barang
-        $query->select('retur_barang.*, supplier.nama as supplier_name, produk.nama_produk as product_name'); // Pilih kolom yang diperlukan
+        $query->select('retur_barang.*, supplier.nama as supplier_name, produk.nama_produk as product_name, produk.stok as stok_lama'); // Pilih kolom yang diperlukan
         $query->join('supplier', 'supplier.id_supplier = retur_barang.supplier_id'); // Join dengan tabel supplier
         $query->join('produk', 'produk.id_produk = retur_barang.produk_id'); // Join dengan tabel produk
         $query->like('supplier.nama', $keyword); // Cari berdasarkan nama supplier
@@ -37,7 +37,7 @@ class ReturBarangModel extends Model
     // Function untuk melakukan pagination pada data retur barang
     public function returbarangPagination($perPage = 10, $page = 1)
     {
-        $query = $this->select('retur_barang.*, supplier.nama as supplier_name, produk.nama_produk as product_name')
+        $query = $this->select('retur_barang.*, supplier.nama as supplier_name, produk.nama_produk as product_name, produk.stok as stok_lama')
                       ->join('supplier', 'supplier.id_supplier = retur_barang.supplier_id')
                       ->join('produk', 'produk.id_produk = retur_barang.produk_id');
 

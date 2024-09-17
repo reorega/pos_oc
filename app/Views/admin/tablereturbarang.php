@@ -101,16 +101,21 @@
                                 </div>
                                 <div class="modal-body">
                                     <form action="<?= site_url('/admin/editDataReturBarang') ?>" enctype="multipart/form-data" class="formEditData">
-                                    <input type="hidden" name="id" value="<?= $rtb['id_retur_barang'] ?>">
-                                    <input type="hidden" name="produk_id" value="<?= $rtb['produk_id'] ?>">
+                                    <input type="hidden" name="id" value="<?= $rtb['id_retur_barang'] ?>"  id="retur<?= $rtb['id_retur_barang'] ?>" >
+                                    <input type="hidden" name="produk_id" value="<?= $rtb['produk_id'] ?>" id="produk<?= $rtb['id_retur_barang'] ?>" >
                                         <div class="form-group">
-                                            <label for="editJumlah<?= $rtb['id_retur_barang'] ?>" class="form-label">Jumlah Retur</label>
-                                            <input type="text" class="form-control" id="editJumlah<?= $rtb['id_retur_barang'] ?>" name="jumlah" value="<?= $rtb['jumlah'] ?>">
+                                            <label for="stokLama" class="form-label">Stok Produk Sebelum Diretur</label>
+                                            <input type="text" class="form-control" id="stokLama<?= $rtb['id_retur_barang'] ?>" value="<?= $rtb['stok_lama'] + $rtb['jumlah'] ?>" data-original-value="<?= $rtb['stok_lama'] + $rtb['jumlah'] ?>" readonly > 
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="editJumlah" class="form-label">Jumlah Retur</label>
+                                            <input type="text" class="form-control editJumlah" id="editJumlah<?= $rtb['id_retur_barang'] ?>" name="jumlah" value="<?= $rtb['jumlah'] ?>" data-original-value="<?= $rtb['jumlah'] ?>" > 
+                                            <p class="cekstok2"></p>
                                             <p class="invalid-feedback text-danger"></p>
                                         </div>
                                         <div class="form-group">
                                             <label for="editKeterangan<?= $rtb['id_retur_barang'] ?>" class="form-label">Keterangan</label>
-                                            <input type="text" class="form-control" id="editKeterangan<?= $rtb['id_retur_barang'] ?>" name="keterangan" value="<?= $rtb['keterangan'] ?>">
+                                            <input type="text" class="form-control" id="editKeterangan<?= $rtb['id_retur_barang'] ?>" name="keterangan" value="<?= $rtb['keterangan'] ?>" data-original-value="<?= $rtb['keterangan'] ?>" >
                                             <p class="invalid-feedback text-danger"></p>
                                         </div>
                                         <!-- Hidden input for the ID -->
@@ -143,51 +148,90 @@
 
 <script>
     $(document).ready(function () {
+        $('.editJumlah').on('keyup', function () {
+            var id = $(this).attr('id').replace('editJumlah', ''); // Mendapatkan ID retur
+            cekStokEdit(id); // Memanggil fungsi cekStokEdit
+        });
         $('.formEditData').on('submit', function (e) {
             e.preventDefault();
-            $.ajax({
-                url: $(this).attr('action'),
-                type: 'POST',
-                data: $(this).serialize(),
-                dataType: 'json',
-                success: function (response) {
-                    $('#responseMessage').empty();
-                    $('.invalid-feedback').empty();
-                    $('.is-invalid').removeClass('is-invalid');
-                    if (response.success == true) {
-                        $('.modal').modal('hide');
-                        ambilData($('#page').val());
-                        Swal.fire(
-                            'Tersimpan!',
-                            'Data berhasil diubah.',
-                            'success'
-                        );
-                    } else {
-                        $.each(response.errors, function (field, message) {
-                            var element = $('[name=' + field + ']');
-                            element.closest('.form-group').addClass('has-error');
-                            element.closest('.form-group').addClass('has-feedback');
-                            element.next('.invalid-feedback').text(message);
-                            element.after('<span class="glyphicon glyphicon-warning-sign form-control-feedback text-danger"></span>');
-                        });
+            var form = $(this); // Referensi ke form yang disubmit
+            var id = form.find('.editJumlah').attr('id').replace('editJumlah', ''); 
+            console.log(id);
+            if($('#editJumlah'+id).val() > $('#stokLama'+id).val()){
+                Swal.fire({
+                    title: "Error!",
+                    text: "Jumlah barang yang diretur melebihi stok!!!",
+                    icon: "error"
+                });
+            }else{
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    dataType: 'json',
+                    success: function (response) {
+                        $('#responseMessage').empty();
+                        $('.invalid-feedback').empty();
+                        $('.is-invalid').removeClass('is-invalid');
+                        if (response.success == true) {
+                            $('.modal').modal('hide');
+                            ambilData($('#page').val());
+                            Swal.fire(
+                                'Tersimpan!',
+                                'Data berhasil diubah.',
+                                'success'
+                            );
+                        } else {
+                            $.each(response.errors, function (field, message) {
+                                var element = $('[name=' + field + ']');
+                                element.closest('.form-group').addClass('has-error');
+                                element.closest('.form-group').addClass('has-feedback');
+                                element.next('.invalid-feedback').text(message);
+                                element.after('<span class="glyphicon glyphicon-warning-sign form-control-feedback text-danger"></span>');
+                            });
+                        }
+                    },
+                    error: function (xhr, thrownError) {
+                        alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
                     }
-                },
-                error: function (xhr, thrownError) {
-                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-                }
-            });
+                });
+            }
         });
     });
 
     function bukaModalEdit(id){
         $('#editData' + id).modal('show');
         $('.invalid-feedback').empty();
+        $('.cekstok2').empty();
         $('.form-group').removeClass('has-error');
         $('.form-group').removeClass('has-feedback');
         $('.form-group .glyphicon').remove();
         $('#editData' + id + ' [data-original-value]').each(function() {
             var originalValue = $(this).data('original-value');
             $(this).val(originalValue);
+        });
+    }
+
+    function cekStokEdit(id){
+        $.ajax({
+            type: "post",
+            url: "<?= site_url('/admin/cekStokEditReturBarang') ?>",
+            data: {
+                id_retur: $('#retur'+id).val(),
+                produk_id: $('#produk'+id).val(), 
+                jumlah_retur: $('#editJumlah'+id).val()
+            },
+            dataType: "json",
+            success: function (response) {
+                if (response.status === 'gagal') {
+                    $('.cekstok2').html('<div style="color: red;">' + response.message + '</div>').show();
+                } else {
+                    $('.cekstok2').html('<div style="color: green;">' + response.message + '</div>').show();
+                }
+            },
+            error: function (xhr, thrownError) {
+                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+            }
         });
     }
 </script>
