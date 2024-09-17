@@ -74,7 +74,7 @@ SELECT
     COALESCE(SUM(p.pendapatan), 0) AS pendapatan,
     COALESCE(SUM(bm.pengeluaran), 0) AS pengeluaran,
     COALESCE(SUM(rtr.retur),0) AS retur,
-    COALESCE(SUM(p.pendapatan), 0) - COALESCE(SUM(bm.pengeluaran), 0) + COALESCE(SUM(rtr.retur),0) AS hasil
+    COALESCE(SUM(p.pendapatan), 0) - COALESCE(SUM(bm.pengeluaran), 0) - COALESCE(SUM(rtr.retur),0) AS hasil
 FROM 
     date_sequence ds
 LEFT JOIN (
@@ -120,6 +120,7 @@ LEFT JOIN (
 
 GROUP BY 
     ds.tanggal
+HAVING hasil != 0
 ORDER BY 
     ds.tanggal;
         ";
@@ -154,7 +155,7 @@ ORDER BY
             COALESCE(SUM(p.pendapatan), 0) AS total_pendapatan,
             COALESCE(SUM(bm.pengeluaran), 0) AS total_pengeluaran,
             COALESCE(SUM(rtr.retur), 0) AS total_retur,
-            COALESCE(SUM(p.pendapatan), 0) - COALESCE(SUM(bm.pengeluaran), 0) + COALESCE(SUM(rtr.retur), 0) AS total_laba
+            COALESCE(SUM(p.pendapatan), 0) - COALESCE(SUM(bm.pengeluaran), 0) - COALESCE(SUM(rtr.retur), 0) AS total_laba
         FROM 
             date_sequence ds
         LEFT JOIN (
@@ -215,9 +216,8 @@ ORDER BY
 SELECT 
     ds.tanggal,
     COALESCE(SUM(p.pendapatan), 0) AS pendapatan,
-    COALESCE(SUM(bm.pengeluaran), 0) AS pengeluaran,
-    COALESCE(SUM(rtr.retur),0) AS retur,
-    COALESCE(SUM(p.pendapatan), 0) - COALESCE(SUM(bm.pengeluaran), 0) + COALESCE(SUM(rtr.retur),0) AS hasil
+    COALESCE(SUM(pn.pengeluaran), 0) AS pengeluaran,
+    COALESCE(SUM(p.pendapatan), 0) - COALESCE(SUM(pn.pengeluaran), 0) AS hasil
 FROM 
     date_sequence ds
 LEFT JOIN (
@@ -237,32 +237,26 @@ LEFT JOIN (
         tanggal
 ) p ON ds.tanggal = p.tanggal
 LEFT JOIN (
-    SELECT 
-        DATE(created_at) AS tanggal, 
-        SUM(total_bayar) AS pengeluaran
-    FROM 
-        barang_masuk
-    WHERE 
-        id_supplier != 1 AND
-        DATE(created_at) BETWEEN '$start_date' AND '$end_date'
-    GROUP BY 
-        tanggal
-) bm ON ds.tanggal = bm.tanggal
- LEFT JOIN (
-    SELECT 
-        DATE(created_at) AS tanggal, 
-        SUM(harga_retur) AS retur
-    FROM 
-        retur_barang
-    WHERE 
-        supplier_id != 1 AND
-        DATE(created_at) BETWEEN '$start_date' AND '$end_date'
-    GROUP BY 
-        tanggal
-) rtr ON ds.tanggal = rtr.tanggal
+            -- Query untuk mendapatkan pengeluaran dari penjumlahan harga_beli produk yang terjual
+            SELECT 
+                DATE(pn.created_at) AS tanggal,
+                SUM(pr.harga_beli * pd.jumlah) AS pengeluaran
+            FROM 
+                penjualan pn
+            INNER JOIN 
+                penjualan_detail pd ON pn.no_faktur = pd.no_faktur
+            INNER JOIN 
+                produk pr ON pd.produk_id = pr.id_produk
+            WHERE 
+                pr.suplier_id != 1 AND
+                DATE(pn.created_at) BETWEEN '$start_date' AND '$end_date'
+            GROUP BY 
+                DATE(pn.created_at)
+        ) pn ON ds.tanggal = pn.tanggal
 
 GROUP BY 
     ds.tanggal
+HAVING hasil != 0
 ORDER BY 
     ds.tanggal;
         ";
@@ -282,12 +276,12 @@ ORDER BY
         )
         SELECT 
             COALESCE(SUM(p.pendapatan), 0) AS total_pendapatan,
-            COALESCE(SUM(bm.pengeluaran), 0) AS total_pengeluaran,
-            COALESCE(SUM(rtr.retur), 0) AS total_retur,
-            COALESCE(SUM(p.pendapatan), 0) - COALESCE(SUM(bm.pengeluaran), 0) + COALESCE(SUM(rtr.retur), 0) AS total_laba
+            COALESCE(SUM(pn.pengeluaran), 0) AS total_pengeluaran,
+            COALESCE(SUM(p.pendapatan), 0) - COALESCE(SUM(pn.pengeluaran), 0) AS total_laba
         FROM 
             date_sequence ds
         LEFT JOIN (
+            -- Query untuk mendapatkan pendapatan
             SELECT 
                 DATE(p.created_at) AS tanggal, 
                 SUM(p.total_harga) AS pendapatan 
@@ -304,30 +298,23 @@ ORDER BY
                 DATE(p.created_at)
         ) p ON ds.tanggal = p.tanggal
         LEFT JOIN (
+            -- Query untuk mendapatkan pengeluaran dari penjumlahan harga_beli produk yang terjual
             SELECT 
-                DATE(created_at) AS tanggal, 
-                SUM(total_bayar) AS pengeluaran
+                DATE(pn.created_at) AS tanggal,
+                SUM(pr.harga_beli * pd.jumlah) AS pengeluaran
             FROM 
-                barang_masuk
+                penjualan pn
+            INNER JOIN 
+                penjualan_detail pd ON pn.no_faktur = pd.no_faktur
+            INNER JOIN 
+                produk pr ON pd.produk_id = pr.id_produk
             WHERE 
-                id_supplier != 1 AND
-                DATE(created_at) BETWEEN '$start_date' AND '$end_date'
+                pr.suplier_id != 1 AND
+                DATE(pn.created_at) BETWEEN '$start_date' AND '$end_date'
             GROUP BY 
-                DATE(created_at)
-        ) bm ON ds.tanggal = bm.tanggal
-        LEFT JOIN (
-            SELECT 
-                DATE(created_at) AS tanggal, 
-                SUM(harga_retur) AS retur
-            FROM 
-                retur_barang
-            WHERE 
-                supplier_id != 1 AND
-                DATE(created_at) BETWEEN '$start_date' AND '$end_date'
-            GROUP BY 
-                DATE(created_at)
-        ) rtr ON ds.tanggal = rtr.tanggal;
-         ";
+                DATE(pn.created_at)
+        ) pn ON ds.tanggal = pn.tanggal;
+    ";
         $query = $this->db->query($sql);
         $result = $query->getResultArray();
         return $result;
