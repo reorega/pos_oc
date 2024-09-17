@@ -136,17 +136,20 @@
 
 <script>
 $(document).ready(function () {
-    // Fetch and display previous stock when opening the edit modal
-    $('#editData<?= $brg['id_barang_masuk'] ?>').on('shown.bs.modal', function () {
-        var id = $(this).find('input[name="id"]').val();
-        var productId = $(this).find('input[name="product_id"]').val();
+    // Event listener untuk setiap kali modal edit terbuka
+    $('.modal').on('shown.bs.modal', function () {
+        var id = $(this).find('input[name="id"]').val(); // Ambil id_barang_masuk dari input tersembunyi
+        var productId = $(this).find('input[name="product_id"]').val(); // Ambil product_id
+
         if (productId) {
+            // Panggil data stok sebelumnya menggunakan AJAX
             $.ajax({
                 url: '<?= site_url('/admin/getProductStock') ?>',
                 type: 'POST',
-                data: { product_id: productId },
+                data: { product_id: productId }, // Kirim product_id ke server
                 dataType: 'json',
                 success: function (response) {
+                    // Tampilkan stok sebelumnya di dalam input yang sesuai
                     $('#stok_sebelumnya_edit' + id).val(response.stok_sebelumnya);
                 },
                 error: function (xhr, thrownError) {
@@ -154,10 +157,12 @@ $(document).ready(function () {
                 }
             });
         } else {
+            // Jika productId tidak ditemukan, kosongkan input stok sebelumnya
             $('#stok_sebelumnya_edit' + id).val('');
         }
     });
 
+    // Event listener untuk form submit
     $('.formEditData').on('submit', function (e) {
         e.preventDefault();
         $.ajax({
@@ -194,15 +199,17 @@ $(document).ready(function () {
     });
 });
 
-    function bukaModalEdit(id){
-        $('#editData' + id).modal('show');
-        $('.invalid-feedback').empty();
-        $('.form-group').removeClass('has-error');
-        $('.form-group').removeClass('has-feedback');
-        $('.form-group .glyphicon').remove();
-        $('#editData' + id + ' [data-original-value]').each(function() {
-            var originalValue = $(this).data('original-value');
-            $(this).val(originalValue);
-        });
-    }
+// Fungsi untuk membuka modal edit
+function bukaModalEdit(id) {
+    $('#editData' + id).modal('show');
+    $('.invalid-feedback').empty();
+    $('.form-group').removeClass('has-error');
+    $('.form-group').removeClass('has-feedback');
+    $('.form-group .glyphicon').remove();
+    $('#editData' + id + ' [data-original-value]').each(function () {
+        var originalValue = $(this).data('original-value');
+        $(this).val(originalValue);
+    });
+}
+
 </script>
