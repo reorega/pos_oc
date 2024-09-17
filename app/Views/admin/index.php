@@ -1,9 +1,34 @@
 <?= $this->extend('layout/master'); ?>
 <?= $this->section('content'); ?>
 <style>
-#sales-chart {
-    width: 100%; /* Adjust width as needed */
-    max-width: 600px; /* Adjust max-width as needed */
+#top-products-details {
+    font-family: Arial, sans-serif;
+    margin: 20px 0;
+    background-color: #fff; /* Keep background white */
+    color : #525252;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Make it full width */
+    height: 100%;
+    max-width: none; /* Remove any max width */
+}
+
+#top-products-details h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#top-products-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#top-products-list li {
+    font-size: 16px;
+    border-bottom: 1px solid #ddd;
+    padding: 5px 0;
 }
 </style>
 <div class="content-wrapper">
@@ -115,17 +140,17 @@
                     </ul>
                     <div class="tab-content no-padding" id="coba" >
                         <a href="" id="gaya">
-                         <div class="flip-card" id="flip-card">
-                            <div class="flip-card-front">
-                                <div class="chart tab-pane active" id="sales-chart" style="position: relative; max-height: 300px;"></div>
-                            </div>
-                            <div class="flip-card-back">
-                                <div id="top-products-details">
-                                    <h3>Detail 5 Produk Terlaris</h3>
-                                        <ul id="top-products-list"></ul>
+                            <div class="flip-card" id="flip-card">
+                                <div class="flip-card-front">
+                                    <div class="chart tab-pane active" id="sales-chart" style="position: relative; max-height: 300px;"></div>
+                                </div>
+                                <div class="flip-card-back">
+                                    <div id="top-products-details">
+                                        <h3>Detail 5 Produk Terlaris</h3>
+                                            <ul id="top-products-list"></ul>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         </a>
                     </div>
                 </div>
@@ -363,7 +388,7 @@ function updateTopProductsDetails(data) {
     listContainer.empty(); // Clear existing items
 
     top5Products.forEach(item => {
-        const listItem = `<li>${item.produk} ${item.total_jumlah}</li>`;
+        const listItem = `<li>${item.produk} <span style="color: #379777; font-weight: bold;">${item.total_jumlah}</li>`;
         listContainer.append(listItem);
     });
 }
