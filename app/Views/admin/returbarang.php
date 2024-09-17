@@ -59,6 +59,7 @@
                     <div class="form-group">
                         <label for="inputJumlah" class="form-label">Jumlah Retur</label>
                         <input type="text" class="form-control" id="inputJumlah" name="jumlah">
+                        <p id="cekstok"></p>
                         <p class="invalid-feedback text-danger"></p>
                     </div>
                     <div class="form-group">
@@ -85,14 +86,26 @@
             ambilData();
         });
         
+    
         $(document).on('click', '.pagination a', function(event) {
             event.preventDefault();
             page = $(this).attr('href').split('page=')[1];
             ambilData(page);
         });
 
+        $('#inputJumlah').on('keyup', function(e) {
+            cekStok();
+        });
+
         $('#formTambahData').on('submit', function(e) {
             e.preventDefault();
+            if($('#inputJumlah').val() > $('#stok_sebelumnya').val()){
+                Swal.fire({
+                    title: "Error!",
+                    text: "Jumlah barang yang diretur melebihi stok!!!",
+                    icon: "error"
+                });
+            }else{
             $.ajax({
                 url: $(this).attr('action'),
                 type: 'POST',
@@ -120,11 +133,13 @@
                             element.next('.invalid-feedback').text(message);
                         });
                     }
+                    
                 },
                 error: function(xhr, thrownError) {
                     alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
                 }
             });
+        }
         });
 
         // Ketika produk dipilih, ambil stok sebelumnya
@@ -254,6 +269,29 @@
         $('#tambahData').modal('show');
         $('.invalid-feedback').empty();
         $('.is-invalid').removeClass('is-invalid');
+    }
+
+    function cekStok() {
+        $.ajax({
+            type: "post",
+            url: "<?= site_url('/admin/cekStokReturBarang') ?>",
+            data: {
+                produk_id: $('#produk').val(), 
+                stok_sebelumnya: $('#stok_sebelumnya').val(),
+                jumlah_retur: $('#inputJumlah').val()
+            },
+            dataType: "json",
+            success: function (response) {
+                if (response.status === 'gagal') {
+                    $('#cekstok').html('<div style="color: red;">' + response.message + '</div>').show();
+                } else {
+                    $('#cekstok').html('<div style="color: green;">' + response.message + '</div>').show();
+                }
+            },
+            error: function (xhr, thrownError) {
+                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+            }
+        });
     }
 </script>
 <?= $this->endSection() ?>

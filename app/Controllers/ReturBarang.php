@@ -180,4 +180,28 @@ public function getProductStock()
 
         return $this->response->setJSON(['success' => true]);
     }
+
+    public function cekStok(){
+        $stokSebelumnya= $this->request->getPost('stok_sebelumnya');
+        $jumlahRetur= $this->request->getPost('jumlah_retur');
+        if($stokSebelumnya >= $jumlahRetur){
+            return $this->response->setJSON(['status' => 'berhasil', 'message' => 'Jumlah mencukupi.']);
+        }else{
+            return $this->response->setJSON(['status' => 'gagal', 'message' => 'Jumlah barang yang diretur melebihi stok']);
+        }
+    }
+
+    public function cekStokEdit(){
+        $id_retur_barang = $this->request->getPost('id_retur');
+        $id_produk = $this->request->getPost('produk_id');
+        $jumlahRetur= $this->request->getPost('jumlah_retur');
+        $produkData = $this->produkModel->find($id_produk);
+        $retun_data = $this->returbarangModel->find($id_retur_barang);
+        $stokSebelumnya=$produkData['stok'] + $retun_data['jumlah'];
+        if($stokSebelumnya >= $jumlahRetur){
+            return $this->response->setJSON(['status' => 'berhasil', 'message' => 'Jumlah mencukupi.']);
+        }else{
+            return $this->response->setJSON(['status' => 'gagal', 'message' => 'Jumlah barang yang diretur melebihi stok']);
+        }
+    }
 }
