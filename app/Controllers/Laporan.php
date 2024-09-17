@@ -34,6 +34,7 @@ class Laporan extends BaseController
                 'total' => $this->penjualanModel->totalLaporan($tanggalawal,$tanggalakhir),
             ];
         }
+        $data['mode']=1;
         $table = view('admin/tablelaporan', $data);
         return $this->response->setJSON(['table' => $table]);
     }
@@ -89,6 +90,7 @@ class Laporan extends BaseController
                 'total' => $this->penjualanModel->totalLaporan2($tanggalawal,$tanggalakhir),
             ];
         }
+        $data['mode']=2;
         $table = view('admin/tablelaporan', $data);
         return $this->response->setJSON(['table' => $table]);
     }
