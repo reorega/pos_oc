@@ -87,8 +87,7 @@
                         <i class="fa fa-pencil"></i> Edit
                     </button>
                     <!-- Edit Modal -->
-                    <div class="modal fade text-left" id="editData<?= $brg['id_barang_masuk'] ?>" tabindex="-1"
-                        aria-labelledby="editDataLabel<?= $brg['id_barang_masuk'] ?>" aria-hidden="true">
+                    <div class="modal fade text-left" id="editData<?= $brg['id_barang_masuk'] ?>" tabindex="-1" aria-labelledby="editDataLabel<?= $brg['id_barang_masuk'] ?>" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -100,12 +99,16 @@
                                 <div class="modal-body">
                                     <form action="<?= site_url('/admin/editDataBarangMasuk') ?>" enctype="multipart/form-data" class="formEditData">
                                         <div class="form-group">
+                                            <label for="stok_sebelumnya_edit<?= $brg['id_barang_masuk'] ?>" class="form-label">Stok Sebelumnya</label>
+                                            <input type="text" class="form-control" id="stok_sebelumnya_edit<?= $brg['id_barang_masuk'] ?>" name="stok_sebelumnya" readonly>
+                                        </div>
+                                        <div class="form-group">
                                             <label for="editTotalItem<?= $brg['id_barang_masuk'] ?>" class="form-label">Total Item</label>
-                                            <input type="text" class="form-control" id="editTotalItem<?= $brg['id_barang_masuk'] ?>" name="total_item" value="<?= $brg['total_item'] ?>">
+                                            <input type="number" class="form-control" id="editTotalItem<?= $brg['id_barang_masuk'] ?>" name="total_item" value="<?= $brg['total_item'] ?>">
                                             <p class="invalid-feedback text-danger"></p>
                                         </div>
                                         <input type="hidden" name="id" value="<?= $brg['id_barang_masuk'] ?>">
-                                        <input type="hidden" name="product_id" value="<?= $brg['id_produk'] ?>">
+                                        <input type="hidden" name="product_id" id="editProductId<?= $brg['id_barang_masuk'] ?>" value="<?= $brg['id_produk'] ?>">
 
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
@@ -132,52 +135,81 @@
 </div>
 
 <script>
-    $(document).ready(function () {
-        $('.formEditData').on('submit', function (e) {
-            e.preventDefault();
+$(document).ready(function () {
+    // Event listener untuk setiap kali modal edit terbuka
+    $('.modal').on('shown.bs.modal', function () {
+        var id = $(this).find('input[name="id"]').val(); // Ambil id_barang_masuk dari input tersembunyi
+        var productId = $(this).find('input[name="product_id"]').val(); // Ambil product_id
+
+        if (productId) {
+            // Panggil data stok sebelumnya menggunakan AJAX
             $.ajax({
-                url: $(this).attr('action'),
+                url: '<?= site_url('/admin/getProductStock') ?>',
                 type: 'POST',
-                data: $(this).serialize(),
+                data: { product_id: productId }, // Kirim product_id ke server
                 dataType: 'json',
                 success: function (response) {
-                    $('#responseMessage').empty();
-                    $('.invalid-feedback').empty();
-                    $('.is-invalid').removeClass('is-invalid');
-                    if (response.success == true) {
-                        $('.modal').modal('hide');
-                        ambilData($('#page').val());
-                        Swal.fire(
-                            'Tersimpan!',
-                            'Data berhasil diubah.',
-                            'success'
-                        );
-                    } else {
-                        $.each(response.errors, function (field, message) {
-                            var element = $('[name=' + field + ']');
-                            element.closest('.form-group').addClass('has-error');
-                            element.closest('.form-group').addClass('has-feedback');
-                            element.next('.invalid-feedback').text(message);
-                            element.after('<span class="glyphicon glyphicon-warning-sign form-control-feedback text-danger"></span>');
-                        });
-                    }
+                    // Tampilkan stok sebelumnya di dalam input yang sesuai
+                    $('#stok_sebelumnya_edit' + id).val(response.stok_sebelumnya);
                 },
                 error: function (xhr, thrownError) {
                     alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
                 }
             });
-        });
+        } else {
+            // Jika productId tidak ditemukan, kosongkan input stok sebelumnya
+            $('#stok_sebelumnya_edit' + id).val('');
+        }
     });
 
-    function bukaModalEdit(id){
-        $('#editData' + id).modal('show');
-        $('.invalid-feedback').empty();
-        $('.form-group').removeClass('has-error');
-        $('.form-group').removeClass('has-feedback');
-        $('.form-group .glyphicon').remove();
-        $('#editData' + id + ' [data-original-value]').each(function() {
-            var originalValue = $(this).data('original-value');
-            $(this).val(originalValue);
+    // Event listener untuk form submit
+    $('.formEditData').on('submit', function (e) {
+        e.preventDefault();
+        $.ajax({
+            url: $(this).attr('action'),
+            type: 'POST',
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: function (response) {
+                $('#responseMessage').empty();
+                $('.invalid-feedback').empty();
+                $('.is-invalid').removeClass('is-invalid');
+                if (response.success == true) {
+                    $('.modal').modal('hide');
+                    ambilData($('#page').val());
+                    Swal.fire(
+                        'Tersimpan!',
+                        'Data berhasil diubah.',
+                        'success'
+                    );
+                } else {
+                    $.each(response.errors, function (field, message) {
+                        var element = $('[name=' + field + ']');
+                        element.closest('.form-group').addClass('has-error');
+                        element.closest('.form-group').addClass('has-feedback');
+                        element.next('.invalid-feedback').text(message);
+                        element.after('<span class="glyphicon glyphicon-warning-sign form-control-feedback text-danger"></span>');
+                    });
+                }
+            },
+            error: function (xhr, thrownError) {
+                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+            }
         });
-    }
+    });
+});
+
+// Fungsi untuk membuka modal edit
+function bukaModalEdit(id) {
+    $('#editData' + id).modal('show');
+    $('.invalid-feedback').empty();
+    $('.form-group').removeClass('has-error');
+    $('.form-group').removeClass('has-feedback');
+    $('.form-group .glyphicon').remove();
+    $('#editData' + id + ' [data-original-value]').each(function () {
+        var originalValue = $(this).data('original-value');
+        $(this).val(originalValue);
+    });
+}
+
 </script>
