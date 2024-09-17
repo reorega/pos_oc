@@ -92,9 +92,6 @@ class PenjualanDetailModel extends Model
         $query->orderBy('total_jumlah', 'DESC');
         $query->limit(5);
         $result = $query->get()->getResultArray();
-        return $result;
-                    
-                    
-                  
+        return $result;          
     }
 }
