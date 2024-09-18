@@ -47,8 +47,8 @@
                             <tr>
                                 <td><?= $pdk['kode_produk'] ?></td>
                                 <td><?= $pdk['nama_produk'] ?></td>
-                                <td><?= $pdk['diskon'] ?></td>
-                                <td><?= $pdk['harga_jual'] ?></td>
+                                <td><?= number_format($pdk['diskon'],0,',','.') ?>%</td>
+                                <td>Rp <?= number_format($pdk['harga_jual'],0,',','.') ?></td>
                                 <td><?= $pdk['stok'] ?></td>
                                 <td><button class="btn btn-success btn-pilih" type="button" id="button-addon2"
                                         onclick="simpanTransaksiDetail('<?= $pdk['kode_produk'] ?>')">Pilih</button>
@@ -62,7 +62,7 @@
                 <?php endif; ?>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondaryda " data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

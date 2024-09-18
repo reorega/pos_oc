@@ -91,9 +91,9 @@
             <td colspan="3"><p><?= $dt['produk'] ?></p></td>
         </tr>
         <tr>
-            <td><p><?= $dt['jumlah'] ?> x RP <?=number_format($dt['harga_jual'],0,",",".");?></p></td>
+            <td><p><?= $dt['jumlah'] ?> x Rp <?=number_format($dt['harga_jual'],0,",",".");?></p></td>
             <td></td>
-            <td class="text-right"><p>RP <?=number_format($dt['sub_total'],0,",",".");?></p></td>
+            <td class="text-right"><p>Rp <?=number_format($dt['sub_total'],0,",",".");?></p></td>
         </tr>
         <?php $i++;  ?>
         <?php  endforeach;  ?>
@@ -103,7 +103,7 @@
     <table width="100%" style="border: 0;">
         <tr>
             <td><p>Total Harga:</p></td>
-            <td class="text-right"><p>RP <?=number_format($pj['total_harga'],0,",",".");?></p></td>
+            <td class="text-right"><p>Rp <?=number_format($pj['total_harga'],0,",",".");?></p></td>
         </tr>
         <tr>
             <td><p>Total Item:</p></td>
@@ -111,7 +111,7 @@
         </tr>
         <tr>
             <td><p>Diterima:</p></td>
-            <td class="text-right"><p>RP <?=number_format($pj['diterima'],0,",",".");?></p></td>
+            <td class="text-right"><p>Rp <?=number_format($pj['diterima'],0,",",".");?></p></td>
         </tr>
         <tr>
             <td><p>Kembali:</p></td>

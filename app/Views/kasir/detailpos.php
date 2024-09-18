@@ -27,8 +27,8 @@
       <tr>
         <td><?= $nilai;  ?></td>
         <td><?= $pdk['produk'] ?></td>
-        <td><?= $pdk['diskon'] ?></td>
-        <td><?= number_format($pdk['harga_jual'],0,",",".") ?></td>
+        <td><?= number_format($pdk['diskon'],0,',','.') ?>%</td>
+        <td>Rp <?= number_format($pdk['harga_jual'],0,",",".") ?></td>
         <td>
           <div class="row">
             <div class="col-md-3">
@@ -39,7 +39,7 @@
             </div>
           </div>
         </td>
-        <td><?= number_format($pdk['sub_total'],0,",",".") ?></td>
+        <td>Rp <?= number_format($pdk['sub_total'],0,",",".") ?></td>
         <td>
           <button class="btn btn-danger btn-sm btnhapus" type="button" id="btnHapusTransaksi<?=$nilai?>"
             onclick="hapusDataDetail('<?= $pdk['id_penjualan_detail'] ?>')">

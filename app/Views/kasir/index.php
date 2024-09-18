@@ -1,5 +1,36 @@
 <?= $this->extend('layout/master'); ?>
 <?= $this->section('content'); ?>
+<style>
+#top-products-details {
+    font-family: Arial, sans-serif;
+    margin: 20px 0;
+    background-color: #fff; /* Keep background white */
+    color : #525252;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Make it full width */
+    height: 100%;
+    max-width: none; /* Remove any max width */
+}
+
+#top-products-details h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#top-products-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#top-products-list li {
+    font-size: 16px;
+    border-bottom: 1px solid #ddd;
+    padding: 5px 0;
+}
+</style>
 <div class="content-wrapper">
     <!-- Header Konten (Header halaman) -->
     <section class="content-header">
@@ -97,7 +128,7 @@
             </section>
             <!-- /.Left col -->
             <!-- right col (We are only adding the ID to make the widgets sortable)-->
-            <section class="col-lg-6 connectedSortable">
+            <section class="col-lg-6 connectedSortable" id="coba2">
                 <!-- Custom tabs (Charts with tabs)-->
                 <div class="nav-tabs-custom">
                     <!-- Tabs within a box -->
@@ -106,21 +137,35 @@
                         </div>
                         <li class="pull-left header"><i class="fa fa-bar-chart"></i>5 Produk Terlaris Dalam 30 Hari Terakhir</li>
                     </ul>
-                    <div class="tab-content no-padding">
+                    <div class="tab-content no-padding" id="coba">
                         <!-- Morris chart - Sales -->
-                        <div class="chart tab-pane active" id="sales-chart"
-                            style="position: relative; height: 300px;"></div>
+                        <a href="" id="gaya">
+                            <div class="flip-card" id="flip-card">
+                                <div class="flip-card-front">
+                                    <div class="chart tab-pane active" id="sales-chart" style="position: relative; height: 300px;"></div>
+                                </div>
+                                <div class="flip-card-back">
+                                    <div id="top-products-details">
+                                        <h3>Detail 5 Produk Terlaris</h3>
+                                            <ul id="top-products-list"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
                     </div>
-                </div>
-                <!-- /.nav-tabs-custom -->
-
             </section>
         </div>
     </section>
 </div>
 <script src="<?= base_url('assets/js/jquery-3.7.1.min.js'); ?>"></script>
+<script src="<?= base_url('assets/js/apexcharts/dist/apexcharts.min.js'); ?>"></script>
+<script src="<?= base_url('assets/js/html2canvas.min.js'); ?>"></script>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
+        $('#gaya').on('click', function(event) {
+            event.preventDefault(); // Mencegah link melakukan aksi default
+            $('#flip-card').toggleClass('flipped'); // Menambah/menghapus kelas 'flipped' untuk memicu efek flip
+        });
         ambilChart();
         ambilRadar();
     });
@@ -195,10 +240,27 @@
 
             var chart = new ApexCharts(document.querySelector("#sales-chart"), options);
             chart.render();
+            
+            // Update top products details
+            updateTopProductsDetails(response);
         },
         error: function (xhr, thrownError) {
             console.error('Error fetching radar chart data:', xhr, thrownError);
         }
+    });
+}
+function updateTopProductsDetails(data) {
+    // Sort products by total quantity in descending order and take the top 5
+    data.sort((a, b) => b.total_jumlah - a.total_jumlah);
+    const top5Products = data.slice(0, 5);
+
+    // Populate the list
+    const listContainer = $('#top-products-list');
+    listContainer.empty(); // Clear existing items
+
+    top5Products.forEach(item => {
+        const listItem = `<li>${item.produk} <span style="color: #379777; font-weight: bold;">${item.total_jumlah}</li>`;
+        listContainer.append(listItem);
     });
 }
 </script>

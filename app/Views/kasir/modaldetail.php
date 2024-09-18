@@ -36,10 +36,10 @@
                             <tr class="text-center">
                                 <td><?= $pdk['kode_produk'] ?></td>
                                 <td><?= $pdk['produk'] ?></td>
-                                <td><?= $pdk['diskon'] ?></td>
-                                <td>RP <?= number_format($pdk['harga_jual'],0,',','.') ?></td>
+                                <td><?= number_format($pdk['diskon'],0,',','.') ?>%</td>
+                                <td>Rp <?= number_format($pdk['harga_jual'],0,',','.') ?></td>
                                 <td><?= $pdk['jumlah'] ?></td>
-                                <td>RP <?= number_format($pdk['sub_total'],0,',','.') ?></td>
+                                <td>Rp <?= number_format($pdk['sub_total'],0,',','.') ?></td>
                             </tr>
                             <?php $nilai++; ?>
                             <?php endforeach;?>
