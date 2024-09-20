@@ -40,7 +40,7 @@
                 <td><?= $pdk['nama_produk'] ?></td>
                 <td><?= $pdk['kategori'] ?></td>
                 <td><?= 'Rp ' . number_format($pdk['harga_beli'], 0, ',', '.') ?></td>
-                <td><?= $pdk['diskon'] ?></td>
+                <td><?= number_format($pdk['diskon'],0,',','.') ?>%</td>
                 <td><?= 'Rp ' . number_format($pdk['harga_jual'], 0, ',', '.') ?></td>
                 <td><?= $pdk['stok'] ?></td>
                 <td>
@@ -86,7 +86,7 @@
                                                 <td><?= $pdk['suplier'] ?></td>
                                                 <td><?= $pdk['nama_produk'] ?></td>
                                                 <td><?= 'Rp ' . number_format($pdk['harga_beli'], 0, ',', '.') ?></td>
-                                                <td><?= $pdk['diskon'] ?></td>
+                                                <td><?= number_format($pdk['diskon'],0,',','.') ?>%</td>
                                                 <td><?= 'Rp ' . number_format($pdk['harga_jual'], 0, ',', '.') ?></td>
                                                 <td><?= $pdk['stok'] ?></td>
                                             </tr>

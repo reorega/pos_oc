@@ -78,9 +78,9 @@
                                 <tr class="text-center">
                                     <td><?= $dt['no_faktur'] ?></td>
                                     <td><?= $dt['total_item'] ?></td>
-                                    <td>RP <?= number_format($dt['total_harga'],0,',','.') ?></td>
-                                    <td>RP <?= number_format($dt['diterima'],0,',','.') ?></td>
-                                    <td>RP <?= number_format($dt['kembalian'],0,',','.') ?></td>
+                                    <td>Rp <?= number_format($dt['total_harga'],0,',','.') ?></td>
+                                    <td>Rp <?= number_format($dt['diterima'],0,',','.') ?></td>
+                                    <td>Rp <?= number_format($dt['kembalian'],0,',','.') ?></td>
                                     <td><?= $dt['username'] ?></td>
                                     <td>
                                         <button type="button" class="btn btn-info"
