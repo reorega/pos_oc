@@ -152,26 +152,26 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="harga_beli" class="control-label">Harga Beli</label>
-                                            <input type="number" class="form-control"
-                                                id="editHargaBeli<?= $pdk['id_produk'] ?>" name="harga_beli"
-                                                value="<?= $pdk['harga_beli'] ?>"
-                                                data-original-value="<?= $pdk['harga_beli'] ?>">
-                                            <p class="invalid-feedback text-danger"></p>       
+                                            <input type="text" class="form-control" 
+                                            id="editHargaBeli<?= $pdk['id_produk'] ?>" name="harga_beli" 
+                                            value="<?= 'Rp ' . number_format($pdk['harga_beli'], 0, ',', '.') ?>" 
+                                            data-original-value="<?= $pdk['harga_beli'] ?>" onkeyup="formatCurrency(this)">
+                                            <p class="invalid-feedback text-danger"></p>
                                         </div>
                                         <div class="form-group">
                                             <label for="diskon" class="control-label">Diskon</label>
-                                            <input type="number" class="form-control"
+                                            <input type="text" class="form-control"
                                                 id="editDiskon<?= $pdk['id_produk'] ?>" name="diskon"
-                                                value="<?= $pdk['diskon'] ?>" step="0.01"
+                                                value="<?= $pdk['diskon'] ?>" step="0.01" oninput="formatDiskon(this)"
                                                 data-original-value="<?= $pdk['diskon'] ?>">
                                         </div>
                                         <div class="form-group">
                                             <label for="harga_jual" class="control-label">Harga Jual</label>
-                                            <input type="number" class="form-control"
-                                                id="editHargaJual<?= $pdk['id_produk'] ?>" name="harga_jual"
-                                                value="<?= $pdk['harga_jual'] ?>"
-                                                data-original-value="<?= $pdk['harga_jual'] ?>">
-                                            <p class="invalid-feedback text-danger"></p>                                            
+                                            <input type="text" class="form-control" 
+                                            id="editHargaJual<?= $pdk['id_produk'] ?>" name="harga_jual" 
+                                            value="<?= 'Rp ' . number_format($pdk['harga_jual'], 0, ',', '.') ?>" 
+                                            data-original-value="<?= $pdk['harga_jual'] ?>" onkeyup="formatCurrency(this)">
+                                            <p class="invalid-feedback text-danger"></p>
                                         </div>
                                         <input type="hidden" name="id" value="<?= $pdk['id_produk'] ?>" >
                                         <div class="modal-footer">
@@ -199,42 +199,61 @@
     <?php endif; ?>
 </div>
 <script>
-    $(document).ready(function () {
-    $('.formEditData').on('submit', function (e) {
-      e.preventDefault();
-      $.ajax({
-        url: $(this).attr('action'),
-        type: 'POST',
-        data: $(this).serialize(),
-        dataType: 'json',
-        success: function (response) {
-          $('#responseMessage').empty();
-          $('.invalid-feedback').empty();
-          $('.is-invalid').removeClass('is-invalid');
-          if (response.success == true) {
-            $('.modal').modal('hide');
-            ambilData($('#page').val());
-            Swal.fire(
-              'Tersimpan!',
-              'Data berhasil diubah.',
-              'success'
-            );
-          } else {
-            $.each(response.errors, function (field, message) {
-                var element = $('[name=' + field + ']');
-                element.closest('.form-group').addClass('has-error');
-                element.closest('.form-group').addClass('has-feedback');
-                element.next('.invalid-feedback').text(message);
-                element.after('<span class="glyphicon glyphicon-warning-sign form-control-feedback text-danger"></span>');
-            });
-          }
-        },
-        error: function (xhr, thrownError) {
-          alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+    function formatCurrency(input) {
+        let value = input.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+        if (value) {
+            value = parseInt(value, 10);
+            input.value = 'Rp ' + value.toLocaleString('id-ID'); // Format as currency
+        } else {
+            input.value = '';
         }
-      });
+    }
+
+            $(document).ready(function () {
+            $('.formEditData').on('submit', function (e) {
+                e.preventDefault();
+
+        // Hapus simbol mata uang sebelum kirim
+        let hargaBeli = $('#editHargaBeli<?= $pdk['id_produk'] ?>').val().replace(/[^0-9]/g, '');
+        let hargaJual = $('#editHargaJual<?= $pdk['id_produk'] ?>').val().replace(/[^0-9]/g, '');
+
+        // Set nilai input yang sudah dibersihkan
+        $('#editHargaBeli<?= $pdk['id_produk'] ?>').val(hargaBeli);
+        $('#editHargaJual<?= $pdk['id_produk'] ?>').val(hargaJual);
+
+            $.ajax({
+                url: $(this).attr('action'),
+                type: 'POST',
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: function (response) {
+                    $('#responseMessage').empty();
+                    $('.invalid-feedback').empty();
+                    $('.is-invalid').removeClass('is-invalid');
+                    if (response.success == true) {
+                        $('.modal').modal('hide');
+                        ambilData($('#page').val());
+                        Swal.fire(
+                            'Tersimpan!',
+                            'Data berhasil diubah.',
+                            'success'
+                        );
+                    } else {
+                        $.each(response.errors, function (field, message) {
+                            var element = $('[name=' + field + ']');
+                            element.closest('.form-group').addClass('has-error');
+                            element.closest('.form-group').addClass('has-feedback');
+                            element.next('.invalid-feedback').text(message);
+                            element.after('<span class="glyphicon glyphicon-warning-sign form-control-feedback text-danger"></span>');
+                        });
+                    }
+                },
+                error: function (xhr, thrownError) {
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                }
+            });
+        });
     });
-  });
   function bukaModalEdit(id){
         $('#editData'+ id).modal('show');
         $('.invalid-feedback').empty();
