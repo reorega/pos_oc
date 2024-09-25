@@ -29,6 +29,7 @@
 <h4>Laporan Laba Rugi <?= $jenis ?></h4>
 <h4>Periode : <?= $tanggalawal ?> - <?= $tanggalakhir ?></h4>
     <table class="table table-hover mt-2 table-bordered">
+        <?php if($jenis == "Omah Cokelat"): ?>
         <thead class="table-dark">
             <tr>
                 <th>No</th>
@@ -63,6 +64,40 @@
                     <td>Rp <?= number_format($ttl['total_laba'],2,',','.') ?></td>
                 </tr>
             </tfoot>
+        <?php else:?>
+            <thead class="table-dark">
+            <tr>
+                <th>No</th>
+                <th>Tanggal</th>
+                <th>Pendapatan</th>
+                <th>Pengeluaran</th>
+                <th>Laba</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php $nilai =1;?>
+            <?php foreach ($data as $lp) : ?>
+                <tr>
+                    <td><?= $nilai ?></td>
+                    <td><?= date('d-m-Y', strtotime($lp['tanggal'])) ?></td>
+                    <td><?= 'Rp ' . number_format($lp['pendapatan'], 2, ',', '.') ?></td>
+                    <td><?= 'Rp ' . number_format($lp['pengeluaran'], 2, ',', '.') ?></td>
+                    <td><?= 'Rp ' . number_format($lp['total_laba'], 2, ',', '.') ?></td>
+                </tr>
+            <?php $nilai++; ?>
+            <?php endforeach;?>
+        </tbody>
+        <tfoot>
+                <?php $ttl = $total[0]; ?>
+                <tr>
+                    <td colspan="2">Total</td>
+                    <td>Rp <?= number_format($ttl['total_pendapatan'],2,',','.') ?></td>
+                    <td>Rp <?= number_format($ttl['total_pengeluaran'],2,',','.') ?></td>
+                    <td>Rp <?= number_format($ttl['total_retur'],2,',','.') ?></td>
+                    <td>Rp <?= number_format($ttl['total_laba'],2,',','.') ?></td>
+                </tr>
+        </tfoot>    
+        <?php endif;?>
     </table>
 </div>
 </body>
