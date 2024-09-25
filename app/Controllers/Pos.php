@@ -245,7 +245,7 @@ class Pos extends BaseController
         if ($query) {
             $harga_jual = $query['harga_jual'];
             $diskon_produk = $query['diskon'];
-            $subsementara = $harga_jual * $jumlah - ($harga_jual * $diskon_produk);
+            $subsementara = $harga_jual * $jumlah - ($harga_jual * $diskon_produk / 100);
         }
         return $subsementara;
     }

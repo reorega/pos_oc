@@ -29,17 +29,17 @@ class Produk extends BaseController
             ]
         ],
         'harga_beli' => [
-            'rules' => 'required|numeric',
+            'rules' => 'required',
             'errors' => [
                 'required' => 'Harga beli wajib diisi',
-                'numeric' => 'Harga beli harus berupa angka',
+                // 'numeric' => 'Harga beli harus berupa angka',
             ]
         ],
         'harga_jual' => [
-            'rules' => 'required|numeric',
+            'rules' => 'required',
             'errors' => [
                 'required' => 'Harga jual harus diisi',
-                'numeric' => 'Harga jual harus berupa angka',
+                // 'numeric' => 'Harga jual harus berupa angka',
             ]
         ]
     ];
@@ -84,26 +84,39 @@ class Produk extends BaseController
     {
         $validation = \Config\Services::validation();
         $valid = $this->validate($this->produkValidationRules);
-        if(!$valid){
+        
+        if (!$valid) {
             $errors = [];
-            // Mengambil pesan kesalahan dari validator satu per satu
             foreach ($validation->getErrors() as $field => $message) {
                 $errors[$field] = $message;
             }
-            return $this->response->setJSON(['success' => false, 'errors' => $errors,]);
-        }
-        else{
+            return $this->response->setJSON(['success' => false, 'errors' => $errors]);
+        } else {
             $kategori_id = $this->request->getPost('kategori_id');
             $kode_produk = $this->createKode($kategori_id);
+            
+            // Bersihkan simbol dan format mata uang untuk harga_beli dan harga_jual
+            $harga_beli = preg_replace("/[^0-9]/", "", $this->request->getPost('harga_beli'));
+            $harga_jual = preg_replace("/[^0-9]/", "", $this->request->getPost('harga_jual'));
+            
+            // Bersihkan tanda persen pada diskon, dan isi 0 jika kosong
+            $diskon = $this->request->getPost('diskon');
+            if (empty($diskon)) {
+                $diskon = 0; // Set default jika kosong
+            } else {
+                $diskon = preg_replace("/[^0-9]/", "", $diskon);
+            }
+    
             $data = [
                 'kategori_id' => $kategori_id,
                 'suplier_id' => $this->request->getPost('suplier_id'),
                 'kode_produk' => $kode_produk,
                 'nama_produk' => $this->request->getPost('nama_produk'),
-                'harga_beli' => $this->request->getPost('harga_beli'),
-                'diskon' => $this->request->getPost('diskon'),
-                'harga_jual' => $this->request->getPost('harga_jual'),
+                'harga_beli' => $harga_beli,
+                'diskon' => $diskon, // Diskon disimpan sebagai angka, default 0 jika kosong
+                'harga_jual' => $harga_jual,
             ];
+            
             $this->produkModel->insert($data);
             cache()->clean();
             return $this->response->setJSON(['success' => true]);
@@ -113,32 +126,46 @@ class Produk extends BaseController
     {
         $validation = \Config\Services::validation();
         $valid = $this->validate($this->produkValidationRules);
-        if(!$valid){
+    
+        if (!$valid) {
             $errors = [];
-            // Mengambil pesan kesalahan dari validator satu per satu
             foreach ($validation->getErrors() as $field => $message) {
                 $errors[$field] = $message;
             }
-            return $this->response->setJSON(['success' => false, 'errors' => $errors,]);
-        }else{
+            return $this->response->setJSON(['success' => false, 'errors' => $errors]);
+        } else {
             $id = $this->request->getPost('id');
             $produkbyid = $this->produkModel->find($id);
             $kategori_id = $this->request->getPost('kategori_id');
+    
             if ($kategori_id != $produkbyid['kategori_id']) {
                 $kode = $this->createKode($kategori_id);
-
             } else {
                 $kode = $produkbyid['kode_produk'];
             }
+    
+            // Bersihkan simbol dan format mata uang untuk harga_beli dan harga_jual
+            $harga_beli = preg_replace("/[^0-9]/", "", $this->request->getPost('harga_beli'));
+            $harga_jual = preg_replace("/[^0-9]/", "", $this->request->getPost('harga_jual'));
+    
+            // Bersihkan tanda persen pada diskon, dan isi 0 jika kosong
+            $diskon = $this->request->getPost('diskon');
+            if (empty($diskon)) {
+                $diskon = 0; // Set default jika kosong
+            } else {
+                $diskon = preg_replace("/[^0-9]/", "", $diskon);
+            }
+    
             $data = [
                 'kategori_id' => $kategori_id,
                 'suplier_id' => $this->request->getPost('suplier_id'),
                 'kode_produk' => $kode,
                 'nama_produk' => $this->request->getPost('nama_produk'),
-                'harga_beli' => $this->request->getPost('harga_beli'),
-                'diskon' => $this->request->getPost('diskon'),
-                'harga_jual' => $this->request->getPost('harga_jual'),
+                'harga_beli' => $harga_beli,
+                'diskon' => $diskon, // Diskon disimpan sebagai angka, default 0 jika kosong
+                'harga_jual' => $harga_jual,
             ];
+            
             $this->produkModel->update($id, $data);
             cache()->clean();
             return $this->response->setJSON(['success' => true]);

@@ -54,7 +54,7 @@
                     <div class="form-group">
                         <label for="suplier_id" class="form-label">Nama Supplier</label>
                         <select class="form-control selectpicker" aria-label="Default select example" name="suplier_id" id="inputSuplier" data-live-search="true">
-                            <option selected disabled>Pilih Suplier</option>
+                            <option selected disabled>Pilih Supplier</option>
                             <?php foreach ($suplier as $sp) : ?>
                                 <option value="<?= $sp['id_supplier']; ?>"><?= $sp['nama'] ?></option>
                             <?php endforeach; ?>
@@ -67,17 +67,17 @@
                         <p class="invalid-feedback text-danger"></p>
                     </div>
                     <div class="form-group">
-                        <label for="harga_beli" class="control-label">Harga Beli</label>
-                        <input type="number" class="form-control" id="inputHargaBeli" name="harga_beli">
+                        <label for="inputHargaBeli">Harga Beli</label>
+                        <input type="text" class="form-control rupiah" id="inputHargaBeli" name="harga_beli">
                         <p class="invalid-feedback text-danger"></p>
                     </div>
                     <div class="form-group">
                         <label for="diskon" class="form-label">Diskon</label>
-                        <input type="number" class="form-control" id="inputDiskon" name="diskon" step="0.01">
+                        <input type="text" class="form-control" id="inputDiskon" name="diskon" step="0.01" oninput="formatDiskon(this)">
                     </div>
                     <div class="form-group">
-                        <label for="harga_jual" class="control-label">Harga Jual</label>
-                        <input type="number" class="form-control" id="inputHargaJual" name="harga_jual">
+                        <label for="inputHargaJual">Harga Jual</label>
+                        <input type="text" class="form-control rupiah" id="inputHargaJual" name="harga_jual">
                         <p class="invalid-feedback text-danger"></p>
                     </div>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
@@ -90,54 +90,105 @@
 <script src="<?= base_url('assets/js/jquery-3.7.1.min.js');?>"></script>
 <script src="<?= base_url('assets/js/sweetalert2.js'); ?>"></script>
 <script>
-    $(document).ready(function(){
-        var page=$('#page').val();
-        ambilData();       
-        $('#search').keyup(function() {
-            console.log($('#search').val())
-        ambilData();
-        });
-        $(document).on('click', '.pagination a', function(event) {
-            event.preventDefault();
-            page = $(this).attr('href').split('page=')[1];
-            ambilData(page);
-        });
-        $('#formTambahData').on('submit', function (e) {
-            e.preventDefault();
-            $.ajax({
-                url: $(this).attr('action'),
-                type: 'POST',
-                data: $(this).serialize(),
-                dataType: 'json',
-                success: function (response) {
-                    $('#responseMessage').empty();
-                    $('.invalid-feedback').empty();
-                    $('.is-invalid').removeClass('is-invalid');
+function formatRupiah(angka, prefix) {
+    var number_string = angka.replace(/[^,\d]/g, '').toString(),
+        split = number_string.split(','),
+        sisa = split[0].length % 3,
+        rupiah = split[0].substr(0, sisa),
+        ribuan = split[0].substr(sisa).match(/\d{3}/gi);
 
-                    if (response.success) {
-                        $('#tambahData').modal('hide');
-                        ambilData($('#page').val());
-                        Swal.fire(
-                            'Tersimpan!',
-                            'Data berhasi ditambahkan.',
-                            'success'
-                        );
-                    } else {
-                        $.each(response.errors, function (field, message) {
-                            var element = $('[name=' + field + ']');
-                            element.closest('.form-group').addClass('has-error');
-                            element.closest('.form-group').addClass('has-feedback');
-                            element.next('.invalid-feedback').text(message);
-                            element.after('<span class="glyphicon glyphicon-warning-sign form-control-feedback text-danger"></span>');
-                        });
-                    }
-                },
-                error: function (xhr, thrownError) {
-                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-                }
-            });
-        });   
+    if (ribuan) {
+        separator = sisa ? '.' : '';
+        rupiah += separator + ribuan.join('.');
+    }
+
+    rupiah = split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
+    return prefix === undefined ? rupiah : (rupiah ? 'Rp ' + rupiah : '');
+}
+
+function formatDiskon(input) {
+    // Ambil nilai input dan trim untuk menghapus spasi
+    let value = input.value.trim();
+    
+    // Hapus simbol persen jika ada
+    if (value.endsWith('%')) {
+        value = value.slice(0, -1); // Hapus persen dari akhir
+    }
+
+    // Jika input kosong, biarkan kosong
+    if (value === '') {
+        input.value = ''; // Membiarkan input kosong
+        return;
+    }
+
+    // Pastikan hanya angka yang diinput
+    value = value.replace(/[^0-9]/g, ''); // Hapus karakter non-angka
+
+    // Jika ada angka, tambahkan tanda persen di akhir
+    if (value !== '') {
+        input.value = value + '%'; // Tambahkan persen ke nilai
+    }
+}
+
+$(document).ready(function() {
+    var page = $('#page').val();
+    ambilData();       
+
+    // Format input Harga Beli dan Harga Jual pada form tambah data
+    $('#inputHargaBeli').on('keyup', function(e) {
+        this.value = formatRupiah(this.value, 'Rp ');
     });
+
+    $('#inputHargaJual').on('keyup', function(e) {
+        this.value = formatRupiah(this.value, 'Rp ');
+    });
+
+    $('#search').keyup(function() {
+        ambilData();
+    });
+
+    $(document).on('click', '.pagination a', function(event) {
+        event.preventDefault();
+        page = $(this).attr('href').split('page=')[1];
+        ambilData(page);
+    });
+
+    $('#formTambahData').on('submit', function (e) {
+        e.preventDefault();
+        $.ajax({
+            url: $(this).attr('action'),
+            type: 'POST',
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: function (response) {
+                $('#responseMessage').empty();
+                $('.invalid-feedback').empty();
+                $('.is-invalid').removeClass('is-invalid');
+
+                if (response.success) {
+                    $('#tambahData').modal('hide');
+                    ambilData($('#page').val());
+                    Swal.fire(
+                        'Tersimpan!',
+                        'Data berhasil ditambahkan.',
+                        'success'
+                    );
+                } else {
+                    $.each(response.errors, function (field, message) {
+                        var element = $('[name=' + field + ']');
+                        element.closest('.form-group').addClass('has-error');
+                        element.closest('.form-group').addClass('has-feedback');
+                        element.next('.invalid-feedback').text(message);
+                        element.after('<span class="glyphicon glyphicon-warning-sign form-control-feedback text-danger"></span>');
+                    });
+                }
+            },
+            error: function (xhr, thrownError) {
+                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+            }
+        });
+    });
+});
     function ambilData(page = 1){
         $.ajax({
             type: "post",
