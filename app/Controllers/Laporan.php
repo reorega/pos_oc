@@ -55,6 +55,7 @@ class Laporan extends BaseController
             $data['total'] = $this->penjualanModel->totalLaporan2($tanggalawal,$tanggalakhir);
             $data['jenis'] = "Supplier";
         }
+        $data['mode']=$mode;
         $html = view('admin/laporanpdf', $data);
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'Potrait');

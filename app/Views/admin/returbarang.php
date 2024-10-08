@@ -98,8 +98,10 @@
         });
 
         $('#formTambahData').on('submit', function(e) {
+            console.log($('#inputJumlah').val())
+            console.log($('#stok_sebelumnya').val())
             e.preventDefault();
-            if($('#inputJumlah').val() > $('#stok_sebelumnya').val()){
+            if(parseInt($('#inputJumlah').val()) > parseInt($('#stok_sebelumnya').val())){
                 Swal.fire({
                     title: "Error!",
                     text: "Jumlah barang yang diretur melebihi stok!!!",

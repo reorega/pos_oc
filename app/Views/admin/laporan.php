@@ -125,7 +125,6 @@
             dataType: "json",
             success: function(response) {},
             error: function(xhr, thrownError) {
-                
             }
         });
     }
