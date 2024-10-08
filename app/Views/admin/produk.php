@@ -206,7 +206,7 @@ $(document).ready(function() {
                 }
             },
             error: function(xhr, thrownError){
-                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                    // alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
                 }
         });
     }
