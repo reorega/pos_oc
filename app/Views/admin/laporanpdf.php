@@ -82,7 +82,7 @@
                     <td><?= date('d-m-Y', strtotime($lp['tanggal'])) ?></td>
                     <td><?= 'Rp ' . number_format($lp['pendapatan'], 2, ',', '.') ?></td>
                     <td><?= 'Rp ' . number_format($lp['pengeluaran'], 2, ',', '.') ?></td>
-                    <td><?= 'Rp ' . number_format($lp['total_laba'], 2, ',', '.') ?></td>
+                    <td><?= 'Rp ' . number_format($lp['hasil'], 2, ',', '.') ?></td>
                 </tr>
             <?php $nilai++; ?>
             <?php endforeach;?>
@@ -93,7 +93,6 @@
                     <td colspan="2">Total</td>
                     <td>Rp <?= number_format($ttl['total_pendapatan'],2,',','.') ?></td>
                     <td>Rp <?= number_format($ttl['total_pengeluaran'],2,',','.') ?></td>
-                    <td>Rp <?= number_format($ttl['total_retur'],2,',','.') ?></td>
                     <td>Rp <?= number_format($ttl['total_laba'],2,',','.') ?></td>
                 </tr>
         </tfoot>    

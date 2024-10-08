@@ -139,7 +139,7 @@
                         <li class="pull-left header"><i class="fa fa-bar-chart"></i>5 Produk Terlaris Dalam 30 Hari Terakhir</li>
                     </ul>
                     <div class="tab-content no-padding" id="coba" >
-                        <a href="" id="gaya">
+                        <a id="gaya">
                             <div class="flip-card" id="flip-card">
                                 <div class="flip-card-front">
                                     <div class="chart tab-pane active" id="sales-chart" style="position: relative; max-height: 300px;"></div>
@@ -244,7 +244,7 @@
     }
     */
     $(document).ready(function() {
-        $('#gaya').on('click', function(event) {
+        $('#gaya').on('dblclick', function(event) {
             event.preventDefault(); // Mencegah link melakukan aksi default
             $('#flip-card').toggleClass('flipped'); // Menambah/menghapus kelas 'flipped' untuk memicu efek flip
         });

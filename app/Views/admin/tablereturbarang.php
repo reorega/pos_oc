@@ -157,7 +157,7 @@
             var form = $(this); // Referensi ke form yang disubmit
             var id = form.find('.editJumlah').attr('id').replace('editJumlah', ''); 
             console.log(id);
-            if($('#editJumlah'+id).val() > $('#stokLama'+id).val()){
+            if(parseInt($('#editJumlah'+id).val()) > parseInt($('#stokLama'+id).val())){
                 Swal.fire({
                     title: "Error!",
                     text: "Jumlah barang yang diretur melebihi stok!!!",

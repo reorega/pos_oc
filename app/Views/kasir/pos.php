@@ -228,6 +228,7 @@ function hapusDataDetail(id) {
         success: function(response) {
             ambilData();
             $('#kodebarcodelangsung').focus();
+            hitungKembalian();
         },
         error: function(xhr, thrownError) {
             alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
@@ -297,6 +298,9 @@ function popupCenter(url, title, width, height) {
 }
 
 function cekStok2(id, kode, jumlah) {
+    if(jumlah == ""){
+        jumlah=0;
+    }
     $.ajax({
         type: "post",
         url: "<?= site_url('kasir/cekStok') ?>",
@@ -314,7 +318,7 @@ function cekStok2(id, kode, jumlah) {
             }
         },
         error: function(xhr, thrownError) {
-            alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+            // alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
         }
     });
 }
