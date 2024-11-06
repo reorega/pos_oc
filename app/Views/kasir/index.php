@@ -259,7 +259,7 @@ function updateTopProductsDetails(data) {
     listContainer.empty(); // Clear existing items
 
     top5Products.forEach(item => {
-        const listItem = `<li>${item.produk} <span style="color: #379777; font-weight: bold;">${item.total_jumlah}</li>`;
+        const listItem = `<li>${item.produk} = <span style="color: #379777; font-weight: bold;">${item.total_jumlah}</li>`;
         listContainer.append(listItem);
     });
 }
