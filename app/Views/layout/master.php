@@ -39,7 +39,7 @@
             overflow-y: auto;
         }
         .col-md-8 {
-          max-height: 270px;
+          max-height: 200px;
           overflow-y: scroll;
         }
         .col-md-8 .table thead {
@@ -58,7 +58,7 @@
     .flip-card {
         position: relative;
         width: 100%;
-        height: 500px;
+        height: 415px;
         transition: transform 0.6s;
         transform-style: preserve-3d; /* Menyimpan perspektif 3D */
     }
