@@ -142,7 +142,7 @@
                         <a id="gaya">
                             <div class="flip-card" id="flip-card">
                                 <div class="flip-card-front">
-                                    <div class="chart tab-pane active" id="sales-chart" style="position: relative; max-height: 300px;"></div>
+                                    <div class="chart tab-pane active" id="sales-chart" style="position: relative; max-height: 200px;"></div>
                                 </div>
                                 <div class="flip-card-back">
                                     <div id="top-products-details">
