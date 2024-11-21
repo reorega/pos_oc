@@ -10,7 +10,6 @@ class KategoriModel extends Model
     protected $primaryKey = 'id_kategori';
     protected $allowedFields = ['nama_kategori', 'created_at', 'updated_at'];
     protected $useTimestamps = true;
-
     protected $createdField = 'created_at';
     protected $updatedField = 'updated_at';
 
